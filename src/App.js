@@ -1,11 +1,6 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 import SignIn from "./SignIIn";
-import SignUp from "./SingUp";
 import SingUpPreferences from "./SingUp/SingUpPreferences";
 import SingUpUserData from "./SingUp/SingUpUserData";
 import Master from "./Master";
@@ -17,31 +12,33 @@ import Layout from "./Layout";
 export default function App() {
     return (
         <Router>
-            <Layout>
-                <Switch>
-                    <Route path="/" exact strict>
-                        <SignIn />
-                    </Route>
-                    <Route path="/signup" exact strict>
-                        <SingUpUserData />
-                    </Route>
-                    <Route path="/preferences" exact strict>
-                        <SingUpPreferences />
-                    </Route>
+            <Switch>
+                <Route path="/" exact strict>
+                    <SignIn/>
+                </Route>
+                <Route path="/signup" exact strict>
+                    <SingUpUserData/>
+                </Route>
+                <Route path="/preferences" exact strict>
+                    <SingUpPreferences/>
+                </Route>
+
+                <Layout>
                     <Route path="/master" exact strict>
-                        <Master />
+                        <Master/>
                     </Route>
                     <Route path="/master2" exact strict>
-                        <Master2 />
+                        <Master2/>
                     </Route>
                     <Route path="/groupPrincipal" exact strict>
-                        <GroupPrincipal />
+                        <GroupPrincipal/>
                     </Route>
                     <Route path="/chat" exact strict>
-                        <Chat />
+                        <Chat/>
                     </Route>
-                </Switch>
-            </Layout>
+                </Layout>
+            </Switch>
+
         </Router>
     );
 }

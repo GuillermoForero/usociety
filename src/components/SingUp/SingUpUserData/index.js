@@ -106,7 +106,8 @@ function SingUpUserData(props) {
                                     maxHeight: '95px',
                                     width: ' auto',
                                     height: ' auto',
-                                    borderRadius: '100px'
+                                    borderRadius: '100px',
+                                    objectFit: 'content'
                                 }}/>
                         </Grid>
                     <Grid item xs={12}>

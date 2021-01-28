@@ -21,8 +21,17 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import GroupIcon from '@material-ui/icons/Group';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
+import { ListItemSecondaryAction } from '@material-ui/core';
+
+import CheckIcon from '@material-ui/icons/Check';
+import DeleteIcon from '@material-ui/icons/Delete';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import ClearIcon from '@material-ui/icons/Clear';
+
 
 import './GroupAdmin.css';
+import IconButton from "@material-ui/core/IconButton";
+import Image from "material-ui-image";
 
 function GroupAdmin(props) {
     const classes = useStyles();
@@ -31,6 +40,7 @@ function GroupAdmin(props) {
     const [open, setOpen] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
     const [open3, setOpen3] = React.useState(false);
+    const [open4, setOpen4] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
@@ -45,18 +55,23 @@ function GroupAdmin(props) {
         setOpen3(!open3);
     };
 
+    const handleClick4 = () => {
+        setOpen4(!open4);
+    };
+
+    let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
+
     return <Fragment>
         <form className={classes.root} style={{marginTop: '20px'}}>
             <Grid className='container__main' container spacing={1}>
-                <div className='container__main-photo'>
+                <Grid item xs={4} className='container__main-photo'>
+                    <Image
+                        className='container__main-photo'
+                        src={image}
+                    />
+                </Grid>
 
-                </div>
-
-                <ListSubheader component="div" id="nested-list-subheader">
-                    Nested List Items
-                </ListSubheader>
-
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <TextField
                         id="name"
                         label="Nombre"
@@ -64,7 +79,7 @@ function GroupAdmin(props) {
                         value="Nombre del grupo"
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={4}>
                     <TextField
                         id="description"
                         label="Descripción"
@@ -72,7 +87,12 @@ function GroupAdmin(props) {
                     />
                 </Grid>
 
-                <Grid item xs={6}>
+                <ListSubheader component="div" id="nested-list-subheader">
+                    Nested List Items
+                </ListSubheader>
+
+
+                <Grid item xs={8}>
                     <List
                         component="nav"
                         aria-labelledby="nested-list-subheader"
@@ -82,16 +102,21 @@ function GroupAdmin(props) {
                             <ListItemIcon>
                                 <FormatListBulletedIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Reglas"/>
+                            <ListItemText primary="Reglas"
+                            />
                             {open ? <ExpandLess/> : <ExpandMore/>}
                         </ListItem>
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 <ListItem button className={classes.nested}>
                                     <ListItemIcon>
-                                        <StarBorder/>
                                     </ListItemIcon>
                                     <ListItemText primary="Starred"/>
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
                                 </ListItem>
                             </List>
                         </Collapse>
@@ -107,27 +132,61 @@ function GroupAdmin(props) {
                             <List component="div" disablePadding>
                                 <ListItem button className={classes.nested}>
                                     <ListItemIcon>
-                                        <StarBorder/>
                                     </ListItemIcon>
                                     <ListItemText primary="Starred"/>
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
                                 </ListItem>
                             </List>
                         </Collapse>
 
                         <ListItem button onClick={handleClick3}>
                             <ListItemIcon>
-                                <GroupIcon/>
+                                <GroupAddIcon/>
                             </ListItemIcon>
-                            <ListItemText primary="Miembros"/>
+                            <ListItemText primary="Miembros activos"/>
                             {open3 ? <ExpandLess/> : <ExpandMore/>}
                         </ListItem>
                         <Collapse in={open3} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
                                 <ListItem button className={classes.nested}>
                                     <ListItemIcon>
-                                        <StarBorder/>
                                     </ListItemIcon>
                                     <ListItemText primary="Starred"/>
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            </List>
+                        </Collapse>
+
+
+                        <ListItem button onClick={handleClick4}>
+                            <ListItemIcon>
+                                <GroupIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Solicitudes de ingreso"/>
+                            {open4 ? <ExpandLess/> : <ExpandMore/>}
+                        </ListItem>
+                        <Collapse in={open4} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Starred"/>
+                                    <ListItemSecondaryAction>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <ClearIcon/>
+                                        </IconButton>
+                                        <IconButton edge="end" aria-label="comments">
+                                            <CheckIcon/>
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
                                 </ListItem>
                             </List>
                         </Collapse>

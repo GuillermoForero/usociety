@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import {connect} from "react-redux";
 
 import {useStyles} from "../hooks/useStyles";
-import {TextField} from '@material-ui/core';
+import {ListItemSecondaryAction, TextField} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,16 +12,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 
 import GroupIcon from '@material-ui/icons/Group';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import FormatListNumberedIcon from '@material-ui/icons/FormatListNumbered';
-import { ListItemSecondaryAction } from '@material-ui/core';
 
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -31,7 +27,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import './GroupAdmin.css';
 import IconButton from "@material-ui/core/IconButton";
-import Image from "material-ui-image";
 
 function GroupAdmin(props) {
     const classes = useStyles();
@@ -62,30 +57,32 @@ function GroupAdmin(props) {
     let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
 
     return <Fragment>
-        <form className={classes.root} style={{marginTop: '20px'}}>
-            <Grid className='container__main' container spacing={1}>
-                <Grid item xs={4} className='container__main-photo'>
-                    <Image
-                        className='container__main-photo'
-                        src={image}
-                    />
+
+        <Grid className='container__main' container spacing={1} style={{paddingTop: '20px'}}>
+            <img
+                className='container__main-photo'
+                src={image}
+            />
+
+            <form className={classes.root}>
+                <Grid container spacing={2} style={{flexDirection:'column'}}>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="name"
+                            label="Nombre"
+                            variant="outlined"
+                            value="Nombre del grupo"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            id="description"
+                            label="Descripción"
+                            variant="outlined"
+                        />
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
-                    <TextField
-                        id="name"
-                        label="Nombre"
-                        variant="outlined"
-                        value="Nombre del grupo"
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <TextField
-                        id="description"
-                        label="Descripción"
-                        variant="outlined"
-                    />
-                </Grid>
 
                 <ListSubheader component="div" id="nested-list-subheader">
                     Nested List Items
@@ -192,8 +189,8 @@ function GroupAdmin(props) {
                         </Collapse>
                     </List>
                 </Grid>
-            </Grid>
-        </form>
+            </form>
+        </Grid>
     </Fragment>
 }
 

@@ -12,11 +12,12 @@
 }
 
 .container__main-photo {
+    width: 50%;
+    height: 250px;
     border-radius: 20px;
-    display: block;
+    margin-bottom: 20px;
 }
 
 .container__main-photo .Grid {
     margin-top: 5px;
-
 }

@@ -8,6 +8,12 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import {useStyles} from "../hooks/useStyles";
+import IconButton from "@material-ui/core/IconButton";
+import ClearIcon from "@material-ui/icons/Clear";
+import CheckIcon from "@material-ui/icons/Check";
+import {ListItemSecondaryAction} from "@material-ui/core";
+
+import * as userGroupStatus from '../../store/group/groupInterfaces';
 
 
 function ComplexCollapsableList(props) {
@@ -36,7 +42,17 @@ function ComplexCollapsableList(props) {
                         <ListItemIcon>
                         </ListItemIcon>
                         <ListItemText primary={`${member.name} (${member.username})`}/>
-                        {props.children}
+                        <ListItemSecondaryAction>
+                            <IconButton edge="end" aria-label="comments"
+                                        onClick={() => props.onclick(member.id, userGroupStatus.DELETED)}>
+                                <ClearIcon/>
+                            </IconButton>
+                            {props.showCheck && <IconButton edge="end"
+                                                            aria-label="comments"
+                                                            onClick={() => props.onclick(member.id, userGroupStatus.ACTIVE)}>
+                                <CheckIcon/>
+                            </IconButton>}
+                        </ListItemSecondaryAction>
                     </ListItem>))}
             </List>
         </Collapse>

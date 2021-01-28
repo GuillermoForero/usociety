@@ -3,25 +3,24 @@ import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 
 import {useStyles} from "../hooks/useStyles";
-import {ListItemSecondaryAction, TextField} from '@material-ui/core';
+import {TextField} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 
 import ListSubheader from '@material-ui/core/ListSubheader';
-import CheckIcon from '@material-ui/icons/Check';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ClearIcon from '@material-ui/icons/Clear';
 
 import './GroupAdmin.css';
-import IconButton from "@material-ui/core/IconButton";
 
-import {getGroupCreator} from "../../store/group/groupActions";
+import {getGroupCreator, updateOrCreateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
 import CollapsableList from "../CollapsableList/CollapsableList";
 import ComplexCollapsableList from "../CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
+
 
 function GroupAdmin(props) {
     const classes = useStyles();
     let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
+    const [disableButton, setDisableButton] = useState(true);
 
     const [data, setData] = useState({
         group: {
@@ -52,6 +51,7 @@ function GroupAdmin(props) {
                 [name]: value
             }
         });
+        setDisableButton(false);
     };
 
     const handleDeleteRuleClick = (element) => {
@@ -63,6 +63,7 @@ function GroupAdmin(props) {
                 rules: updatedRules
             }
         });
+        setDisableButton(false);
     };
 
     const handleDeleteObjectiveClick = (element) => {
@@ -74,9 +75,24 @@ function GroupAdmin(props) {
                 objectives: updatedObjectives
             }
         });
+        setDisableButton(false);
     };
 
-    return <Container className={'container__main'}>
+    const handleCheckUserGroupMembership = (userId, status) => {
+        props.dispatch(updateUserMembershipCreator(props.user.userData,
+            data.group.id,
+            {
+                targetUserId: userId,
+                status: status
+            }));
+        props.dispatch(getGroupCreator(props.user.userData, props.groupId));
+    };
+
+    const handleSaveClick = () => {
+        props.dispatch(updateOrCreateGroupCreator(props.user.userData, data.group));
+    };
+
+    return <Container className='container__main'>
         <img
             className='container__main-photo'
             src={image}
@@ -108,7 +124,9 @@ function GroupAdmin(props) {
             </Grid>
 
 
-            <ListSubheader component="div" id="nested-list-subheader">
+            <ListSubheader
+                style={{marginTop: '20px'}}
+                component="div" id="nested-list-subheader">
                 Información adicional
             </ListSubheader>
 
@@ -119,7 +137,6 @@ function GroupAdmin(props) {
                     items={data.group.rules}
                     onclick={handleDeleteRuleClick}/>
             </Grid>
-
             <Grid item xs={8}>
                 <CollapsableList
                     typeName='Objetivos'
@@ -128,27 +145,36 @@ function GroupAdmin(props) {
             </Grid>
 
             <Grid item xs={8}>
-                <ComplexCollapsableList typeName='Miembros activos' items={data.activeMembers}>
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="comments">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ComplexCollapsableList>
+                < ComplexCollapsableList
+                    typeName='Miembros activos'
+                    items={data.activeMembers}
+                    onclick={handleCheckUserGroupMembership}
+                />
+            </Grid>
+            <Grid item xs={8}>
+                < ComplexCollapsableList
+                    typeName='Solicitudes de ingreso'
+                    items={data.pendingMembers}
+                    showCheck={true}
+                    onclick={handleCheckUserGroupMembership}
+                />
             </Grid>
 
-            <Grid item xs={8}>
-                < ComplexCollapsableList typeName='Solicitudes de ingreso' items={data.pendingMembers}>
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="comments">
-                            <ClearIcon/>
-                        </IconButton>
-                        <IconButton edge="end" aria-label="comments">
-                            <CheckIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ComplexCollapsableList>
+            <Grid
+                item xs={8}
+                style={{display: 'flex', justifyContent: 'flex-end'}}
+            >
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={handleSaveClick}
+                    disabled={disableButton}
+                >
+                    Guardar
+                </Button>
             </Grid>
+
         </form>
     </Container>
 }

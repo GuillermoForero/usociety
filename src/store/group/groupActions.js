@@ -1,5 +1,10 @@
 import store from "../store";
 import * as actionTypes from '../actionsTypes';
+import {updatingUserCategories} from "../category/categoryActions";
+
+import {UpdateUserMembership} from "./groupInterfaces";
+import {User} from "../user/userInterfaces";
+import {createdUser, creatingUser, receivedError} from "../user/userActions";
 
 var axios = require('axios');
 var FormData = require('form-data');
@@ -122,6 +127,99 @@ export const getGroupCreator = (user, groupId) => {
             dispatch(getGroupSuccessful(response.data))
         } catch (e) {
             dispatch(getGroupFailed)
+        }
+    };
+};
+
+
+export const updatingUserMembership = () => {
+    return {
+        type: actionTypes.UPDATING_USER_MEMBERSHIP,
+    };
+};
+
+export const updateUserMembershipFailed = () => {
+    return {
+        type: actionTypes.UPDATE_USER_MEMBERSHIP_FAILED
+    };
+};
+
+export const updateUserMembershipSuccessful = () => {
+    return {
+        type: actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL,
+    };
+};
+
+export const updateUserMembershipCreator = (user, groupId, request) => {
+    store.dispatch(updatingUserMembership());
+    return async function (dispatch, getState) {
+
+        let body = JSON.stringify(new UpdateUserMembership(new User(request.targetUserId), request.status, request.role));
+        console.log(body);
+
+        var config = {
+            method: 'put',
+            url: 'http://localhost:8080/manager/services/groups/' + groupId + '/update-membership',
+            headers: {
+                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+                'Content-Type': 'application/json',
+            },
+            data: body
+        };
+        try {
+            await axios(config);
+            dispatch(updateUserMembershipSuccessful())
+        } catch (e) {
+            dispatch(updateUserMembershipFailed())
+        }
+    };
+};
+
+
+export const creatingGroup = () => {
+    return {
+        type: actionTypes.UPDATING_GROUP,
+    };
+};
+
+export const createGroupFailed = () => {
+    return {
+        type: actionTypes.UPDATE_GROUP_FAILED
+    };
+};
+
+export const createGroupSuccessful = () => {
+    return {
+        type: actionTypes.UPDATE_GROUP_SUCCESSFUL,
+    };
+};
+
+export const updateOrCreateGroupCreator = (user, group) => {
+    store.dispatch(creatingGroup());
+    return async function (dispatch, getState) {
+        var data = new FormData();
+
+        var groupBlob = new Blob([JSON.stringify(group)], {
+            type: 'application/json'
+        });
+        data.append('group', groupBlob);
+
+        var config = {
+            method: 'put',
+            url: 'http://localhost:8080/manager/services/groups/',
+            headers: {
+                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+                'Content-Type': 'application/json',
+                ...data.getHeaders
+            },
+            data: data
+        };
+
+        try {
+             await axios(config);
+            dispatch(createGroupSuccessful())
+        } catch (e) {
+            dispatch(createGroupFailed())
         }
     };
 };

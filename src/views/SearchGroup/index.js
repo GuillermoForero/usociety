@@ -22,7 +22,7 @@ import {
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
-import {useStyles} from "../hooks/useStyles";
+import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 
 function Copyright() {

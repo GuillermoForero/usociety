@@ -1,14 +1,14 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
-import SignIn from "../SignIIn";
-import SingUpPreferences from "../SingUp/SingUpPreferences";
-import SingUpUserData from "../SingUp/SingUpUserData";
-import Master from "../Home";
-import GroupPrincipal from "../GroupPrincipal";
+import SignIn from "../../views/SignIIn";
+import SingUpPreferences from "../../views/SingUp/SingUpPreferences";
+import SingUpUserData from "../../views/SingUp/SingUpUserData";
+import Master from "../../views/Home";
+import GroupPrincipal from "../../views/GroupPrincipal";
 import Chat from "../Chat";
-import Master2 from "../SearchGroup";
+import Master2 from "../../views/SearchGroup";
 import Layout from "../Layout";
-import GroupAdmin from "../GroupAdmin/GroupAdmin";
+import GroupAdmin from "../../views/GroupAdmin/GroupAdmin";
 
 export default function App() {
     return (

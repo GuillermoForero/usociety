@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import {connect} from "react-redux";
 
-import {useStyles} from "../hooks/useStyles";
+import {useStyles} from "../../hooks/useStyles";
 import {TextField} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 

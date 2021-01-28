@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
-import {useStyles} from "../hooks/useStyles";
+import {useStyles} from "../../hooks/useStyles";
 import IconButton from "@material-ui/core/IconButton";
 import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";

@@ -10,7 +10,7 @@ import Collapse from "@material-ui/core/Collapse";
 import {ListItemSecondaryAction} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {useStyles} from "../hooks/useStyles";
+import {useStyles} from "../../hooks/useStyles";
 
 
 function CollapsableList(props) {

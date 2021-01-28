@@ -3,7 +3,7 @@ import {AppBar, IconButton, Menu, MenuItem, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
-import {useStyles} from "../hooks/useStyles";
+import {useStyles} from "../../hooks/useStyles";
 
 import {connect, useSelector} from "react-redux";
 

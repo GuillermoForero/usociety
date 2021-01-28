@@ -15,7 +15,8 @@ import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import {saveUserCreator} from "../../store/actions/userActions";
 
-import { useHistory } from "react-router";
+import {useHistory} from "react-router";
+import Image from "material-ui-image";
 
 function Copyright() {
     return (
@@ -53,12 +54,14 @@ const useStyles = makeStyles((theme) => ({
 function SingUpUserData(props) {
     const classes = useStyles();
     const history = useHistory();
+    const [image, setImage] = useState('https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png');
 
     const [user, setUser] = useState({
         'name': '',
         'lastName': '',
         'email': '',
         'password': '',
+        'photo': ''
     });
 
     const handleChange = (e) => {
@@ -73,6 +76,12 @@ function SingUpUserData(props) {
         history.push('/preferences')
     };
 
+    const onChangeFile= files => {
+        let imageUrl = URL.createObjectURL(files[0]);
+        setImage(imageUrl);
+        setUser({...user, image: imageUrl});
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -84,10 +93,34 @@ function SingUpUserData(props) {
                     Sign up
                 </Typography>
                 <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} style={{justifyContent: 'center'}}>
+                        <Grid item xs={6}>
+                            <Image
+                                src={image}
+                                style={{
+                                    maxWidth: '230px',
+                                    maxHeight: '95px',
+                                    width: ' auto',
+                                    height: ' auto',
+                                    borderRadius: '100px'
+                                }}/>
+                        </Grid>
+                    <Grid item xs={12}>
+                            <TextField
+                                name="photo"
+                                variant="outlined"
+                                fullWidth
+                                id="photo"
+                                //label="Foto"
+                                type='file'
+                                onChange={e => {
+                                    onChangeFile([...e.target.files]);
+                                }}
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                autoComplete="fname"
+                                autoComplete="name"
                                 name="name"
                                 variant="outlined"
                                 required

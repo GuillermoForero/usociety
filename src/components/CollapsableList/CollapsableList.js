@@ -38,8 +38,13 @@ function CollapsableList(props) {
                     (<ListItem key={item.name} button className={classes.nested}>
                         <ListItemIcon>
                         </ListItemIcon>
-                        <ListItemText primary={item}/>
-                        {props.children}
+                        <ListItemText primary={item}
+                        />
+                        <ListItemSecondaryAction onClick={() => props.onclick(item)}>
+                            <IconButton edge="end" aria-label="comments">
+                                <DeleteIcon/>
+                            </IconButton>
+                        </ListItemSecondaryAction>
                     </ListItem>))}
             </List>
         </Collapse>

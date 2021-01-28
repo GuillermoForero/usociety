@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {connect} from "react-redux";
 
@@ -21,9 +21,9 @@ import Container from "@material-ui/core/Container";
 
 function GroupAdmin(props) {
     const classes = useStyles();
+    let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
 
-
-    const [data, setData] = React.useState({
+    const [data, setData] = useState({
         group: {
             name: '',
             description: '',
@@ -45,8 +45,6 @@ function GroupAdmin(props) {
     const handleChangeTextFields = e => {
         let name = e.target.name;
         let value = e.target.value;
-
-        console.log(data);
         setData({
             ...data,
             group: {
@@ -54,21 +52,35 @@ function GroupAdmin(props) {
                 [name]: value
             }
         });
-
-        console.log(data);
     };
 
-    console.log(data, '2121');
+    const handleDeleteRuleClick = (element) => {
+        let updatedRules = data.group.rules.filter(rule => rule !== element);
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                rules: updatedRules
+            }
+        });
+    };
 
-
-    let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
-
+    const handleDeleteObjectiveClick = (element) => {
+        let updatedObjectives = data.group.objectives.filter(rule => rule !== element);
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                objectives: updatedObjectives
+            }
+        });
+    };
 
     return <Container className={'container__main'}>
         <img
             className='container__main-photo'
             src={image}
-            alt="Group image"
+            alt="Group photo"
         />
 
         <form className={classes.form}>
@@ -102,23 +114,17 @@ function GroupAdmin(props) {
 
 
             <Grid item xs={8}>
-                <CollapsableList typeName='Reglas' items={data.group.rules}>
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="comments">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </CollapsableList>
+                <CollapsableList
+                    typeName='Reglas'
+                    items={data.group.rules}
+                    onclick={handleDeleteRuleClick}/>
             </Grid>
 
             <Grid item xs={8}>
-                <CollapsableList typeName='Objetivos' items={data.group.objectives}>
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="comments">
-                            <DeleteIcon/>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </CollapsableList>
+                <CollapsableList
+                    typeName='Objetivos'
+                    items={data.group.objectives}
+                    onclick={handleDeleteObjectiveClick}/>
             </Grid>
 
             <Grid item xs={8}>

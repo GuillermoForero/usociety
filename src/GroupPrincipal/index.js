@@ -67,71 +67,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupPrincipal() {
     const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    function createData(name, category) {
-        return { name, category};
-    }
-    const rows = [
-        createData('Grupo de matematicas', 'Conocimiento'),
-        createData('Grupo de literatura', 'Conocimiento'),
-        createData('Grupo de league of legends', 'Videojuegos'),
-    ];
-
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
     return (
         <>
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar style={{justifyContent: "space-between"}}>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            Grupo de Matemáticas
-                        </Typography>
-                        {auth && (
-                            <div>
-                                <IconButton
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleMenu}
-                                    color="inherit"
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={open}
-                                    onClose={handleClose}
-                                >
-                                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                                </Menu>
-                            </div>
-                        )}
-                    </Toolbar>
-                </AppBar>
-            </div>
             <Container component="main" maxWidth={"md"} className={classes.container}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} justify="center" style={{display: "flex"}}>

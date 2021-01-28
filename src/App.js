@@ -12,11 +12,12 @@ import Master from "./Master";
 import GroupPrincipal from "./GroupPrincipal";
 import Chat from "./Chat";
 import Master2 from "./Master2";
+import Layout from "./Layout";
 
 export default function App() {
     return (
         <Router>
-            <div>
+            <Layout>
                 <Switch>
                     <Route path="/" exact strict>
                         <SignIn />
@@ -40,7 +41,7 @@ export default function App() {
                         <Chat />
                     </Route>
                 </Switch>
-            </div>
+            </Layout>
         </Router>
     );
 }

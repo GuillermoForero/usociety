@@ -65,73 +65,14 @@ const useStyles = makeStyles((theme) => ({
 function Master(props) {
     const classes = useStyles();
 
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-
-    function createData(name, category) {
-        return {name, category};
-    }
-
     useEffect(()=>{
         props.dispatch(listUserGroupsCreator(props.user))
     }, []);
 
     const rows = props.group.userGroups;
 
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     return (
         <>
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar style={{justifyContent: "space-between"}}>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            U Society
-                        </Typography>
-                        {auth && (
-                            <div>
-                                <IconButton
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleMenu}
-                                    color="inherit"
-                                >
-                                    <AccountCircle/>
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={open}
-                                    onClose={handleClose}
-                                >
-                                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                                </Menu>
-                            </div>
-                        )}
-                    </Toolbar>
-                </AppBar>
-            </div>
             <Container component="main" maxWidth={"md"} className={classes.container}>
                 <TableContainer component={Paper}>
                     <Table className={classes.table}>
@@ -155,7 +96,7 @@ function Master(props) {
                                     <TableCell align="left">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="center">{row.category.id}</TableCell>
+                                    <TableCell align="center">{row.category.name}</TableCell>
                                     <TableCell align="center"><Button
                                         variant="contained"
                                         color="primary"

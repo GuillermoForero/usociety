@@ -172,9 +172,15 @@ function Master2(props) {
                         <InputLabel id="category">Categoría</InputLabel>
                         <Select
                             labelId="category"
-                            id="category">
+                            id="category"
+                            defaultValue='none'
+                        >
+                            <MenuItem value="none" disabled>
+                            Selecciona una categoría
+                            </MenuItem>
                             {props.category && props.category.categories.map(category =>
                                 (<MenuItem
+                                    ket={category.id}
                                     id={category.id}
                                     value={category.id}
                                     onClick={categoryId => handleCategoryItemClick(category.id)}
@@ -191,6 +197,7 @@ function Master2(props) {
                             className={classes.submit}
                             style={{marginTop: '30px'}}
                             onClick={handleSearchButtonClick}
+                            disabled={(!query.groupName && !query.categoryId)}
                         >
                             Buscar
                         </Button>

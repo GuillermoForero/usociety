@@ -1,14 +1,4 @@
 
-Gjavascript:S1128	"$Remove this unused import of 'Grid'.(…úÌ8¬â±¯ó.
-Sjavascript:S1128"0Remove this unused import of 'FormControlLabel'.(œƒš 8´Œê¯ó.
-Pjavascript:S1128"(Remove this unused import of 'Checkbox'.(ÿ’Öíıÿÿÿÿ8¬â±¯ó.
-Ijavascript:S1128"&Remove this unused import of 'Switch'.(ºì“š8´Œê¯ó.
-Xjavascript:S1854D"5Remove this useless assignment to variable "setAuth".(ºÙ›µ8äÀş¯ó.
-Ejavascript:S1128")Remove this unused import of 'TextField'.(óÛÌè
+Ljavascript:S1481H"$Remove unused function 'createData'.(øË±¢úÿÿÿÿ8İÈ´¾ô.
 [javascript:S1481D"8Remove the declaration of the unused 'setAuth' variable.(ºÙ›µ8äÀş¯ó.
-Sjavascript:S1128"+Remove this unused import of 'CssBaseline'.(—ÃÌşÿÿÿÿ8¬â±¯ó.
-Xjavascript:S1128"0Remove this unused import of 'LockOutlinedIcon'.(Š­ Îıÿÿÿÿ8¬â±¯ó.
-Njavascript:S1128"&Remove this unused import of 'Avatar'.(î¸Ûøÿÿÿÿ8¬â±¯ó.
-Djavascript:S1128
-"#Remove this unused import of 'Box'.(ËëË€şÿÿÿÿ
-Qjavascript:S1128")Remove this unused import of 'FormGroup'.(ÌÔÈ²ıÿÿÿÿ8´Œê¯ó.
+Xjavascript:S1854D"5Remove this useless assignment to variable "setAuth".(ºÙ›µ8äÀş¯ó.

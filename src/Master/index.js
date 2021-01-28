@@ -137,8 +137,8 @@ function Master(props) {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">Foto</TableCell>
-                                <TableCell align="center">Nombre</TableCell>
+                                    <TableCell align="left"/>
+                                <TableCell align="left">Nombre</TableCell>
                                 <TableCell align="center">Categoria</TableCell>
                                 <TableCell align="center">Acción</TableCell>
                             </TableRow>
@@ -146,13 +146,13 @@ function Master(props) {
                         <TableBody>
                             {rows.map((row) => (
                                 <TableRow key={row.id}>
-                                    <TableCell align="center" >
+                                    <TableCell align="left" >
                                         <Image
                                             src={row.photo}
-                                            aspectRatio={(16/9)}
+                                            aspectRatio={(4/3)}
                                         />
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="left">
                                         {row.name}
                                     </TableCell>
                                     <TableCell align="center">{row.category.id}</TableCell>

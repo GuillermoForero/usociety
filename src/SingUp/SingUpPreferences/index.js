@@ -96,11 +96,15 @@ function SingUpPreferences(props) {
                         <Grid item xs={12}>
                             {!props.data.isFetching && props.data.categories.map(category =>
                                 (<FormControlLabel
+                                    style={{display: 'block'}}
                                     key={category.id}
                                     control={<Checkbox
+                                        fullWidth
                                         color="primary"
                                         value={category.id}
-                                        onClick={e => handleClick(e)}/>
+                                        onClick={e => handleClick(e)}
+                                        display={{  verticalAlign: 'bottom'}}
+                                    />
                                     }
                                     label={category.name}
                                 />))}

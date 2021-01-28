@@ -84,3 +84,44 @@ export const searchGroupsCreator = (user, query) => {
         }
     };
 };
+
+
+export const gettingGroup = () => {
+    return {
+        type: actionTypes.GETTING_GROUP,
+    };
+};
+
+export const getGroupFailed = () => {
+    return {
+        type: actionTypes.GET_GROUP_FAILED
+    };
+};
+
+export const getGroupSuccessful = (group) => {
+    return {
+        type: actionTypes.GET_GROUP_SUCCESSFUL,
+        payload: {data: group}
+    };
+};
+
+export const getGroupCreator = (user, groupId) => {
+    store.dispatch(gettingGroup());
+    return async function (dispatch, getState) {
+
+        groupId = 1;
+        var config = {
+            method: 'get',
+            url: 'http://localhost:8080/manager/services/groups/' + groupId,
+            headers: {
+                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+            }
+        };
+        try {
+            const response = await axios(config);
+            dispatch(getGroupSuccessful(response.data))
+        } catch (e) {
+            dispatch(getGroupFailed)
+        }
+    };
+};

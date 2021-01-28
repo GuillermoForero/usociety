@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
          e.preventDefault();
          await props.dispatch(loginUserCreator(user));
          if (!props.data.isError)
-             history.push('/master')
+             history.push('/group/administration')
      };
 
     return (

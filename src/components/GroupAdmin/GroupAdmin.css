@@ -7,17 +7,19 @@
 .container__main {
     display: flex;
     flex-direction: column;
-    padding: 50px;
     justify-content: center;
+}
+
+
+.container__main-content {
+
 }
 
 .container__main-photo {
     width: 50%;
     height: 250px;
     border-radius: 20px;
-    margin-bottom: 20px;
 }
 
 .container__main-photo .Grid {
-    margin-top: 5px;
 }

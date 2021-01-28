@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -7,11 +7,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import {connect} from 'react-redux';
+import {saveUserCreator} from "../../store/actions/userActions";
 
 function Copyright() {
     return (
@@ -46,8 +48,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SingUpUserData() {
+function SingUpUserData(props) {
     const classes = useStyles();
+
+    const [user, setUser] = useState({
+        'name': '',
+        'lastName': '',
+        'email': '',
+        'password': '',
+    });
+
+    const handleChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = () => {
+        props.dispatch(saveUserCreator(user));
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -64,13 +84,15 @@ export default function SingUpUserData() {
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 autoComplete="fname"
-                                name="firstName"
+                                name="name"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="firstName"
+                                id="name"
                                 label="First Name"
                                 autoFocus
+                                value={user.name}
+                                onChange={e => handleChange(e)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -82,6 +104,8 @@ export default function SingUpUserData() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="lname"
+                                value={user.lastName}
+                                onChange={e => handleChange(e)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -93,6 +117,21 @@ export default function SingUpUserData() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={user.email}
+                                onChange={e => handleChange(e)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Alias"
+                                name="username"
+                                autoComplete="username"
+                                value={user.username}
+                                onChange={e => handleChange(e)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -105,25 +144,28 @@ export default function SingUpUserData() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={user.password}
+                                onChange={e => handleChange(e)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                                control={<Checkbox value="allowExtraEmails" color="primary"/>}
                                 label="I want to receive recommendations"
                             />
                         </Grid>
                     </Grid>
-                    <Link href="/preferences" variant="body2">
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Sign Up
-                        </Button>
-                    </Link>
+
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={handleSubmit}
+                    >
+                        Sign Up
+                    </Button>
+
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/" variant="body2">
@@ -136,3 +178,10 @@ export default function SingUpUserData() {
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state
+    };
+};
+export default connect(mapStateToProps)(SingUpUserData);

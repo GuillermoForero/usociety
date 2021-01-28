@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+
+import {connect} from 'react-redux';
+import {loginUserCreator, saveUserCreator} from "../store/actions/userActions";
 
 function Copyright() {
     return (
@@ -46,8 +50,28 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignIn() {
+ function SignIn(props) {
     const classes = useStyles();
+
+    console.log(props.data);
+
+     const [user, setUser] = useState({
+         'username': '',
+         'password': '',
+     });
+
+     const handleChange = (e) => {
+         setUser({
+             ...user,
+             [e.target.name]: e.target.value
+         });
+     };
+
+     const handleSubmit = (e) => {
+         e.preventDefault();
+
+         props.dispatch(loginUserCreator(user));
+     };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -65,11 +89,13 @@ export default function SignIn() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Alias"
+                        name="username"
+                        autoComplete="username"
                         autoFocus
+                        value={user.username}
+                        onChange={e =>handleChange(e)}
                     />
                     <TextField
                         variant="outlined"
@@ -81,6 +107,8 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={user.password}
+                        onChange={e =>handleChange(e)}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -92,6 +120,7 @@ export default function SignIn() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={e => handleSubmit(e)}
                     >
                         Sign In
                     </Button>
@@ -112,3 +141,10 @@ export default function SignIn() {
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    return {
+        data: state
+    };
+};
+export default connect(mapStateToProps)(SignIn);

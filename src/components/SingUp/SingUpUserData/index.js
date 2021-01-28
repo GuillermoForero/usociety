@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import {connect} from 'react-redux';
-import {saveUserCreator} from "../../store/actions/userActions";
+import {saveUserCreator} from "../../../store/user/userActions";
 
 import {useHistory} from "react-router";
 import Image from "material-ui-image";

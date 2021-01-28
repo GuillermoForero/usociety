@@ -20,8 +20,8 @@ import {
 } from "@material-ui/core";
 
 import {connect} from 'react-redux';
-import {searchGroupsCreator} from "../store/actions/groupActions";
-import {loadCategoriesCreator} from "../store/actions/categoryActions";
+import {searchGroupsCreator} from "../../store/group/groupActions";
+import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../hooks/useStyles";
 
 function Copyright() {

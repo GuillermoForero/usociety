@@ -24,7 +24,7 @@ import {AccountCircle} from "@material-ui/icons";
 import Image from 'material-ui-image';
 
 import {connect} from 'react-redux';
-import {listUserGroupsCreator} from "../store/actions/groupActions";
+import {listUserGroupsCreator} from "../../store/group/groupActions";
 
 function Copyright() {
     return (

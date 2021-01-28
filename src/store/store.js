@@ -1,8 +1,8 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from 'redux-thunk';
-import userReducer from './reducer/userReducer';
-import categoryReducer from "./reducer/categoryReducer";
-import groupReducer from "./reducer/groupReducer";
+import userReducer from './user/userReducer';
+import categoryReducer from "./category/categoryReducer";
+import groupReducer from "./group/groupReducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 

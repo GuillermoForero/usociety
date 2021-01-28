@@ -1,6 +1,6 @@
 import store from "../store";
 import * as actionTypes from '../actionsTypes';
-import {Category, UpdateUserCategories} from '../interface/categoryInterfaces';
+import {Category, UpdateUserCategories} from './categoryInterfaces';
 
 var axios = require('axios');
 

@@ -1,13 +1,13 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
-import SignIn from "./SignIIn";
-import SingUpPreferences from "./SingUp/SingUpPreferences";
-import SingUpUserData from "./SingUp/SingUpUserData";
-import Master from "./Master";
-import GroupPrincipal from "./GroupPrincipal";
-import Chat from "./Chat";
-import Master2 from "./Master2";
-import Layout from "./Layout";
+import SignIn from "./components/SignIIn";
+import SingUpPreferences from "./components/SingUp/SingUpPreferences";
+import SingUpUserData from "./components/SingUp/SingUpUserData";
+import Master from "./components/Master";
+import GroupPrincipal from "./components/GroupPrincipal";
+import Chat from "./components/Chat";
+import Master2 from "./components/Master2";
+import Layout from "./components/Layout";
 
 export default function App() {
     return (

@@ -1,16 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 
@@ -51,35 +48,37 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
- function SignIn(props) {
+function SignIn(props) {
     const classes = useStyles();
     const history = useHistory();
 
-     const [user, setUser] = useState({
-         'username': '',
-         'password': '',
-     });
+    const [user, setUser] = useState({
+        'username': '',
+        'password': '',
+    });
 
-     const handleChange = (e) => {
-         setUser({
-             ...user,
-             [e.target.name]: e.target.value
-         });
-     };
+    const handleChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        });
+    };
 
-     const handleSubmit = async (e) => {
-         e.preventDefault();
-         await props.dispatch(loginUserCreator(user));
-         if (!props.data.isError)
-             history.push('/group/administration')
-     };
+    const handleSubmit = () => {
+        props.dispatch(loginUserCreator(user));
+    };
+
+    useEffect(() => {
+        if (props.data.logged)
+            history.push('/group/administration')
+    }, [props.data.logged]);
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -96,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
                         autoComplete="username"
                         autoFocus
                         value={user.username}
-                        onChange={e =>handleChange(e)}
+                        onChange={e => handleChange(e)}
                     />
                     <TextField
                         variant="outlined"
@@ -109,14 +108,9 @@ const useStyles = makeStyles((theme) => ({
                         id="password"
                         autoComplete="current-password"
                         value={user.password}
-                        onChange={e =>handleChange(e)}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        onChange={e => handleChange(e)}
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"

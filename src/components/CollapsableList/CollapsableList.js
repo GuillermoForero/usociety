@@ -34,8 +34,8 @@ function CollapsableList(props) {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-                {props.items && props.items.map(item =>
-                    (<ListItem key={item.name} button className={classes.nested}>
+                {props.items && props.items.length > 0 && props.items.map(item =>
+                    (item && (<ListItem key={new Date()} button className={classes.nested}>
                         <ListItemIcon>
                         </ListItemIcon>
                         <ListItemText primary={item}
@@ -45,7 +45,7 @@ function CollapsableList(props) {
                                 <DeleteIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>))}
+                    </ListItem>)))}
             </List>
         </Collapse>
     </List>

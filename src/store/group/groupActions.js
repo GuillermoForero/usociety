@@ -1,10 +1,8 @@
 import store from "../store";
 import * as actionTypes from '../actionsTypes';
-import {updatingUserCategories} from "../category/categoryActions";
 
 import {UpdateUserMembership} from "./groupInterfaces";
 import {User} from "../user/userInterfaces";
-import {createdUser, creatingUser, receivedError} from "../user/userActions";
 
 var axios = require('axios');
 var FormData = require('form-data');
@@ -155,7 +153,6 @@ export const updateUserMembershipCreator = (user, groupId, request) => {
     return async function (dispatch, getState) {
 
         let body = JSON.stringify(new UpdateUserMembership(new User(request.targetUserId), request.status, request.role));
-        console.log(body);
 
         var config = {
             method: 'put',
@@ -216,7 +213,7 @@ export const updateOrCreateGroupCreator = (user, group) => {
         };
 
         try {
-             await axios(config);
+            await axios(config);
             dispatch(createGroupSuccessful())
         } catch (e) {
             dispatch(createGroupFailed())

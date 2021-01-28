@@ -39,7 +39,7 @@ export const userLogged = user => {
 
 export const saveUserCreator = user => {
     store.dispatch(creatingUser());
-    return function (dispatch, getState) {
+    return async function (dispatch, getState) {
         var data = new FormData();
         var blob = new Blob([JSON.stringify(user)], {
             type: 'application/json'
@@ -57,20 +57,19 @@ export const saveUserCreator = user => {
             data: data
         };
 
-        axios(config)
-            .then(function (response) {
-                dispatch(createdUser(JSON.stringify(response.data)))
-            })
-            .catch(function () {
-                dispatch(receivedError())
-            });
+        try {
+            const response = await axios(config);
+            dispatch(createdUser(JSON.stringify(response.data)))
+        } catch (e) {
+            dispatch(receivedError())
+        }
     };
 };
 
 
 export const loginUserCreator = user => {
     store.dispatch(loggingUser());
-    return function (dispatch, getState) {
+    return async function (dispatch, getState) {
         var data = JSON.stringify({"username": user.username, "password": user.password});
 
         var config = {
@@ -83,12 +82,11 @@ export const loginUserCreator = user => {
             data: data
         };
 
-        axios(config)
-            .then(function (response) {
-                dispatch(userLogged(JSON.stringify(response.data)))
-            })
-            .catch(function () {
-                dispatch(receivedError())
-            });
+        try {
+            const response = await axios(config);
+            dispatch(userLogged(JSON.stringify(response.data)))
+        } catch (e) {
+            dispatch(receivedError())
+        }
     };
 };

@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container';
 
 import {connect} from 'react-redux';
 import {loginUserCreator, saveUserCreator} from "../store/actions/userActions";
+import {useHistory} from "react-router";
 
 function Copyright() {
     return (
@@ -52,8 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
  function SignIn(props) {
     const classes = useStyles();
-
-    console.log(props.data);
+    const history = useHistory();
 
      const [user, setUser] = useState({
          'username': '',
@@ -67,10 +67,11 @@ const useStyles = makeStyles((theme) => ({
          });
      };
 
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
          e.preventDefault();
-
-         props.dispatch(loginUserCreator(user));
+         await props.dispatch(loginUserCreator(user));
+         if (!props.data.isError)
+             history.push('/master')
      };
 
     return (
@@ -144,7 +145,7 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = state => {
     return {
-        data: state
+        data: state.user
     };
 };
 export default connect(mapStateToProps)(SignIn);

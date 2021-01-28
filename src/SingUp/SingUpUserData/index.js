@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import {saveUserCreator} from "../../store/actions/userActions";
 
+import { useHistory } from "react-router";
+
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -50,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SingUpUserData(props) {
     const classes = useStyles();
+    const history = useHistory();
 
     const [user, setUser] = useState({
         'name': '',
@@ -65,8 +68,9 @@ function SingUpUserData(props) {
         });
     };
 
-    const handleSubmit = () => {
-        props.dispatch(saveUserCreator(user));
+    const handleSubmit = async () => {
+        await props.dispatch(saveUserCreator(user));
+        history.push('/preferences')
     };
 
     return (
@@ -81,7 +85,7 @@ function SingUpUserData(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 autoComplete="fname"
                                 name="name"
@@ -89,22 +93,9 @@ function SingUpUserData(props) {
                                 required
                                 fullWidth
                                 id="name"
-                                label="First Name"
+                                label="Name"
                                 autoFocus
                                 value={user.name}
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                                value={user.lastName}
                                 onChange={e => handleChange(e)}
                             />
                         </Grid>
@@ -181,7 +172,7 @@ function SingUpUserData(props) {
 
 const mapStateToProps = state => {
     return {
-        data: state
+        data: state.user
     };
 };
 export default connect(mapStateToProps)(SingUpUserData);

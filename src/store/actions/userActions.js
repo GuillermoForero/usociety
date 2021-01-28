@@ -3,6 +3,7 @@ import * as actionTypes from '../actionsTypes';
 
 var axios = require('axios');
 var FormData = require('form-data');
+var fs = require('fs');
 
 export const creatingUser = () => {
     return {
@@ -41,11 +42,12 @@ export const saveUserCreator = user => {
     store.dispatch(creatingUser());
     return async function (dispatch, getState) {
         var data = new FormData();
-        var blob = new Blob([JSON.stringify(user)], {
+
+        var userBlob = new Blob([JSON.stringify(user)], {
             type: 'application/json'
         });
-
-        data.append('user', blob);
+        data.append('user', userBlob);
+        data.append('photo', user.image);
 
         var config = {
             method: 'post',

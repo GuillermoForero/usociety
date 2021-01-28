@@ -73,13 +73,17 @@ function SingUpUserData(props) {
 
     const handleSubmit = async () => {
         await props.dispatch(saveUserCreator(user));
-        history.push('/preferences')
+
+        //No funk, por async ↓.
+        if (!props.data.isError) {
+            history.push('/preferences')
+        }
     };
 
-    const onChangeFile= files => {
+    const onChangeFile = async files => {
         let imageUrl = URL.createObjectURL(files[0]);
         setImage(imageUrl);
-        setUser({...user, image: imageUrl});
+        setUser({...user, image: files[0]});
     };
 
     return (
@@ -92,7 +96,7 @@ function SingUpUserData(props) {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form}>
                     <Grid container spacing={2} style={{justifyContent: 'center'}}>
                         <Grid item xs={6}>
                             <Image
@@ -116,6 +120,7 @@ function SingUpUserData(props) {
                                 onChange={e => {
                                     onChangeFile([...e.target.files]);
                                 }}
+                                required
                             />
                         </Grid>
                         <Grid item xs={12}>

@@ -1,31 +1,30 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import {
     AppBar,
-    FormGroup,
     IconButton,
     Menu,
-    MenuItem, Paper,
-    Switch,
-    Table, TableBody, TableCell,
+    MenuItem,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
     TableContainer,
-    TableHead, TableRow,
+    TableHead,
+    TableRow,
     Toolbar
 } from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
+
+import Image from 'material-ui-image';
+
+import {connect} from 'react-redux';
+import {listUserGroupsCreator} from "../store/actions/groupActions";
 
 function Copyright() {
     return (
@@ -63,20 +62,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Master() {
+function Master(props) {
     const classes = useStyles();
+
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
     function createData(name, category) {
-        return { name, category};
+        return {name, category};
     }
-    const rows = [
-        createData('Grupo de matematicas', 'Conocimiento'),
-        createData('Grupo de literatura', 'Conocimiento'),
-        createData('Grupo de league of legends', 'Videojuegos'),
-    ];
+
+    useEffect(()=>{
+        props.dispatch(listUserGroupsCreator(props.user))
+    }, []);
+
+    const rows = props.group.userGroups;
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -85,16 +86,17 @@ export default function Master() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <>
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar style={{justifyContent: "space-between"}}>
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            Mis grupos
+                            U Society
                         </Typography>
                         {auth && (
                             <div>
@@ -105,7 +107,7 @@ export default function Master() {
                                     onClick={handleMenu}
                                     color="inherit"
                                 >
-                                    <AccountCircle />
+                                    <AccountCircle/>
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
@@ -135,24 +137,31 @@ export default function Master() {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Nombre</TableCell>
+                                <TableCell align="center">Foto</TableCell>
+                                <TableCell align="center">Nombre</TableCell>
                                 <TableCell align="center">Categoria</TableCell>
                                 <TableCell align="center">Acción</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <TableRow key={row.name}>
-                                    <TableCell>
+                                <TableRow key={row.id}>
+                                    <TableCell align="center" >
+                                        <Image
+                                            src={row.photo}
+                                            aspectRatio={(16/9)}
+                                        />
+                                    </TableCell>
+                                    <TableCell align="center">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="center">{row.category}</TableCell>
+                                    <TableCell align="center">{row.category.id}</TableCell>
                                     <TableCell align="center"><Button
                                         variant="contained"
                                         color="primary"
                                         className={classes.submit}
                                     >
-                                        Entrar
+                                        Visualizar
                                     </Button></TableCell>
                                 </TableRow>
                             ))}
@@ -162,5 +171,14 @@ export default function Master() {
             </Container>
         </>
 
-);
+    );
 }
+
+const mapStateToProps = state => {
+    return {
+        group: state.group,
+        user: state.user.userData
+    }
+};
+
+export default connect(mapStateToProps)(Master);

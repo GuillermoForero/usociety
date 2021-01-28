@@ -1,31 +1,34 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import {
-    AppBar, FormControl,
-    FormGroup,
-    IconButton, InputLabel,
+    AppBar,
+    FormControl,
+    IconButton,
+    InputLabel,
     Menu,
-    MenuItem, Paper, Select,
-    Switch,
-    Table, TableBody, TableCell,
+    MenuItem,
+    Paper,
+    Select,
+    Table,
+    TableBody,
+    TableCell,
     TableContainer,
-    TableHead, TableRow,
+    TableHead,
+    TableRow,
     Toolbar
 } from "@material-ui/core";
 import {AccountCircle} from "@material-ui/icons";
+
+import {connect} from 'react-redux';
+import {searchGroupsCreator} from "../store/actions/groupActions";
+import {loadCategoriesCreator} from "../store/actions/categoryActions";
 
 function Copyright() {
     return (
@@ -63,19 +66,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Master2(prop) {
+function Master2(props) {
     const classes = useStyles();
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
+    const [query, setQuery] = useState({
+        'groupName': '',
+        'categoryId': '',
+    });
+
+
+    useEffect(()=>{
+        props.dispatch(loadCategoriesCreator());
+    }, []);
+
     function createData(name, category) {
-        return { name, category};
+        return {name, category};
     }
-    const rows = [
-        createData('Grupo de matematicas', 'Conocimiento'),
-        createData('Grupo de literatura', 'Conocimiento'),
-        createData('Grupo de league of legends', 'Videojuegos'),
-    ];
+
+    const rows = props.group.groups;
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -84,16 +95,29 @@ export default function Master2(prop) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleSearchButtonClick = () => {
+        props.dispatch(searchGroupsCreator(props.user.userData, query));
+    };
+
+    const handleCategoryItemClick = categoryId => {
+        setQuery({...query, categoryId: categoryId});
+    };
+
+    const handleChange = e => {
+        setQuery({...query, groupName: e.target.value});
+    };
+
     return (
         <>
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar style={{justifyContent: "space-between"}}>
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            Buscar grupos nuevos
+                            Buscar grupos
                         </Typography>
                         {auth && (
                             <div>
@@ -104,7 +128,7 @@ export default function Master2(prop) {
                                     onClick={handleMenu}
                                     color="inherit"
                                 >
-                                    <AccountCircle />
+                                    <AccountCircle/>
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"
@@ -131,34 +155,45 @@ export default function Master2(prop) {
             </div>
             <Container component="main" maxWidth={"md"} className={classes.container}>
                 <Grid container spacing={1}>
-                    <Grid container item xs={12} spacing={3}>
+                    <Grid container >
                         <TextField
                             variant="outlined"
                             required
                             fullWidth
-                            id="lastName"
+                            id="groupName"
                             label="Nombre del grupo"
                             name="nombre"
                             autoComplete="lname"
+                            onChange={e => handleChange(e)}
                         />
                     </Grid>
-                    <Grid container item xs={12} spacing={3} style={{margin: '10px 0 20px'}}>
-                        <FormControl className={classes.formControl} fullWidth>
-                            <InputLabel id="demo-controlled-open-select-label">Categoría</InputLabel>
-                            <Select
-                                labelId="demo-controlled-open-select-label"
-                                id="demo-controlled-open-select"
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem value="">
-                                    <em>Ten</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                            </Select>
-                        </FormControl>
+
+                    <FormControl className={classes.formControl} fullWidth  style={{marginTop: '10px'}}>
+                        <InputLabel id="category">Categoría</InputLabel>
+                        <Select
+                            labelId="category"
+                            id="category">
+                            {props.category && props.category.categories.map(category =>
+                                (<MenuItem
+                                    id={category.id}
+                                    value={category.id}
+                                    onClick={categoryId => handleCategoryItemClick(category.id)}
+                                >{category.name}
+                                </MenuItem>)
+                            )}
+                        </Select>
+                    </FormControl>
+
+                    <Grid container item xs={12} spacing={3} style={{display: 'flex', justifyContent: 'center'}}>
+                        <Button
+                            variant="contained"
+                            color="default"
+                            className={classes.submit}
+                            style={{marginTop: '30px'}}
+                            onClick={handleSearchButtonClick}
+                        >
+                            Buscar
+                        </Button>
                     </Grid>
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
@@ -174,11 +209,11 @@ export default function Master2(prop) {
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <TableRow key={row.name}>
+                                <TableRow key={row.id}>
                                     <TableCell>
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="center">{row.category}</TableCell>
+                                    <TableCell align="center">{row.category.name}</TableCell>
                                     <TableCell align="center"><Button
                                         variant="contained"
                                         color="primary"
@@ -194,5 +229,15 @@ export default function Master2(prop) {
             </Container>
         </>
 
-);
+    );
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+        category: state.category,
+        group: state.group,
+    }
+};
+
+export default connect(mapStateToProps)(Master2);

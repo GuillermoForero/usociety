@@ -5,12 +5,14 @@ import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
 import {useStyles} from "../hooks/useStyles";
 
+import {connect, useSelector} from "react-redux";
 
 const Layout = (props) => {
     const classes = useStyles();
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const mainTitle = useSelector(state => state.global.mainTitle);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -29,7 +31,7 @@ const Layout = (props) => {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        {props.mainTitle || 'USociety (dynamically)'}
+                        {mainTitle || 'USociety (dynamically)'}
                     </Typography>
                     {auth && (
                         <div>

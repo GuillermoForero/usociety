@@ -1,13 +1,14 @@
 import React from "react";
 import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
-import SignIn from "./components/SignIIn";
-import SingUpPreferences from "./components/SingUp/SingUpPreferences";
-import SingUpUserData from "./components/SingUp/SingUpUserData";
-import Master from "./components/Master";
-import GroupPrincipal from "./components/GroupPrincipal";
-import Chat from "./components/Chat";
-import Master2 from "./components/Master2";
-import Layout from "./components/Layout";
+import SignIn from "../SignIIn";
+import SingUpPreferences from "../SingUp/SingUpPreferences";
+import SingUpUserData from "../SingUp/SingUpUserData";
+import Master from "../Home";
+import GroupPrincipal from "../GroupPrincipal";
+import Chat from "../Chat";
+import Master2 from "../SearchGroup";
+import Layout from "../Layout";
+import GroupAdmin from "../GroupAdmin/GroupAdmin";
 
 export default function App() {
     return (
@@ -35,6 +36,9 @@ export default function App() {
                     </Route>
                     <Route path="/chat" exact strict>
                         <Chat/>
+                    </Route>
+                    <Route path="/group/administration" exact strict>
+                        <GroupAdmin/>
                     </Route>
                 </Layout>
             </Switch>

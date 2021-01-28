@@ -23,6 +23,7 @@ import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../hooks/useStyles";
+import * as actionTypes from "../../store/actionsTypes";
 
 function Copyright() {
     return (
@@ -48,6 +49,7 @@ function Master2(props) {
 
     useEffect(() => {
         props.dispatch(loadCategoriesCreator());
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Descubre grupos de tu interés'}});
     }, []);
 
     const rows = props.group.groups;
@@ -78,6 +80,7 @@ function Master2(props) {
                             name="nombre"
                             autoComplete="lname"
                             onChange={e => handleChange(e)}
+                            type="search"
                         />
                     </Grid>
 
@@ -157,6 +160,7 @@ const mapStateToProps = state => {
         user: state.user,
         category: state.category,
         group: state.group,
+        global: state.global
     }
 };
 

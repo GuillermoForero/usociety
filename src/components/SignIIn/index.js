@@ -15,7 +15,7 @@ import Container from '@material-ui/core/Container';
 
 
 import {connect} from 'react-redux';
-import {loginUserCreator, saveUserCreator} from "../../store/user/userActions";
+import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 
 function Copyright() {

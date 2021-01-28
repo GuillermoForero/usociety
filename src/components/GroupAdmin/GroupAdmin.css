@@ -5,21 +5,18 @@
 }
 
 .container__main {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-}
-
-
-.container__main-content {
-
+    align-items: flex-start;
+    margin: 0;
+    padding: 50px;
 }
 
 .container__main-photo {
-    width: 50%;
     height: 250px;
     border-radius: 20px;
+    margin-bottom: 20px;
 }
 
 .container__main-photo .Grid {
+    margin-top: 5px;
 }

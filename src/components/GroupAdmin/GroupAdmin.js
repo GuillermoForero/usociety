@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {useEffect} from 'react';
 
 import {connect} from "react-redux";
 
@@ -17,6 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import {getGroupCreator} from "../../store/group/groupActions";
 import CollapsableList from "../CollapsableList/CollapsableList";
 import ComplexCollapsableList from "../CollapsableList/ComplexCollapsableList";
+import Container from "@material-ui/core/Container";
 
 function GroupAdmin(props) {
     const classes = useStyles();
@@ -50,7 +51,8 @@ function GroupAdmin(props) {
             ...data,
             group: {
                 ...data.group,
-                [name]: value}
+                [name]: value
+            }
         });
 
         console.log(data);
@@ -62,80 +64,87 @@ function GroupAdmin(props) {
     let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
 
 
-    return <Fragment>
-        <Grid className='container__main' container spacing={1} style={{paddingTop: '20px'}}>
-            <img
-                className='container__main-photo'
-                src={image}
-            />
+    return <Container className={'container__main'}>
+        <img
+            className='container__main-photo'
+            src={image}
+            alt="Group image"
+        />
 
-            <form className={classes.root}>
-                <Grid container spacing={2} style={{flexDirection:'column'}}>
-                    <Grid item xs={6}>
-                        <TextField
-                            id="name"
-                            label="Nombre"
-                            variant="outlined"
-                            value={data.group.name}
-                            name='name'
-                            onChange={e => handleChangeTextFields(e)}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            id="description"
-                            label="Descripción"
-                            variant="outlined"
-                            value={data.group.description}
-                            name='description'
-                            onChange={e => handleChangeTextFields(e)}
-                        />
-                    </Grid>
+        <form className={classes.form}>
+            <Grid container style={{flexDirection: 'column'}} spacing={2}>
+                <Grid item xs={6}>
+                    <TextField
+                        id="name"
+                        label="Nombre"
+                        variant="outlined"
+                        value={data.group.name}
+                        name='name'
+                        onChange={e => handleChangeTextFields(e)}
+                    />
                 </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        id="description"
+                        label="Descripción"
+                        variant="outlined"
+                        value={data.group.description}
+                        name='description'
+                        onChange={e => handleChangeTextFields(e)}
+                    />
+                </Grid>
+            </Grid>
 
 
-                <ListSubheader component="div" id="nested-list-subheader">
-                    Información adicional
-                </ListSubheader>
+            <ListSubheader component="div" id="nested-list-subheader">
+                Información adicional
+            </ListSubheader>
 
 
-                    <CollapsableList typeName='Reglas' items={data.group.rules}>
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                                <DeleteIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </CollapsableList>
+            <Grid item xs={8}>
+                <CollapsableList typeName='Reglas' items={data.group.rules}>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments">
+                            <DeleteIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </CollapsableList>
+            </Grid>
 
-                    <CollapsableList typeName='Objetivos' items={data.group.objectives}>
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                                <DeleteIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </CollapsableList>
+            <Grid item xs={8}>
+                <CollapsableList typeName='Objetivos' items={data.group.objectives}>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments">
+                            <DeleteIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </CollapsableList>
+            </Grid>
 
-                    <ComplexCollapsableList typeName='Miembros activos' items={data.activeMembers}>
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                                <DeleteIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ComplexCollapsableList>
+            <Grid item xs={8}>
+                <ComplexCollapsableList typeName='Miembros activos' items={data.activeMembers}>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments">
+                            <DeleteIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ComplexCollapsableList>
+            </Grid>
 
-                    < ComplexCollapsableList typeName='Solicitudes de ingreso' items={data.pendingMembers}>
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" aria-label="comments">
-                                <ClearIcon/>
-                            </IconButton>
-                            <IconButton edge="end" aria-label="comments">
-                                <CheckIcon/>
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ComplexCollapsableList>
-            </form>
-        </Grid>
-    </Fragment>
+            <Grid item xs={8}>
+                < ComplexCollapsableList typeName='Solicitudes de ingreso' items={data.pendingMembers}>
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="comments">
+                            <ClearIcon/>
+                        </IconButton>
+                        <IconButton edge="end" aria-label="comments">
+                            <CheckIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ComplexCollapsableList>
+            </Grid>
+        </form>
+    </Container>
 }
 
 const mapStateToProps = state => {

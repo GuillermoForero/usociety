@@ -13,7 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
-import {AppBar, IconButton, Menu, MenuItem, Toolbar} from "@material-ui/core";
+import {AppBar, Button, IconButton, Menu, MenuItem, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {AccountCircle} from "@material-ui/icons";
 
@@ -22,8 +22,7 @@ const useStyles = makeStyles({
         minWidth: 650,
     },
     chatSection: {
-        width: '100%',
-        height: '80vh'
+        width: '100%'
     },
     headBG: {
         backgroundColor: '#e0e0e0'
@@ -34,83 +33,28 @@ const useStyles = makeStyles({
     messageArea: {
         height: '70vh',
         overflowY: 'auto'
+    },
+    containerChat: {
+        position: 'fixed',
+        bottom: '0',
+        right: '0',
+        width: '35%',
+        justifyContent: 'flex-end'
     }
 });
 
 const Chat = () => {
     const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-
-    function createData(name, category) {
-        return { name, category};
-    }
-    const rows = [
-        createData('Grupo de matematicas', 'Conocimiento'),
-        createData('Grupo de literatura', 'Conocimiento'),
-        createData('Grupo de league of legends', 'Videojuegos'),
-    ];
-
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const [showChat, setShowChat] = React.useState(false);
+    console.log(showChat ? 'puta' : 'fucker')
     return (
         <>
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar style={{justifyContent: "space-between"}}>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Grupo de Matemáticas
-                    </Typography>
-                    {auth && (
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                            </Menu>
-                        </div>
-                    )}
-                </Toolbar>
-            </AppBar>
-        </div>
-        <div>
-            <Grid container>
-                <Grid item xs={12} >
-                    <Typography variant="h5" className="header-message">Chat</Typography>
+            <Grid container className={classes.containerChat} xs={3}>
+            {showChat ?
+            <Grid container component={Paper} className={classes.chatSection} xs={12}>
+                <Grid item xs={12}>
+                    <Button variant="contained" fullWidth onClick={() => setShowChat(false)}>Chat</Button>
                 </Grid>
-            </Grid>
-            <Grid container component={Paper} className={classes.chatSection}>
                 <Grid item xs={12}>
                     <List className={classes.messageArea}>
                         <ListItem key="1">
@@ -146,7 +90,7 @@ const Chat = () => {
                         <ListItem key="3">
                             <Grid container>
                                 <Grid item xs={12}>
-                                    <ListItemText align="right" primary="Genial, les querìa preguntar, ¿què harán mañaa"></ListItemText>
+                                    <ListItemText align="right" primary="Genial, les queria preguntar, ¿qué harán mañana?"></ListItemText>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <ListItemText align="right" secondary="09:30 - Guillermo F"></ListItemText>
@@ -156,7 +100,7 @@ const Chat = () => {
                     </List>
                     <Divider />
                     <Grid container style={{padding: '20px'}}>
-                        <Grid item xs={11}>
+                        <Grid item xs={10}>
                             <TextField id="outlined-basic-email" label="Type Something" fullWidth />
                         </Grid>
                         <Grid xs={1} align="right">
@@ -164,8 +108,10 @@ const Chat = () => {
                         </Grid>
                     </Grid>
                 </Grid>
+            </Grid>:
+                <Button variant="contained" style={{width: '80%'}} onClick={() => setShowChat(true)}>Chat</Button>
+            }
             </Grid>
-        </div>
         </>
     );
 }

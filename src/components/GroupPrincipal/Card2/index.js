@@ -78,10 +78,10 @@ export default function Card2() {
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
-                    <ThumbUpIcon /> Reaccionar
+                    <ThumbUpIcon />
                 </IconButton>
                 <IconButton aria-label="share">
-                    <CommentIcon /> Comentar
+                    <CommentIcon />
                 </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {

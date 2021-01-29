@@ -31,14 +31,15 @@ export const listUserGroupsCreator = user => {
     store.dispatch(listingUserGroups());
     return async function (dispatch, getState) {
 
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/groups/' + JSON.parse(user).user.username + '/all',
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-            }
-        };
         try {
+            var config = {
+                method: 'get',
+                url: 'http://localhost:8080/manager/services/groups/' + JSON.parse(user).user.username + '/all',
+                headers: {
+                    'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+                }
+            };
+
             const response = await axios(config);
             dispatch(listUserGroupsSuccessful(response.data))
         } catch (e) {
@@ -71,15 +72,18 @@ export const searchGroupsCreator = (user, query) => {
     store.dispatch(searchingGroups());
     return async function (dispatch, getState) {
 
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/groups/by-filters?name='
-                + query.groupName + '&categoryId=' + query.categoryId,
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-            }
-        };
+        console.log('SIUUUUUUUUUUUUU');
+
         try {
+            var config = {
+                method: 'get',
+                url: 'http://localhost:8080/manager/services/groups/by-filters?name='
+                    + query.groupName + '&categoryId=' + query.categoryId,
+                headers: {
+                    'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+                }
+            };
+
             const response = await axios(config);
             dispatch(searchGroupsSuccessful(response.data))
         } catch (e) {

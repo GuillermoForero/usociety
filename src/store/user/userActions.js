@@ -41,25 +41,26 @@ export const userLogged = user => {
 export const saveUserCreator = user => {
     store.dispatch(creatingUser());
     return async function (dispatch, getState) {
-        var data = new FormData();
-
-        var userBlob = new Blob([JSON.stringify(user)], {
-            type: 'application/json'
-        });
-        data.append('user', userBlob);
-        data.append('photo', user.image);
-
-        var config = {
-            method: 'post',
-            url: 'http://localhost:8080/manager/services/users/',
-            headers: {
-                'Content-Type': 'application/json',
-                ...data.getHeaders
-            },
-            data: data
-        };
 
         try {
+            var data = new FormData();
+
+            var userBlob = new Blob([JSON.stringify(user)], {
+                type: 'application/json'
+            });
+            data.append('user', userBlob);
+            data.append('photo', user.image);
+
+            var config = {
+                method: 'post',
+                url: 'http://localhost:8080/manager/services/users/',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...data.getHeaders
+                },
+                data: data
+            };
+
             const response = await axios(config);
             dispatch(createdUser(JSON.stringify(response.data)))
         } catch (e) {
@@ -72,19 +73,20 @@ export const saveUserCreator = user => {
 export const loginUserCreator = user => {
     store.dispatch(loggingUser());
     return async function (dispatch, getState) {
-        var data = JSON.stringify({"username": user.username, "password": user.password});
-
-        var config = {
-            method: 'post',
-            url: 'http://localhost:8080/manager/services/users/login',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: data
-        };
 
         try {
+            var data = JSON.stringify({"username": user.username, "password": user.password});
+
+            var config = {
+                method: 'post',
+                url: 'http://localhost:8080/manager/services/users/login',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
             const response = await axios(config);
             dispatch(userLogged(JSON.stringify(response.data)))
         } catch (e) {

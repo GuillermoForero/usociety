@@ -41,12 +41,12 @@ export const loadCategoriesCreator = () => {
     store.dispatch(loadingCategories());
     return async function (dispatch, getState) {
 
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/categories/all',
-        };
-
         try {
+            var config = {
+                method: 'get',
+                url: 'http://localhost:8080/manager/services/categories/all',
+            };
+
             const response = await axios(config);
             dispatch(categoriesLoaded(response.data))
         } catch (e) {
@@ -60,28 +60,28 @@ export const updateUserCategoriesCreator = (categoryIds, user) => {
     store.dispatch(updatingUserCategories());
     return async function  (dispatch, getState)  {
 
-        let list = [];
-        categoryIds.map(categoryId => list.push(new Category(categoryId)));
+       try {
+           let list = [];
+           categoryIds.map(categoryId => list.push(new Category(categoryId)));
 
-        var data = new FormData();
-        var blob = new Blob([JSON.stringify(new UpdateUserCategories(list))], {
-            type: 'application/json'
-        });
+           var data = new FormData();
+           var blob = new Blob([JSON.stringify(new UpdateUserCategories(list))], {
+               type: 'application/json'
+           });
 
-        data.append('user', blob);
+           data.append('user', blob);
 
-        var config = {
-            method: 'put',
-            url: 'http://localhost:8080/manager/services/users/',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-                ...data.getHeaders
-            },
-            data: data
-        };
+           var config = {
+               method: 'put',
+               url: 'http://localhost:8080/manager/services/users/',
+               headers: {
+                   'Content-Type': 'application/json',
+                   'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
+                   ...data.getHeaders
+               },
+               data: data
+           };
 
-        try {
             await axios(config);
             dispatch(userCategoriesUpdated())
         } catch (e) {

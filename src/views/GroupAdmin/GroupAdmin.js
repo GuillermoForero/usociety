@@ -17,6 +17,9 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Loader from "../../components/Loader/Loader";
 
+import GroupIcon from '@material-ui/icons/Group';
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import * as actionTypes from "../../store/actionsTypes";
 
 function GroupAdmin(props) {
     const classes = useStyles();
@@ -35,6 +38,7 @@ function GroupAdmin(props) {
     });
 
     useEffect(() => {
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Administración de grupo'}});
         props.dispatch(getGroupCreator(props.groupId));
     }, []);
 
@@ -93,7 +97,7 @@ function GroupAdmin(props) {
         setDisableButton(true);
     };
 
-    return <Container className='container__main'>
+    return <Container component="main" maxWidth={"md"} className={classes.container + ', container__main'}>
         <Loader isOpen={props.group.isFetching}/>
 
         <img
@@ -109,7 +113,7 @@ function GroupAdmin(props) {
                         id="name"
                         label="Nombre"
                         variant="outlined"
-                        value={data.group.name}
+                        value={data.group.name || ''}
                         name='name'
                         onChange={e => handleChangeTextFields(e)}
                     />
@@ -119,7 +123,7 @@ function GroupAdmin(props) {
                         id="description"
                         label="Descripción"
                         variant="outlined"
-                        value={data.group.description}
+                        value={data.group.description || ''}
                         name='description'
                         onChange={e => handleChangeTextFields(e)}
                     />
@@ -134,37 +138,41 @@ function GroupAdmin(props) {
             </ListSubheader>
 
 
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 <CollapsableList
                     typeName='Reglas'
                     items={data.group.rules}
                     onclick={handleDeleteRuleClick}/>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 <CollapsableList
                     typeName='Objetivos'
                     items={data.group.objectives}
                     onclick={handleDeleteObjectiveClick}/>
             </Grid>
 
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 < ComplexCollapsableList
                     typeName='Miembros activos'
                     items={data.activeMembers}
                     onclick={handleCheckUserGroupMembership}
-                />
+                >
+                <GroupIcon/>
+                </ComplexCollapsableList>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 < ComplexCollapsableList
                     typeName='Solicitudes de ingreso'
                     items={data.pendingMembers}
                     showCheck={true}
                     onclick={handleCheckUserGroupMembership}
-                />
+                >
+                    <GroupAdd/>
+                </ComplexCollapsableList>
             </Grid>
 
             <Grid
-                item xs={8}
+                item xs={12}
                 style={{display: 'flex', justifyContent: 'flex-end'}}
             >
                 <Button

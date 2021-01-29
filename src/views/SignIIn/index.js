@@ -72,7 +72,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/master2')
+            history.push('/group/administration')
     }, [props.data.logged]);
 
 

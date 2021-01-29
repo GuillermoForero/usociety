@@ -21,7 +21,7 @@ import {
 
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
-import {loadCategoriesCreator} from "../../store/category/categoryActions";
+import {loadCategoriesCreator, test} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
@@ -49,8 +49,8 @@ function Master2(props) {
     });
 
     useEffect(() => {
-        props.dispatch(loadCategoriesCreator());
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Descubre grupos de tu interés'}});
+        props.dispatch(loadCategoriesCreator());
     }, []);
 
     const rows = props.group.groups;

@@ -1,9 +1,8 @@
-import store from "../store";
 import * as actionTypes from '../actionsTypes';
+import {Category, UpdateUserCategories} from "../category/categoryInterfaces";
+import {basePostCreator, basePutCreator, receivedError} from "../commonActionsCreator";
 
-var axios = require('axios');
-var FormData = require('form-data');
-var fs = require('fs');
+const FormData = require('form-data');
 
 export const creatingUser = () => {
     return {
@@ -13,7 +12,7 @@ export const creatingUser = () => {
 
 export const createdUser = user => {
     return {
-        type: actionTypes.CREATED_USER,
+        type: actionTypes.USER_CREATED,
         data: user
     };
 };
@@ -24,12 +23,6 @@ export const loggingUser = () => {
     };
 };
 
-export const receivedError = () => {
-    return {
-        type: actionTypes.RECEIVED_ERROR
-    };
-};
-
 export const userLogged = user => {
     return {
         type: actionTypes.USER_LOGGED,
@@ -37,60 +30,59 @@ export const userLogged = user => {
     };
 };
 
+export const updatingUserCategories = () => {
+    return {
+        type: actionTypes.UPDATING_USER_CATEGORIES,
+    };
+};
 
-export const saveUserCreator = user => {
-    store.dispatch(creatingUser());
-    return async function (dispatch, getState) {
-
-        try {
-            var data = new FormData();
-
-            var userBlob = new Blob([JSON.stringify(user)], {
-                type: 'application/json'
-            });
-            data.append('user', userBlob);
-            data.append('photo', user.image);
-
-            var config = {
-                method: 'post',
-                url: 'http://localhost:8080/manager/services/users/',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...data.getHeaders
-                },
-                data: data
-            };
-
-            const response = await axios(config);
-            dispatch(createdUser(JSON.stringify(response.data)))
-        } catch (e) {
-            dispatch(receivedError())
-        }
+export const userCategoriesUpdated = () => {
+    return {
+        type: actionTypes.USER_CATEGORIES_UPDATED,
     };
 };
 
 
+export const saveUserCreator = user => {
+    try {
+        const body = new FormData();
+        const userBlob = new Blob([JSON.stringify(user)], {
+            type: 'application/json'
+        });
+
+        body.append('user', userBlob);
+        body.append('photo', user.image);
+
+        return basePostCreator('/users/', body, creatingUser, createdUser, receivedError);
+    } catch (e) {
+        receivedError();
+    }
+};
+
+
 export const loginUserCreator = user => {
-    store.dispatch(loggingUser());
-    return async function (dispatch, getState) {
+    try {
+        const body = JSON.stringify({"username": user.username, "password": user.password});
+        return basePostCreator('/users/login', body, loggingUser, userLogged, receivedError);
+    } catch (e) {
+        receivedError();
+    }
+};
 
-        try {
-            var data = JSON.stringify({"username": user.username, "password": user.password});
 
-            var config = {
-                method: 'post',
-                url: 'http://localhost:8080/manager/services/users/login',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
+export const updateUserCategoriesCreator = (categoriesId) => {
+    try {
+        let serialized = [];
+        categoriesId.map(categoryId => serialized.push(new Category(categoryId)));
 
-            const response = await axios(config);
-            dispatch(userLogged(JSON.stringify(response.data)))
-        } catch (e) {
-            dispatch(receivedError())
-        }
-    };
+        const body = new FormData();
+        const blob = new Blob([JSON.stringify(new UpdateUserCategories(serialized))], {
+            type: 'application/json'
+        });
+        body.append('user', blob);
+
+        return basePutCreator('/users/', body, updatingUserCategories, userCategoriesUpdated, receivedError);
+    } catch (e) {
+        receivedError();
+    }
 };

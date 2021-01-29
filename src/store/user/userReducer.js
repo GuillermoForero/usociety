@@ -22,9 +22,8 @@ const userReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 isError: true,
                 isFetching: false,
-                logged: false,
             });
-        case actionTypes.CREATED_USER:
+        case actionTypes.USER_CREATED:
         case actionTypes.USER_LOGGED:
             return Object.assign({}, state, {
                 userData: action.data,

@@ -10,7 +10,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 import './GroupAdmin.css';
 
-import {getGroupCreator, updateOrCreateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
+import {getGroupCreator, updateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
 import CollapsableList from "../../components/CollapsableList/CollapsableList";
 import ComplexCollapsableList from "../../components/CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
@@ -90,7 +90,7 @@ function GroupAdmin(props) {
     };
 
     const handleSaveClick = () => {
-        props.dispatch(updateOrCreateGroupCreator(props.user.userData, data.group));
+        props.dispatch(updateGroupCreator(props.user.userData, data.group));
         setDisableButton(true);
     };
 

@@ -24,6 +24,7 @@ import * as actionTypes from "../../store/actionsTypes";
 function GroupAdmin(props) {
     const classes = useStyles();
     let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
+
     const [disableButton, setDisableButton] = useState(true);
 
     const [data, setData] = useState({

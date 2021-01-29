@@ -105,8 +105,7 @@ export const listUserGroupsCreator = user => {
         const path = '/groups/' + user.user.username + '/all';
         return baseGetCreator(path, listingUserGroups, listUserGroupsSuccessful, listUserGroupsFailed);
     } catch (e) {
-        listUserGroupsFailed();
-        console.error(e);
+        return listUserGroupsFailed();
     }
 };
 
@@ -129,7 +128,7 @@ export const updateUserMembershipCreator = (user, groupId, request) => {
 
         return basePutCreator(path, body, updatingUserMembership, updateUserMembershipSuccessful, updateUserMembershipFailed);
     } catch (e) {
-        updateUserMembershipFailed();
+        return updateUserMembershipFailed();
     }
 };
 

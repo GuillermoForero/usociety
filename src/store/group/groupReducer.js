@@ -14,6 +14,8 @@ const groupReducer = (state = initialState, action) => {
         case actionTypes.SEARCHING_GROUPS:
         case actionTypes.LISTING_USER_GROUPS:
         case actionTypes.GETTING_GROUP:
+        case actionTypes.UPDATING_USER_MEMBERSHIP:
+        case actionTypes.UPDATING_GROUP:
             return Object.assign({}, state, {
                 isFetching: true,
                 isError: false
@@ -21,6 +23,8 @@ const groupReducer = (state = initialState, action) => {
         case actionTypes.SEARCH_GROUPS_FAILED:
         case actionTypes.LIST_USER_GROUPS_FAILED:
         case actionTypes.GET_GROUP_FAILED:
+        case actionTypes.UPDATE_USER_MEMBERSHIP_FAILED:
+        case actionTypes.UPDATE_GROUP_FAILED:
             return Object.assign({}, state, {
                 userGroups: [],
                 groups: [],
@@ -42,6 +46,14 @@ const groupReducer = (state = initialState, action) => {
         case actionTypes.GET_GROUP_SUCCESSFUL:
             return Object.assign({}, state, {
                 currentGroup: action.payload.data,
+                isError: false,
+                isFetching: false
+            });
+
+        case actionTypes.UPDATE_GROUP_SUCCESSFUL:
+        case actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL:
+            return Object.assign({}, state, {
+                ...state,
                 isError: false,
                 isFetching: false
             });

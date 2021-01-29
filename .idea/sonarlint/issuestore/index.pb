@@ -14,21 +14,31 @@ B
 src/store/store.js,8/b/8bb307fb6db380ef753f957624efd76a44e602c7
 I
 src/store/actionsTypes.js,2/d/2d7133216ca4d47a775a36c9d62883f3699ea7a7
-[
-+src/components/GroupPrincipal/Card/index.js,9/5/955d0d671e8704005095b2615204739fe66f53e1
-k
-;src/components/GroupPrincipal/HeaderGroupPrincipal/index.js,c/d/cda41970d7ce95ea1105d8a13de553a6a7643cd5
-V
-&src/components/GroupPrincipal/index.js,9/b/9bf6923f80b09226890c16e748ebffd965521815
 I
 src/components/App/App.js,0/e/0e0456ef151500587d05f053b8624a4f4ddd30fb
 N
-src/components/SingUp/index.js,2/3/23522ee9a99076056241381ff2901598384d4856
-O
-src/components/SignIIn/index.js,6/8/68b86462a5b1cdb18058e366e092a03456dc70b3
-L
-src/components/Chat/index.js,0/8/081658037f7357a56aa0c88ef5d60cbf99cc2d10
-N
 src/components/Layout/index.js,8/6/86f2783db4895b1d7c033917d80b3a0b4d6cfa57
-\
-,src/components/GroupPrincipal/Card2/index.js,2/a/2ac6133c87a9fcfeffb425a7df27b9075dd9b765
+9
+	yarn.lock,5/3/53585a096fe3a3b96321113856ae62602995a33b
+A
+package-lock.json,f/a/fa288d1472d29beccb489a676f68739ad365fc47
+a
+1src/components/CollapsableList/CollapsableList.js,3/3/33a113a9b5d91ab6cfa0156793ddbc67cdc5f2c4
+h
+8src/components/CollapsableList/ComplexCollapsableList.js,6/b/6bd7343c4a94eb3a3a39c60046f843f6b58ab2a5
+O
+src/store/group/groupActions.js,6/d/6da94645d020c04b5ceed0b756b2fdbe2c0671d2
+G
+src/views/Home/index.js,c/0/c03706443c7aa77c0d1795762fde085a20d59425
+Q
+!src/views/GroupPrincipal/index.js,4/f/4ffbed9e32f725a26e5e1a3d0cb99ff716e4612c
+f
+6src/views/GroupPrincipal/HeaderGroupPrincipal/index.js,2/7/27bc4a8e18409ea6ce2158a96c3118ec1630cf17
+V
+&src/views/GroupPrincipal/Chat/index.js,3/f/3f41443eaa1b0e3b747500f294dad3c3cc56a847
+I
+src/views/SingUp/index.js,5/5/55c0b55cdf214632ebd3d93049e9bd4118dbad0d
+V
+&src/views/GroupPrincipal/Card/index.js,a/9/a958f2229105e0d9f965159791b12a99958bb428
+Z
+*src/views/GroupPrincipal/Comments/index.js,6/b/6b98cca228045471d97a4ffda39676a2989e90dd

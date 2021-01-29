@@ -1,8 +1,5 @@
-import store from "../store";
 import * as actionTypes from '../actionsTypes';
-import {Category, UpdateUserCategories} from './categoryInterfaces';
-
-var axios = require('axios');
+import {baseGetCreator, receivedError} from "../commonActionsCreator";
 
 export const loadingCategories = () => {
     return {
@@ -17,77 +14,6 @@ export const categoriesLoaded = categories => {
     };
 };
 
-export const updatingUserCategories = () => {
-    return {
-        type: actionTypes.UPDATING_USER_CATEGORIES,
-    };
-};
-
-export const userCategoriesUpdated = () => {
-    return {
-        type: actionTypes.USER_CATEGORIES_UPDATED,
-    };
-};
-
-
-export const receivedError = () => {
-    return {
-        type: actionTypes.RECEIVED_ERROR,
-    };
-};
-
-
 export const loadCategoriesCreator = () => {
-    store.dispatch(loadingCategories());
-    return async function (dispatch, getState) {
-
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/categories/all',
-        };
-
-        try {
-            const response = await axios(config);
-            dispatch(categoriesLoaded(response.data))
-        } catch (e) {
-            dispatch(receivedError())
-        }
-    };
+    return baseGetCreator('/categories/all', loadingCategories, categoriesLoaded, receivedError);
 };
-
-
-export const updateUserCategoriesCreator = (categoryIds, user) => {
-    store.dispatch(updatingUserCategories());
-    return async function  (dispatch, getState)  {
-
-        let list = [];
-        categoryIds.map(categoryId => list.push(new Category(categoryId)));
-
-        console.log(JSON.parse(user));
-        var data = new FormData();
-        var blob = new Blob([JSON.stringify(new UpdateUserCategories(list))], {
-            type: 'application/json'
-        });
-
-        data.append('user', blob);
-
-        var config = {
-            method: 'put',
-            url: 'http://localhost:8080/manager/services/users/',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-                ...data.getHeaders
-            },
-            data: data
-        };
-
-        try {
-            const response = await axios(config);
-            dispatch(userCategoriesUpdated(response.data))
-        } catch (e) {
-            dispatch(receivedError())
-        }
-    };
-};
-

@@ -1,8 +1,29 @@
-import store from "../store";
 import * as actionTypes from '../actionsTypes';
 
-var axios = require('axios');
-var FormData = require('form-data');
+import {UpdateUserMembership} from "./groupInterfaces";
+import {User} from "../user/userInterfaces";
+
+import {baseGetCreator, basePutCreator} from "../commonActionsCreator";
+
+const FormData = require('form-data');
+
+export const updatingGroup = () => {
+    return {
+        type: actionTypes.UPDATING_GROUP,
+    };
+};
+
+export const createGroupFailed = () => {
+    return {
+        type: actionTypes.UPDATE_GROUP_FAILED
+    };
+};
+
+export const updatingGroupSuccessful = () => {
+    return {
+        type: actionTypes.UPDATE_GROUP_SUCCESSFUL,
+    };
+};
 
 export const listingUserGroups = () => {
     return {
@@ -23,28 +44,6 @@ export const listUserGroupsSuccessful = (groups) => {
     };
 };
 
-
-export const listUserGroupsCreator = user => {
-    store.dispatch(listingUserGroups());
-    return async function (dispatch, getState) {
-
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/groups/' + JSON.parse(user).user.username + '/all',
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-            }
-        };
-        try {
-            const response = await axios(config);
-            dispatch(listUserGroupsSuccessful(response.data))
-        } catch (e) {
-            dispatch(listUserGroupsFailed())
-        }
-    };
-};
-
-
 export const searchingGroups = () => {
     return {
         type: actionTypes.SEARCHING_GROUPS,
@@ -63,28 +62,6 @@ export const searchGroupsSuccessful = (groups) => {
         payload: {data: groups}
     };
 };
-
-export const searchGroupsCreator = (user, query) => {
-    store.dispatch(searchingGroups());
-    return async function (dispatch, getState) {
-
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/groups/by-filters?name='
-                + query.groupName + '&categoryId=' + query.categoryId,
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-            }
-        };
-        try {
-            const response = await axios(config);
-            dispatch(searchGroupsSuccessful(response.data))
-        } catch (e) {
-            dispatch(searchGroupsFailed())
-        }
-    };
-};
-
 
 export const gettingGroup = () => {
     return {
@@ -105,23 +82,67 @@ export const getGroupSuccessful = (group) => {
     };
 };
 
-export const getGroupCreator = (user, groupId) => {
-    store.dispatch(gettingGroup());
-    return async function (dispatch, getState) {
-
-        groupId = 1;
-        var config = {
-            method: 'get',
-            url: 'http://localhost:8080/manager/services/groups/' + groupId,
-            headers: {
-                'Authorization': 'Bearer ' + JSON.parse(user).token.accessToken,
-            }
-        };
-        try {
-            const response = await axios(config);
-            dispatch(getGroupSuccessful(response.data))
-        } catch (e) {
-            dispatch(getGroupFailed)
-        }
+export const updatingUserMembership = () => {
+    return {
+        type: actionTypes.UPDATING_USER_MEMBERSHIP,
     };
+};
+
+export const updateUserMembershipFailed = () => {
+    return {
+        type: actionTypes.UPDATE_USER_MEMBERSHIP_FAILED
+    };
+};
+
+export const updateUserMembershipSuccessful = () => {
+    return {
+        type: actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL,
+    };
+};
+
+export const listUserGroupsCreator = user => {
+    try {
+        const path = '/groups/' + user.user.username + '/all';
+        return baseGetCreator(path, listingUserGroups, listUserGroupsSuccessful, listUserGroupsFailed);
+    } catch (e) {
+        listUserGroupsFailed();
+        console.error(e);
+    }
+};
+
+export const searchGroupsCreator = (user, query) => {
+    const path = '/groups/by-filters?name=' + query.groupName + '&categoryId=' + query.categoryId;
+    return baseGetCreator(path, searchingGroups, searchGroupsSuccessful, searchGroupsFailed);
+};
+
+export const getGroupCreator = (user, groupId) => {
+    groupId = 1; //By testing
+    const path = '/groups/' + groupId;
+    return baseGetCreator(path, gettingGroup, getGroupSuccessful, getGroupFailed);
+};
+
+
+export const updateUserMembershipCreator = (user, groupId, request) => {
+    try {
+        const body = JSON.stringify(new UpdateUserMembership(new User(request.targetUserId), request.status, request.role));
+        const path = '/groups/' + groupId + '/update-membership';
+
+        return basePutCreator(path, body, updatingUserMembership, updateUserMembershipSuccessful, updateUserMembershipFailed);
+    } catch (e) {
+        updateUserMembershipFailed();
+    }
+};
+
+export const updateGroupCreator = (user, group) => {
+    try {
+        const body = new FormData();
+        const groupBlob = new Blob([JSON.stringify(group)], {
+            type: 'application/json'
+        });
+        body.append('group', groupBlob);
+
+        return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, createGroupFailed);
+    } catch (e) {
+        createGroupFailed();
+    }
 };

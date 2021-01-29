@@ -98,7 +98,7 @@ function GroupAdmin(props) {
         setDisableButton(true);
     };
 
-    return <Container component="main" maxWidth={"md"} className={classes.container + ', container__main'}>
+    return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
         <Loader isOpen={props.group.isFetching}/>
 
         <img

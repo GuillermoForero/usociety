@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
+import Loader from "../../components/Loader/Loader";
 
 function Copyright() {
     return (
@@ -64,17 +65,21 @@ function SignIn(props) {
         });
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = e => {
+        e.preventDefault();
         props.dispatch(loginUserCreator(user));
     };
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/group/administration')
+            history.push('/master2')
     }, [props.data.logged]);
+
 
     return (
         <Container component="main" maxWidth="xs">
+            <Loader isOpen={props.data.isFetching}/>
+
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -115,7 +120,8 @@ function SignIn(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={e => handleSubmit(e)}
+                        onClick={(e) => handleSubmit(e)}
+                        type="submit"
                     >
                         Sign In
                     </Button>

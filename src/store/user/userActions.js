@@ -18,15 +18,15 @@ export const createdUser = user => {
     };
 };
 
-export const receivedError = () => {
-    return {
-        type: actionTypes.RECEIVED_ERROR
-    };
-};
-
 export const loggingUser = () => {
     return {
         type: actionTypes.LOGGING_USER,
+    };
+};
+
+export const receivedError = () => {
+    return {
+        type: actionTypes.RECEIVED_ERROR
     };
 };
 

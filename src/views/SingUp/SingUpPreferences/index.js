@@ -14,6 +14,7 @@ import {loadCategoriesCreator, updateUserCategoriesCreator} from "../../../store
 
 import {connect} from 'react-redux';
 import {useHistory} from "react-router";
+import Loader from "../../../components/Loader/Loader";
 
 
 function Copyright() {
@@ -74,12 +75,16 @@ function SingUpPreferences(props) {
     const handleOnSaveClick = (e) => {
         e.preventDefault();
         props.dispatch(updateUserCategoriesCreator(checked, props.user));
-        if (!props.category.isError)
-            history.push('/master')
     };
+
+    useEffect(() => {
+        if (props.data.operationCompleted)
+            history.push('/master')
+    }, [props.data.operationCompleted]);
 
     return (
         <Container component="main" maxWidth="xs">
+            <Loader isOpen={props.data.isFetching}/>
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -94,7 +99,7 @@ function SingUpPreferences(props) {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            {!props.data.isFetching && props.data.categories.map(category =>
+                            {props.data.categories.map(category =>
                                 (<FormControlLabel
                                     style={{display: 'block'}}
                                     key={category.id}

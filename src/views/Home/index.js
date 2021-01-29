@@ -4,27 +4,13 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import MenuIcon from '@material-ui/icons/Menu';
-import {
-    AppBar,
-    IconButton,
-    Menu,
-    MenuItem,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Toolbar
-} from "@material-ui/core";
-import {AccountCircle} from "@material-ui/icons";
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
 import Image from 'material-ui-image';
 
 import {connect} from 'react-redux';
 import {listUserGroupsCreator} from "../../store/group/groupActions";
+import Loader from "../../components/Loader/Loader";
 
 function Copyright() {
     return (
@@ -65,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 function Master(props) {
     const classes = useStyles();
 
-    useEffect(()=>{
+    useEffect(() => {
         props.dispatch(listUserGroupsCreator(props.user))
     }, []);
 
@@ -74,11 +60,12 @@ function Master(props) {
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
+                {<Loader isOpen={props.group.isFetching}/>}
                 <TableContainer component={Paper}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                    <TableCell align="left"/>
+                                <TableCell align="left"/>
                                 <TableCell align="left">Nombre</TableCell>
                                 <TableCell align="center">Categoria</TableCell>
                                 <TableCell align="center">Acción</TableCell>
@@ -87,10 +74,10 @@ function Master(props) {
                         <TableBody>
                             {rows.map((row) => (
                                 <TableRow key={row.id}>
-                                    <TableCell align="left" >
+                                    <TableCell align="left">
                                         <Image
                                             src={row.photo}
-                                            aspectRatio={(4/3)}
+                                            aspectRatio={(4 / 3)}
                                         />
                                     </TableCell>
                                     <TableCell align="left">

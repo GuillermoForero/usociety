@@ -63,7 +63,6 @@ export const updateUserCategoriesCreator = (categoryIds, user) => {
         let list = [];
         categoryIds.map(categoryId => list.push(new Category(categoryId)));
 
-        console.log(JSON.parse(user));
         var data = new FormData();
         var blob = new Blob([JSON.stringify(new UpdateUserCategories(list))], {
             type: 'application/json'
@@ -83,8 +82,8 @@ export const updateUserCategoriesCreator = (categoryIds, user) => {
         };
 
         try {
-            const response = await axios(config);
-            dispatch(userCategoriesUpdated(response.data))
+            await axios(config);
+            dispatch(userCategoriesUpdated())
         } catch (e) {
             dispatch(receivedError())
         }

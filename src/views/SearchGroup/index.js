@@ -24,6 +24,7 @@ import {searchGroupsCreator} from "../../store/group/groupActions";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
+import Loader from "../../components/Loader/Loader";
 
 function Copyright() {
     return (
@@ -69,6 +70,8 @@ function Master2(props) {
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
+                <Loader isOpen={props.group.isFetching || props.category.isFetching}/>
+
                 <Grid container spacing={1}>
                     <Grid container>
                         <TextField

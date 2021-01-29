@@ -11,10 +11,11 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './GroupAdmin.css';
 
 import {getGroupCreator, updateOrCreateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
-import CollapsableList from "../CollapsableList/CollapsableList";
-import ComplexCollapsableList from "../CollapsableList/ComplexCollapsableList";
+import CollapsableList from "../../components/CollapsableList/CollapsableList";
+import ComplexCollapsableList from "../../components/CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import Loader from "../../components/Loader/Loader";
 
 
 function GroupAdmin(props) {
@@ -90,9 +91,12 @@ function GroupAdmin(props) {
 
     const handleSaveClick = () => {
         props.dispatch(updateOrCreateGroupCreator(props.user.userData, data.group));
+        setDisableButton(true);
     };
 
     return <Container className='container__main'>
+        <Loader isOpen={props.group.isFetching}/>
+
         <img
             className='container__main-photo'
             src={image}

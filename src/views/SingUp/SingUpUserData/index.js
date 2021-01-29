@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +17,7 @@ import {saveUserCreator} from "../../../store/user/userActions";
 
 import {useHistory} from "react-router";
 import Image from "material-ui-image";
+import Loader from "../../../components/Loader/Loader";
 
 function Copyright() {
     return (
@@ -72,13 +73,14 @@ function SingUpUserData(props) {
     };
 
     const handleSubmit = async () => {
-        await props.dispatch(saveUserCreator(user));
+        props.dispatch(saveUserCreator(user));
+    };
 
-        //No funk, por async ↓.
-        if (!props.data.isError) {
+    useEffect(() => {
+        if (props.data.logged) {
             history.push('/preferences')
         }
-    };
+    }, [props.data.logged]);
 
     const onChangeFile = async files => {
         let imageUrl = URL.createObjectURL(files[0]);
@@ -88,10 +90,11 @@ function SingUpUserData(props) {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <Loader isOpen={props.data.isFetching}/>
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -110,7 +113,7 @@ function SingUpUserData(props) {
                                     objectFit: 'content'
                                 }}/>
                         </Grid>
-                    <Grid item xs={12}>
+                        <Grid item xs={12}>
                             <TextField
                                 name="photo"
                                 variant="outlined"
@@ -176,12 +179,6 @@ function SingUpUserData(props) {
                                 autoComplete="current-password"
                                 value={user.password}
                                 onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary"/>}
-                                label="I want to receive recommendations"
                             />
                         </Grid>
                     </Grid>

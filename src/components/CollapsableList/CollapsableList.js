@@ -7,11 +7,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
-import {ListItemSecondaryAction} from "@material-ui/core";
+import {ListItemSecondaryAction, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {useStyles} from "../../hooks/useStyles";
 
+import EditIcon from '@material-ui/icons/Edit';
 
 function CollapsableList(props) {
     const classes = useStyles();
@@ -20,6 +21,9 @@ function CollapsableList(props) {
     const handleClick = () => {
         setOpen(!open);
     };
+
+    let items = props.items;
+    const attributeName = props.attributeName;
 
     return <List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 
@@ -34,15 +38,29 @@ function CollapsableList(props) {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-                {props.items && props.items.length > 0 && props.items.map((item, index) =>
+
+                {items && items.length > 0 && items.map((item, index) =>
                     (item && (<ListItem key={index} button className={classes.nested}>
                         <ListItemIcon>
                         </ListItemIcon>
-                        <ListItemText primary={item}
+                        <TextField
+                            value={item}
+                            fullWidth
+                            onChange={(e) =>
+                                props.onchange(e, attributeName, index)
+                            }
                         />
-                        <ListItemSecondaryAction onClick={() => props.onclick(item)}>
-                            <IconButton edge="end" aria-label="comments">
-                                <DeleteIcon/>
+
+                        <ListItemSecondaryAction>
+                            <IconButton
+                                edge="end"
+                                aria-label="comments">
+                                <EditIcon/>
+                            </IconButton>
+                            <IconButton
+                                edge="end"
+                                aria-label="comments">
+                                <DeleteIcon  onClick={() => props.onclick(attributeName, item)}/>
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>)))}

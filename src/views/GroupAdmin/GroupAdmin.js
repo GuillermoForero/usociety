@@ -60,25 +60,13 @@ function GroupAdmin(props) {
         setDisableButton(false);
     };
 
-    const handleDeleteRuleClick = (element) => {
-        let updatedRules = data.group.rules.filter(rule => rule !== element);
+    const handleDeleteRulesOrObjectiveClick = (attributeName, targetValue) => {
+        let updatedObjectives = data.group[attributeName].filter(value => value !== targetValue);
         setData({
             ...data,
             group: {
                 ...data.group,
-                rules: updatedRules
-            }
-        });
-        setDisableButton(false);
-    };
-
-    const handleDeleteObjectiveClick = (element) => {
-        let updatedObjectives = data.group.objectives.filter(objective => objective !== element);
-        setData({
-            ...data,
-            group: {
-                ...data.group,
-                objectives: updatedObjectives
+                [attributeName]: updatedObjectives
             }
         });
         setDisableButton(false);
@@ -96,6 +84,19 @@ function GroupAdmin(props) {
     const handleSaveClick = () => {
         props.dispatch(updateGroupCreator(data.group));
         setDisableButton(true);
+    };
+
+    const handleChangeTextListField = (e, attributeName, itemPosition) => {
+        let updatedList = Object.assign([], data.group[attributeName]);
+        updatedList[itemPosition] = e.target.value;
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                [attributeName]: updatedList
+            }
+        });
+        setDisableButton(false);
     };
 
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
@@ -142,14 +143,20 @@ function GroupAdmin(props) {
             <Grid item xs={12}>
                 <CollapsableList
                     typeName='Reglas'
+                    attributeName='rules'
                     items={data.group.rules}
-                    onclick={handleDeleteRuleClick}/>
+                    onclick={handleDeleteRulesOrObjectiveClick}
+                    onchange={handleChangeTextListField}
+                />
             </Grid>
             <Grid item xs={12}>
                 <CollapsableList
                     typeName='Objetivos'
+                    attributeName='objectives'
                     items={data.group.objectives}
-                    onclick={handleDeleteObjectiveClick}/>
+                    onclick={handleDeleteRulesOrObjectiveClick}
+                    onchange={handleChangeTextListField}
+                />
             </Grid>
 
             <Grid item xs={12}>
@@ -158,7 +165,7 @@ function GroupAdmin(props) {
                     items={data.activeMembers}
                     onclick={handleCheckUserGroupMembership}
                 >
-                <GroupIcon/>
+                    <GroupIcon/>
                 </ComplexCollapsableList>
             </Grid>
             <Grid item xs={12}>

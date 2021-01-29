@@ -109,19 +109,19 @@ export const listUserGroupsCreator = user => {
     }
 };
 
-export const searchGroupsCreator = (user, query) => {
+export const searchGroupsCreator = (query) => {
     const path = '/groups/by-filters?name=' + query.groupName + '&categoryId=' + query.categoryId;
     return baseGetCreator(path, searchingGroups, searchGroupsSuccessful, searchGroupsFailed);
 };
 
-export const getGroupCreator = (user, groupId) => {
+export const getGroupCreator = (groupId) => {
     groupId = 1; //By testing
     const path = '/groups/' + groupId;
     return baseGetCreator(path, gettingGroup, getGroupSuccessful, getGroupFailed);
 };
 
 
-export const updateUserMembershipCreator = (user, groupId, request) => {
+export const updateUserMembershipCreator = (groupId, request) => {
     try {
         const body = JSON.stringify(new UpdateUserMembership(new User(request.targetUserId), request.status, request.role));
         const path = '/groups/' + groupId + '/update-membership';
@@ -132,7 +132,7 @@ export const updateUserMembershipCreator = (user, groupId, request) => {
     }
 };
 
-export const updateGroupCreator = (user, group) => {
+export const updateGroupCreator = (group) => {
     try {
         const body = new FormData();
         const groupBlob = new Blob([JSON.stringify(group)], {

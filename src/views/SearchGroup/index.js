@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {
     FormControl,
@@ -21,23 +19,10 @@ import {
 
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
-import {loadCategoriesCreator, test} from "../../store/category/categoryActions";
+import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 
 function Master2(props) {
@@ -56,7 +41,7 @@ function Master2(props) {
     const rows = props.group.groups;
 
     const handleSearchButtonClick = () => {
-        props.dispatch(searchGroupsCreator(props.user.userData, query));
+        props.dispatch(searchGroupsCreator(query));
     };
 
     const handleCategoryItemClick = categoryId => {
@@ -99,7 +84,7 @@ function Master2(props) {
                             </MenuItem>
                             {props.category && props.category.categories.map(category =>
                                 (<MenuItem
-                                    ket={category.id}
+                                    key={category.id}
                                     id={category.id}
                                     value={category.id}
                                     onClick={categoryId => handleCategoryItemClick(category.id)}

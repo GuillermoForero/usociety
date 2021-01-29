@@ -16,19 +16,6 @@ import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -72,8 +59,8 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/group/administration')
-    }, [props.data.logged]);
+            history.push('/master2')
+    }, [props.data.logged, history]);
 
 
     return (

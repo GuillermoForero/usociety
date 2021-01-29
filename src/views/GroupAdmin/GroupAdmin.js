@@ -35,7 +35,7 @@ function GroupAdmin(props) {
     });
 
     useEffect(() => {
-        props.dispatch(getGroupCreator(props.user.userData, props.groupId));
+        props.dispatch(getGroupCreator(props.groupId));
     }, []);
 
     useEffect(() => {
@@ -68,7 +68,7 @@ function GroupAdmin(props) {
     };
 
     const handleDeleteObjectiveClick = (element) => {
-        let updatedObjectives = data.group.objectives.filter(rule => rule !== element);
+        let updatedObjectives = data.group.objectives.filter(objective => objective !== element);
         setData({
             ...data,
             group: {
@@ -80,17 +80,16 @@ function GroupAdmin(props) {
     };
 
     const handleCheckUserGroupMembership = (userId, status) => {
-        props.dispatch(updateUserMembershipCreator(props.user.userData,
-            data.group.id,
+        props.dispatch(updateUserMembershipCreator(data.group.id,
             {
                 targetUserId: userId,
                 status: status
             }));
-        props.dispatch(getGroupCreator(props.user.userData, props.groupId));
+        props.dispatch(getGroupCreator(props.groupId));
     };
 
     const handleSaveClick = () => {
-        props.dispatch(updateGroupCreator(props.user.userData, data.group));
+        props.dispatch(updateGroupCreator(data.group));
         setDisableButton(true);
     };
 
@@ -100,7 +99,7 @@ function GroupAdmin(props) {
         <img
             className='container__main-photo'
             src={image}
-            alt="Group photo"
+            alt="Group"
         />
 
         <form className={classes.form}>

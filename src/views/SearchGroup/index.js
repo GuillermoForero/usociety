@@ -16,7 +16,7 @@ import CustomTable from "../../components/Table/Table";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: 'gray',
+        backgroundColor: 'var(--terciary)',
         color: theme.palette.common.white,
     },
     body: {

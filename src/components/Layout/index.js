@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         left: '0',
         top: '0',
-        backgroundColor: '#4051b5',
+        backgroundColor: 'var(--primary)',
         zIndex: 10
     },
     ancla: {
@@ -58,7 +58,7 @@ const Layout = (props) => {
 
     return <Fragment>
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="static" style={{backgroundColor: 'var(--primary)'}}>
                 <Toolbar style={{justifyContent: "space-between"}}>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon on onClick={() => setMenuLeft(true)}/>

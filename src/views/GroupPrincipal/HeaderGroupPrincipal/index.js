@@ -75,6 +75,7 @@ export default function HeaderGroupPrincipal() {
                             fullWidth
                             variant="contained"
                             color="primary"
+                            style={{backgroundColor: 'var(--primary)'}}
                             className={classes.submit}
                         >Unirse</Button>
                     </Box>

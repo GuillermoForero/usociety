@@ -7,6 +7,11 @@ import {AccountCircle} from "@material-ui/icons";
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import GroupIcon from '@material-ui/icons/Group';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -21,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     ancla: {
         textDecoration: 'none',
+        color: 'white'
+    },
+    button: {
         color: 'white'
     }
 }));
@@ -66,12 +74,26 @@ const Layout = (props) => {
                                 </ListItem>
                             <Link to={'/master'} className={classes.ancla}>
                                 <ListItem button>
+                                    <ListItemIcon>
+                                        <GroupIcon className={classes.button}/>
+                                    </ListItemIcon>
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>
                             </Link>
                             <Link to={'/master2'} className={classes.ancla}>
                                 <ListItem button href="#simple-list">
+                                    <ListItemIcon>
+                                        <GroupAdd className={classes.button}/>
+                                    </ListItemIcon>
                                     <ListItemText primary="Descubrir grupos" />
+                                </ListItem>
+                            </Link>
+                            <Link to={'/'} className={classes.ancla}>
+                                <ListItem button href="#simple-list">
+                                    <ListItemIcon>
+                                        <ExitToAppIcon className={classes.button}/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Cerrar sesión" />
                                 </ListItem>
                             </Link>
                         </List>

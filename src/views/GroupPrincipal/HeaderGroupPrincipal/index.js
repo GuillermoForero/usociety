@@ -45,10 +45,13 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '0',
         paddingRight: '0',
         overflow: 'hidden'
+    },
+    submit: {
+        justifyContent: 'space-between'
     }
 }));
 
-export default function HeaderGroupPrincipal() {
+export default function HeaderGroupPrincipal(props) {
     const classes = useStyles();
 
     return (
@@ -78,6 +81,14 @@ export default function HeaderGroupPrincipal() {
                             style={{backgroundColor: 'var(--primary)'}}
                             className={classes.submit}
                         >Unirse</Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                style={{backgroundColor: 'var(--primary)'}}
+                                className={classes.submit}
+                                onClick={() => props.handleCreatePost(true)}
+                            >Crear Post</Button>
                     </Box>
                 </Box>
             </Container>

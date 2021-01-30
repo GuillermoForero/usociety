@@ -10,6 +10,7 @@ import CreateGroup from "../../views/CreateGroup/CreateGroup";
 import GuardedRoute from "../GuardedRoute";
 import Home from "../../views/Home";
 import SearchGroup from "../../views/SearchGroup";
+import CreatePost from "../../views/GroupPrincipal/CreatePost";
 
 export default function App() {
     return (
@@ -17,6 +18,9 @@ export default function App() {
             <Switch>
                 <Route path="/" exact strict>
                         <SignIn/>
+                </Route>
+                <Route path="/hola" exact strict>
+                        <CreatePost/>
                 </Route>
                 <Route path="/signup" exact strict>
                         <SingUpUserData/>

@@ -172,6 +172,7 @@ export const createGroupCreator = (group) => {
             type: 'application/json'
         });
         body.append('group', groupBlob);
+        body.append('photo', group.photo);
 
         return basePostCreator('/groups/', body, creatingGroup, createdGroupSuccessful, createGroupFailed);
     } catch (e) {

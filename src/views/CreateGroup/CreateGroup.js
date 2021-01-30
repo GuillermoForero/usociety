@@ -17,17 +17,21 @@ import Button from "@material-ui/core/Button";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
+import Image from "material-ui-image";
 
 function CreateGroup(props) {
     const classes = useStyles();
-
-
+    const [image, setImage] = useState('https://pbs.twimg.com/profile_images/737629024919265281/c3xXF2Iw_400x400.jpg');
     const [data, setData] = useState({
         group: {
             name: '',
             description: '',
+            photo: '',
             rules: [],
             objectives: [],
+            category: {
+                id: ''
+            }
         }
     });
 
@@ -78,6 +82,13 @@ function CreateGroup(props) {
     };
 
     const handleCategoryItemClick = categoryId => {
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                category: {id: categoryId}
+            }
+        });
     };
 
     const handleAddRule = (attributeName) => {
@@ -92,9 +103,32 @@ function CreateGroup(props) {
         });
     };
 
+    const onChangeFile = async files => {
+        let imageUrl = URL.createObjectURL(files[0]);
+        setImage(imageUrl);
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                photo: files[0]
+            }
+        });
+    };
 
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
         <Loader isOpen={props.group.isFetching}/>
+
+        <Grid container>
+            <Grid item xs={2}>
+                <Image
+                    src={image}
+                    color={'rgba(0,0,0,0)'}
+                    imageStyle={{
+                        borderRadius: '50px',
+                        objectFit: 'contain'
+                    }}/>
+            </Grid>
+        </Grid>
 
         <FormControl className={classes.formControl} fullWidth style={{marginTop: '10px'}}>
             <Grid container style={{flexDirection: 'column'}} spacing={2}>
@@ -104,9 +138,11 @@ function CreateGroup(props) {
                         variant="outlined"
                         fullWidth
                         id="photo"
-                        //label="Foto"
                         type='file'
                         required
+                        onChange={e => {
+                            onChangeFile([...e.target.files]);
+                        }}
                     />
                 </Grid>
 
@@ -190,7 +226,7 @@ function CreateGroup(props) {
             <Button
                 variant="contained"
                 color="primary"
-                style={{backgroundColor: 'var(--terciary)'}}
+                style={{backgroundColor: 'var(--primary)'}}
                 className={classes.submit}
                 onClick={handleSaveClick}
             >

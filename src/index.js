@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "./App";
+import App from "./components/App/App";
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+import {Provider} from "react-redux";
+import store from "./store/store";
+import './global.css';
+
+ReactDOM.render(<Provider store={store}><App/></Provider>, document.querySelector('#app'));

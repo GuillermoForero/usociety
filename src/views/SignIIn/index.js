@@ -81,10 +81,10 @@ function SignIn(props) {
                         margin="normal"
                         required
                         fullWidth
-                        id="username"
-                        label="Alias"
-                        name="username"
-                        autoComplete="username"
+                        id="Usuario"
+                        label="Usuario"
+                        name="Usuario"
+                        autoComplete="Usuario"
                         autoFocus
                         value={user.username}
                         onChange={e => handleChange(e)}
@@ -94,9 +94,9 @@ function SignIn(props) {
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
+                        name="Contraseña"
+                        label="Contraseña"
+                        type="Contraseña"
                         id="password"
                         autoComplete="current-password"
                         value={user.password}
@@ -110,17 +110,17 @@ function SignIn(props) {
                         onClick={(e) => handleSubmit(e)}
                         type="submit"
                     >
-                        Sign In
+                        Ingresar
                     </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link href="/" variant="body2">
-                                Forgot password?
+                                ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
                             <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                {"¿No tienes cuenta? Registrate"}
                             </Link>
                         </Grid>
                     </Grid>

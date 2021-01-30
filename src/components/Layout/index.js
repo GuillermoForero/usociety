@@ -72,10 +72,10 @@ const Layout = (props) => {
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                            <Link to={'/master'} className={classes.ancla}>
                                 <ListItem button onClick={() => setMenuLeft(false)}>
-                                    <MenuIcon on onClick={() => setMenuLeft(false)}/>
+                                    <MenuIcon onClick={() => setMenuLeft(false)}/>
                                 </ListItem>
+                            <Link to={'/master'} className={classes.ancla}>
                                 <ListItem button>
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>

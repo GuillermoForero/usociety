@@ -105,7 +105,7 @@ function SingUpUserData(props) {
                                 color={'rgba(0,0,0,0)'}
                                 imageStyle={{
                                     borderRadius: '100px',
-                                    objectFit: 'content'
+                                    objectFit: 'cover'
                                 }}/>
                         </Grid>
                         <Grid item xs={12}>

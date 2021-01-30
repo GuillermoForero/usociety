@@ -19,6 +19,19 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
+const StyledTableRow = withStyles((theme) => ({
+    root: {
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        '*': {
+            fontFamily: 'lato',
+            fontSize: '15px',
+        }
+    },
+}))(TableRow);
+
+
 const useStyles = makeStyles((theme) => ({
         paper: {
             marginTop: theme.spacing(8),
@@ -39,16 +52,14 @@ const useStyles = makeStyles((theme) => ({
         },
         submit: {
             margin: theme.spacing(3, 0, 2),
-        },
-        table: {
-            fontFamily: 'lato',
-            fontSize: '15px',
         }
     }))
 ;
 
 function CustomTable(props) {
     const classes = useStyles();
+
+    let defaultGroupImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvOG20v4uuVi8OimyyVYks8ITGovRRlSbmUQ&usqp=CAU';
 
     return <Container component="main" maxWidth={"md"} className={classes.container}>
         <TableContainer component={Paper}>
@@ -57,19 +68,23 @@ function CustomTable(props) {
                     <TableRow>
                         <StyledTableCell align="left"/>
                         <StyledTableCell align="left">Nombre</StyledTableCell>
-                        <StyledTableCell align="center">Categoria</StyledTableCell>
+                        <StyledTableCell align="left">Categoria</StyledTableCell>
+                        <StyledTableCell align="center">Descripción</StyledTableCell>
                         <StyledTableCell align="center">Acción</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.rows.map((row) => (
-                        <TableRow key={row.id}>
+                        <StyledTableRow key={row.id}>
                             <TableCell calign="left">
-                                <Image
+                                {<Image
                                     className={classes.table}
-                                    src={row.photo}
-                                    aspectRatio={(4 / 3)}
-                                />
+                                    src={row.photo || defaultGroupImage}
+                                    color={'rgba(0,0,0,0)'}
+                                    imageStyle={{
+                                        borderRadius: '100px',
+                                        objectFit: 'cover'
+                                    }}/>}
                             </TableCell>
                             <TableCell
                                 className={classes.table}
@@ -78,8 +93,20 @@ function CustomTable(props) {
                             </TableCell>
                             <TableCell
                                 className={classes.table}
-                                align="center">
+                                align="left">
                                 {row.category.name}
+                            </TableCell>
+                            <TableCell
+                                className={classes.table}
+                                align="center"
+                                style={{
+                                    maxWidth: '100px',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden'
+                                }}
+                            >
+                                {row.description}
                             </TableCell>
                             <TableCell
                                 className={classes.table}
@@ -93,7 +120,7 @@ function CustomTable(props) {
                                     </Button>
                                 </Link>
                             </TableCell>
-                        </TableRow>))}
+                        </StyledTableRow>))}
                 </TableBody>
             </Table>
         </TableContainer>

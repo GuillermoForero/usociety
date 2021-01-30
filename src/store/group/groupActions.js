@@ -14,15 +14,16 @@ const creatingGroup = () => {
     };
 };
 
-const createGroupFailed = () => {
+const createGroupFailed = (errorDescription) => {
     return {
-        type: actionTypes.CREATE_GROUP_FAILED
+        type: actionTypes.CREATE_GROUP_FAILED,
+        payload: {error: errorDescription}
     };
 };
 
 const createdGroupSuccessful = () => {
     return {
-        type: actionTypes.CREATE_GROUP_FAILED
+        type: actionTypes.CREATE_GROUP_SUCCESSFUL
     };
 };
 
@@ -161,7 +162,7 @@ export const updateGroupCreator = (group) => {
 
         return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, updateGroupFailed);
     } catch (e) {
-        updateGroupFailed();
+        return updateGroupFailed();
     }
 };
 
@@ -176,6 +177,6 @@ export const createGroupCreator = (group) => {
 
         return basePostCreator('/groups/', body, creatingGroup, createdGroupSuccessful, createGroupFailed);
     } catch (e) {
-        updateGroupFailed();
+        return updateGroupFailed('Error general');
     }
 };

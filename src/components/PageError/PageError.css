@@ -1,3 +1,12 @@
 .container__on-error {
-    color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container__on-error-buttons {
+    display: flex;
+    justify-content: flex-end;
 }

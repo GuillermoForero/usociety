@@ -16,8 +16,7 @@ export const get = async (path, dispatch, successCallback, errorCallback, getSta
         const response = await axios(config);
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
-        dispatch(errorCallback());
-        console.error(e);
+        processError(e, dispatch, errorCallback);
     }
 };
 
@@ -41,8 +40,7 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
         const response = await axios(config);
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
-        console.log(e);
-        dispatch(errorCallback())
+        processError(e, dispatch, errorCallback);
     }
 };
 
@@ -66,8 +64,7 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
         const response = await axios(config);
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
-        dispatch(errorCallback());
-        console.error(e);
+        processError(e, dispatch, errorCallback);
     }
 };
 
@@ -82,4 +79,11 @@ function buildAuthorizationToken(getState) {
 
 function processResponse(response) {
     return JSON.parse(JSON.stringify(response.data));
+}
+
+function processError(e, dispatch, errorCallback) {
+    let data = e.response.data;
+    const responseError = data.description;
+    dispatch(errorCallback(responseError));
+    console.log(responseError);
 }

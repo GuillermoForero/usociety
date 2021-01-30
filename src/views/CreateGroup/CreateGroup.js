@@ -18,9 +18,12 @@ import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import Image from "material-ui-image";
+import PageError from "../../components/PageError/PageError";
+import {useHistory} from "react-router";
 
 function CreateGroup(props) {
     const classes = useStyles();
+    const history = useHistory();
     const [image, setImage] = useState('https://pbs.twimg.com/profile_images/737629024919265281/c3xXF2Iw_400x400.jpg');
     const [data, setData] = useState({
         group: {
@@ -115,8 +118,21 @@ function CreateGroup(props) {
         });
     };
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
+    useEffect(() => {
+        if (props.group.operationCompleted) {
+            history.push('/home');
+        }
+    }, [props.group.operationCompleted]);
+
+
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
         <Loader isOpen={props.group.isFetching}/>
+        <PageError isOpen={props.group.isError} onclose={handleClosePageError}
+                   errorDescription={props.group.errorDescription}/>
 
         <Grid container>
             <Grid item xs={2}>

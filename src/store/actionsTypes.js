@@ -1,4 +1,5 @@
 export const RECEIVED_ERROR = 'RECEIVED_ERROR';
+export const RESET_ERROR = 'RESET_ERROR';
 export const SET_MAIN_TITLE = 'SET_MAIN_TEXT';
 
 export const LOADING_CATEGORIES = 'LOADING_CATEGORIES';

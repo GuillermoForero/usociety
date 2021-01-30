@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import HeaderGroupPrincipal from "./HeaderGroupPrincipal";
 import RecipeReviewCard from "./Card";
 import Chat from "./Chat";
-import {useHistory, useParams} from "react-router";
+import {useParams} from "react-router";
 import CreatePost from "./CreatePost";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
 export default function GroupPrincipal(props) {
     const classes = useStyles();
     const {slug} = useParams();
-    const [showCreatePost, setShowCreatePost] = useState(false)
+    const [showCreatePost, setShowCreatePost] = useState(false);
+
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>

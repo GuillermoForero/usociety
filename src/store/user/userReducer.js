@@ -5,7 +5,8 @@ const initialState = {
     logged: false,
     userData: {},
     isFetching: false,
-    isError: false
+    isError: false,
+    errorDescription: ''
 };
 
 const userReducer = (state = initialState, action) => {
@@ -22,6 +23,7 @@ const userReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 isError: true,
                 isFetching: false,
+                errorDescription: action.payload.error
             });
         case actionTypes.USER_CREATED:
         case actionTypes.USER_LOGGED:
@@ -31,6 +33,13 @@ const userReducer = (state = initialState, action) => {
                 isFetching: false,
                 logged: true,
             });
+        case actionTypes.RESET_ERROR: {
+            return Object.assign({}, state, {
+                ...state,
+                isError: false,
+                errorDescription: ''
+            });
+        }
         default:
             return state;
     }

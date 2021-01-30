@@ -16,6 +16,8 @@ import {saveUserCreator} from "../../../store/user/userActions";
 import {useHistory} from "react-router";
 import Image from "material-ui-image";
 import Loader from "../../../components/Loader/Loader";
+import * as actionTypes from "../../../store/actionsTypes";
+import PageError from "../../../components/PageError/PageError";
 
 function Copyright() {
     return (
@@ -86,9 +88,15 @@ function SingUpUserData(props) {
         setUser({...user, image: files[0]});
     };
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
     return (
         <Container component="main" maxWidth="xs">
             <Loader isOpen={props.data.isFetching}/>
+            <PageError isOpen={props.data.isError} onclose={handleClosePageError} errorDescription={props.data.errorDescription}/>
+
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

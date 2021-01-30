@@ -40,8 +40,8 @@ export default function GroupPrincipal(props) {
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
-                {showCreatePost && <CreatePost />}
                 <HeaderGroupPrincipal handleCreatePost={setShowCreatePost} />
+                {showCreatePost && <CreatePost />}
                 <RecipeReviewCard />
                 <RecipeReviewCard />
                 <RecipeReviewCard />

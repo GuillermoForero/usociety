@@ -14,7 +14,7 @@ import ImageIcon from '@material-ui/icons/Image';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: '80%',
+        width: '100%',
         position: 'relative',
         marginTop: '40px'
     },

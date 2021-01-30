@@ -15,6 +15,8 @@ const StyledTableCell = withStyles((theme) => ({
     head: {
         backgroundColor: 'gray',
         color: theme.palette.common.white,
+        fontFamily: 'lato',
+        fontSize: '16px'
     },
     body: {
         fontSize: 14,
@@ -42,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    table: {
+        fontFamily: 'lato'
+    }
 }));
 
 function Master(props) {

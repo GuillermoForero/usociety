@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: 'gray',
+        backgroundColor: 'var(--cuaterciary)',
         color: theme.palette.common.white,
         fontFamily: 'lato',
         fontSize: '16px',
@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
         },
         submit: {
             margin: theme.spacing(3, 0, 2),
+            backgroundColor: 'var(--primary)'
         }
     }))
 ;
@@ -115,7 +116,8 @@ function CustomTable(props) {
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        className={classes.submit}>
+                                        className={classes.submit}
+                                    >
                                         {props.buttonText}
                                     </Button>
                                 </Link>

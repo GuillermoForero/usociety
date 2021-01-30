@@ -9,6 +9,10 @@
 }
 
 
+a {
+    text-decoration: none;
+}
+
 :root {
     --primary: #45639D;
     --secondary: #99AED6;

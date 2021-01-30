@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
+import PageError from "../../components/PageError/PageError";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 function SignIn(props) {
     const classes = useStyles();
     const history = useHistory();
+    const [showErrorModal, setShowErrorModal] = useState(true);
 
     const [user, setUser] = useState({
         'username': '',
@@ -63,15 +65,19 @@ function SignIn(props) {
             history.push('/home')
     }, [props.data.logged, history]);
 
+    const handleClosePageError = () => {
+        setShowErrorModal(!showErrorModal);
+    };
 
     return (
         <Container component="main" maxWidth="xs">
             <Loader isOpen={props.data.isFetching}/>
+            <PageError isOpen={showErrorModal} onclose={handleClosePageError}/>
 
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5" style={{color: 'var(--quitiary)'}}>
                     U Society

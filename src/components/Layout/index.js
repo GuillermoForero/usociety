@@ -60,13 +60,13 @@ const Layout = (props) => {
         <div className={classes.root}>
             <AppBar position="static" style={{backgroundColor: 'var(--primary)'}}>
                 <Toolbar style={{justifyContent: "space-between"}}>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon on onClick={() => setMenuLeft(true)}/>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setMenuLeft(true)}>
+                        <MenuIcon/>
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                                <ListItem button style={{cursor:'default'}}>
-                                    <MenuIcon onClick={() => setMenuLeft(false)} button style={{cursor:'pointer'}}/>
+                                <ListItem button style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
+                                    <MenuIcon  button style={{cursor:'pointer'}}/>
                                 </ListItem>
                             <Link to={'/home'} className={classes.ancla}>
                                 <ListItem button>

@@ -96,11 +96,10 @@ function SearchGroup(props) {
                     <Grid container item xs={12} spacing={3} style={{display: 'flex', justifyContent: 'center'}}>
                         <Button
                             variant="contained"
-                            color="default"
+                            color="primary"
                             className={classes.submit}
-                            style={{marginTop: '30px'}}
+                            style={{marginTop: '30px', backgroundColor:'var(--primary)'}}
                             onClick={handleSearchButtonClick}
-                            disabled={(!query.groupName && !query.categoryId)}
                         >
                             Buscar
                         </Button>
@@ -108,8 +107,8 @@ function SearchGroup(props) {
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
                 </Grid>
-                <CustomTable rows={rows} buttonText='Visualizar'/>
             </Container>
+            <CustomTable rows={rows} buttonText='Visualizar'/>
         </>
 
     );

@@ -21,14 +21,42 @@ a {
     --quitiary: #1A3771;
 }
 
-.color-secondary-1-0 { color: #5C49A2 }
-.color-secondary-1-1 { color: #A99DD9 }
-.color-secondary-1-2 { color: #7D6CBC }
-.color-secondary-1-3 { color: #453191 }
-.color-secondary-1-4 { color: #2F1D75 }
+.color-secondary-1-0 {
+    color: #5C49A2
+}
 
-.color-secondary-2-0 { color: #37918A }
-.color-secondary-2-1 { color: #8ED0CB }
-.color-secondary-2-2 { color: #59ABA5 }
-.color-secondary-2-3 { color: #20817A }
-.color-secondary-2-4 { color: #0F6862 }
+.color-secondary-1-1 {
+    color: #A99DD9
+}
+
+.color-secondary-1-2 {
+    color: #7D6CBC
+}
+
+.color-secondary-1-3 {
+    color: #453191
+}
+
+.color-secondary-1-4 {
+    color: #2F1D75
+}
+
+.color-secondary-2-0 {
+    color: #37918A
+}
+
+.color-secondary-2-1 {
+    color: #8ED0CB
+}
+
+.color-secondary-2-2 {
+    color: #59ABA5
+}
+
+.color-secondary-2-3 {
+    color: #20817A
+}
+
+.color-secondary-2-4 {
+    color: #0F6862
+}

@@ -1,4 +1,3 @@
-import store from "../store";
 import * as actionTypes from '../actionsTypes';
 
 

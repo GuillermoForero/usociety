@@ -92,7 +92,7 @@ function SingUpPreferences(props) {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Tus preferencias
+                    Configura tus preferencias
                 </Typography>
                 <div style={{marginTop: "10px"}}>
                     <Typography component="p" variant="subtitle1">Selecciona los temas que te interesan</Typography>

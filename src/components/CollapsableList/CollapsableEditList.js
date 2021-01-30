@@ -13,14 +13,30 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {useStyles} from "../../hooks/useStyles";
 
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
+
 
 function CollapsableEditList(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [editableList, setEditableList] = useState({});
 
     const handleClick = () => {
         setOpen(!open);
+    };
+
+    const handleEditClick = key => {
+        let updatedEditableList = Object.assign({}, editableList);
+        if (updatedEditableList[key] === undefined) {
+            updatedEditableList[key] = true;
+        } else {
+            updatedEditableList[key] = !updatedEditableList[key];
+        }
+        setEditableList(updatedEditableList);
+    };
+
+    const handleDeleteClick = (item) => {
+        props.onclick(attributeName, item);
+        setEditableList({});
     };
 
     let items = props.items;
@@ -55,13 +71,16 @@ function CollapsableEditList(props) {
                         <ListItemSecondaryAction>
                             <IconButton
                                 edge="end"
-                                aria-label="comments">
+                                aria-label="comments"
+                                disabled={editableList[index]}
+                                onClick={() => handleEditClick(index)}
+                            >
                                 <EditIcon/>
                             </IconButton>
                             <IconButton
                                 edge="end"
                                 aria-label="comments"
-                                onClick={() => props.onclick(attributeName, item)}
+                                onClick={() => handleDeleteClick(item)}
                             >
                                 <DeleteIcon/>
                             </IconButton>

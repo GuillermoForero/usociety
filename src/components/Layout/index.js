@@ -1,23 +1,18 @@
 import React, {Fragment} from 'react';
-import {
-    AppBar,
-    IconButton, List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    makeStyles,
-    Menu,
-    MenuItem,
-    Toolbar
-} from "@material-ui/core";
+import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
-import { FixedSizeList } from 'react-window';
+import Divider from '@material-ui/core/Divider';
 
-import {connect, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import GroupIcon from '@material-ui/icons/Group';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -32,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     },
     ancla: {
         textDecoration: 'none',
+        color: 'white'
+    },
+    button: {
         color: 'white'
     }
 }));
@@ -53,15 +51,10 @@ const Layout = (props) => {
     const [menuLeft, setMenuLeft] = React.useState(false);
     const open = Boolean(anchorEl);
     const mainTitle = useSelector(state => state.global.mainTitle);
-    const itemsMenu = {text: 'hola mundo en java', index: 1};
+
     const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
+        //open edit profile view
     };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
 
     return <Fragment>
         <div className={classes.root}>
@@ -72,17 +65,33 @@ const Layout = (props) => {
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                                <ListItem button onClick={() => setMenuLeft(false)}>
-                                    <MenuIcon onClick={() => setMenuLeft(false)}/>
+                                <ListItem button style={{cursor:'default'}}>
+                                    <MenuIcon onClick={() => setMenuLeft(false)} button style={{cursor:'pointer'}}/>
                                 </ListItem>
                             <Link to={'/master'} className={classes.ancla}>
                                 <ListItem button>
+                                    <ListItemIcon>
+                                        <GroupIcon className={classes.button}/>
+                                    </ListItemIcon>
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>
                             </Link>
                             <Link to={'/master2'} className={classes.ancla}>
                                 <ListItem button href="#simple-list">
+                                    <ListItemIcon>
+                                        <GroupAdd className={classes.button}/>
+                                    </ListItemIcon>
                                     <ListItemText primary="Descubrir grupos" />
+                                </ListItem>
+                            </Link>
+
+                            <Divider/>
+                            <Link to={'/'} className={classes.ancla}>
+                                <ListItem button href="#simple-list">
+                                    <ListItemIcon>
+                                        <ExitToAppIcon className={classes.button}/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Cerrar sesión" />
                                 </ListItem>
                             </Link>
                         </List>
@@ -101,24 +110,6 @@ const Layout = (props) => {
                             >
                                 <AccountCircle/>
                             </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                            </Menu>
                         </div>
                     )}
                 </Toolbar>

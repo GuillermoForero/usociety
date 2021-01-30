@@ -23,6 +23,17 @@ import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
+import {withStyles} from "@material-ui/core/styles";
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: 'gray',
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
 
 
 function Master2(props) {
@@ -108,13 +119,13 @@ function Master2(props) {
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
                 </Grid>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} style={{marginTop:'20px'}}>
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Nombre</TableCell>
-                                <TableCell align="center">Categoria</TableCell>
-                                <TableCell align="center">Acción</TableCell>
+                                <StyledTableCell>Nombre</StyledTableCell>
+                                <StyledTableCell align="center">Categoria</StyledTableCell>
+                                <StyledTableCell align="center">Acción</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

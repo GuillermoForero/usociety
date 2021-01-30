@@ -3,6 +3,7 @@ import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} f
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
+import Divider from '@material-ui/core/Divider';
 
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
@@ -55,11 +56,6 @@ const Layout = (props) => {
         //open edit profile view
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-
     return <Fragment>
         <div className={classes.root}>
             <AppBar position="static">
@@ -88,6 +84,8 @@ const Layout = (props) => {
                                     <ListItemText primary="Descubrir grupos" />
                                 </ListItem>
                             </Link>
+
+                            <Divider/>
                             <Link to={'/'} className={classes.ancla}>
                                 <ListItem button href="#simple-list">
                                     <ListItemIcon>

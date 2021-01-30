@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 
@@ -13,18 +11,15 @@ import {listUserGroupsCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        backgroundColor: 'gray',
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}))(TableCell);
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -67,10 +62,10 @@ function Master(props) {
                     <Table className={classes.table}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left"/>
-                                <TableCell align="left">Nombre</TableCell>
-                                <TableCell align="center">Categoria</TableCell>
-                                <TableCell align="center">Acción</TableCell>
+                                <StyledTableCell align="left"/>
+                                <StyledTableCell align="left">Nombre</StyledTableCell>
+                                <StyledTableCell align="center">Categoria</StyledTableCell>
+                                <StyledTableCell align="center">Acción</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

@@ -3,19 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import {
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow
-} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select, TableCell} from "@material-ui/core";
 
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
@@ -24,6 +12,7 @@ import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
 import {withStyles} from "@material-ui/core/styles";
+import CustomTable from "../../components/Table/Table";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -119,34 +108,7 @@ function SearchGroup(props) {
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
                 </Grid>
-                <TableContainer component={Paper} style={{marginTop:'20px'}}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Nombre</StyledTableCell>
-                                <StyledTableCell align="center">Categoria</StyledTableCell>
-                                <StyledTableCell align="center">Acción</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.category.name}</TableCell>
-                                    <TableCell align="center"><Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                    >
-                                        Entrar
-                                    </Button></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <CustomTable rows={rows}/>
             </Container>
         </>
 

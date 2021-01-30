@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Menu, MenuItem, Toolbar} from "@material-ui/core";
+import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
@@ -50,9 +50,9 @@ const Layout = (props) => {
     const [menuLeft, setMenuLeft] = React.useState(false);
     const open = Boolean(anchorEl);
     const mainTitle = useSelector(state => state.global.mainTitle);
-    const itemsMenu = {text: 'hola mundo en java', index: 1};
+
     const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
+        //open edit profile view
     };
 
     const handleClose = () => {
@@ -112,24 +112,6 @@ const Layout = (props) => {
                             >
                                 <AccountCircle/>
                             </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                            </Menu>
                         </div>
                     )}
                 </Toolbar>

@@ -36,7 +36,7 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 
-function Master2(props) {
+function SearchGroup(props) {
     const classes = useStyles();
 
     const [query, setQuery] = useState({
@@ -162,4 +162,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Master2);
+export default connect(mapStateToProps)(SearchGroup);

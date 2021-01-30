@@ -13,7 +13,7 @@ import * as actionTypes from "../../store/actionsTypes";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: 'gray',
+        backgroundColor: 'var(--terciary)',
         color: theme.palette.common.white,
         fontFamily: 'lato',
         fontSize: '16px'
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function Master(props) {
+function Home(props) {
     const classes = useStyles();
 
     useEffect(() => {
@@ -111,4 +111,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Master);
+export default connect(mapStateToProps)(Home);

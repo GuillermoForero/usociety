@@ -3,46 +3,43 @@ import {BrowserRouter as Router, Route, Switch,} from "react-router-dom";
 import SignIn from "../../views/SignIIn";
 import SingUpPreferences from "../../views/SingUp/SingUpPreferences";
 import SingUpUserData from "../../views/SingUp/SingUpUserData";
-import Master from "../../views/Home";
 import GroupPrincipal from "../../views/GroupPrincipal";
-import Chat from "../../views/GroupPrincipal/Chat";
-import Master2 from "../../views/SearchGroup";
 import Layout from "../Layout";
 import GroupAdmin from "../../views/GroupAdmin/GroupAdmin";
 import CreateGroup from "../../views/CreateGroup/CreateGroup";
+import GuardedRoute from "../GuardedRoute";
+import Home from "../../views/Home";
+import SearchGroup from "../../views/SearchGroup";
 
 export default function App() {
     return (
         <Router>
             <Switch>
                 <Route path="/" exact strict>
-                    <SignIn/>
+                        <SignIn/>
                 </Route>
                 <Route path="/signup" exact strict>
-                    <SingUpUserData/>
+                        <SingUpUserData/>
                 </Route>
                 <Route path="/preferences" exact strict>
-                    <SingUpPreferences/>
+                        <SingUpPreferences/>
                 </Route>
-
                 <Layout>
-                    <Route path="/master" exact strict>
-                        <Master/>
+                    <Route path="/home" exact strict>
+                        <GuardedRoute component={Home}/>
                     </Route>
-                    <Route path="/master2" exact strict>
-                        <Master2/>
+                    <Route path="/search" exact strict>
+                        <GuardedRoute component={SearchGroup}/>
                     </Route>
-                    <Route path="/groupPrincipal" exact strict>
-                        <GroupPrincipal/>
-                    </Route>
-                    <Route path="/chat" exact strict>
-                        <Chat/>
+                    <Route path="/group/principal" exact strict>
+                        <GuardedRoute component={GroupPrincipal}>
+                        </GuardedRoute>
                     </Route>
                     <Route path="/group/create" exact strict>
-                        <CreateGroup/>
+                        <GuardedRoute component={CreateGroup}/>
                     </Route>
                     <Route path="/group/management" exact strict>
-                        <GroupAdmin/>
+                        <GuardedRoute component={GroupAdmin}/>
                     </Route>
                 </Layout>
             </Switch>

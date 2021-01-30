@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: 'var(--primary)'
     },
 }));
 
@@ -188,7 +189,7 @@ function SingUpUserData(props) {
 
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/" variant="body2">
+                            <Link href="/" variant="body2" style={{color: 'var(--quitiary)'}}>
                                 ¿Ya tienes cuenta? Ingresa
                             </Link>
                         </Grid>

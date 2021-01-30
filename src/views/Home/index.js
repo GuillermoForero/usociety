@@ -6,8 +6,7 @@ import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
 import CustomTable from "../../components/Table/Table";
 
-
-function Master(props) {
+function Home(props) {
 
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'USociety'}});
@@ -29,4 +28,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Master);
+export default connect(mapStateToProps)(Home);

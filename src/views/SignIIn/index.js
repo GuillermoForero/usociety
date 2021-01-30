@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: 'var(--primary)',
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: 'var(--primary)'
     },
 }));
 
@@ -70,9 +71,9 @@ function SignIn(props) {
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
+                    <LockOutlinedIcon />
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" style={{color: 'var(--quitiary)'}}>
                     U Society
                 </Typography>
                 <form className={classes.form} noValidate>
@@ -114,12 +115,12 @@ function SignIn(props) {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/" variant="body2">
+                            <Link href="/" variant="body2" style={{color: 'var(--cuaterciary)'}}>
                                 ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/signup" variant="body2">
+                            <Link href="/signup" variant="body2" style={{color: 'var(--cuaterciary)'}}>
                                 {"¿No tienes cuenta? Registrate"}
                             </Link>
                         </Grid>

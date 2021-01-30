@@ -50,6 +50,8 @@ function CustomTable(props) {
 
     const classes = useStyles();
 
+    console.log(props);
+
     return <Container component="main" maxWidth={"md"} className={classes.container}>
         <TableContainer component={Paper}>
             <Table>

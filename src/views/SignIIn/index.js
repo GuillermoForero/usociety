@@ -60,7 +60,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/master')
+            history.push('/home')
     }, [props.data.logged, history]);
 
 

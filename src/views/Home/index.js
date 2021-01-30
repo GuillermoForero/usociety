@@ -8,6 +8,7 @@ import CustomTable from "../../components/Table/Table";
 
 function Home(props) {
 
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'USociety'}});
         props.dispatch(listUserGroupsCreator(props.user))

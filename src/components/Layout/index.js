@@ -68,7 +68,7 @@ const Layout = (props) => {
                                 <ListItem button style={{cursor:'default'}}>
                                     <MenuIcon onClick={() => setMenuLeft(false)} button style={{cursor:'pointer'}}/>
                                 </ListItem>
-                            <Link to={'/master'} className={classes.ancla}>
+                            <Link to={'/home'} className={classes.ancla}>
                                 <ListItem button>
                                     <ListItemIcon>
                                         <GroupIcon className={classes.button}/>
@@ -76,7 +76,7 @@ const Layout = (props) => {
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>
                             </Link>
-                            <Link to={'/master2'} className={classes.ancla}>
+                            <Link to={'/search'} className={classes.ancla}>
                                 <ListItem button href="#simple-list">
                                     <ListItemIcon>
                                         <GroupAdd className={classes.button}/>

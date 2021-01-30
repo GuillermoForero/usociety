@@ -14,6 +14,7 @@ import {useStyles} from "../../hooks/useStyles";
 
 import EditIcon from '@material-ui/icons/Edit';
 
+
 function CollapsableEditList(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -31,7 +32,6 @@ function CollapsableEditList(props) {
             updatedEditableList[key] = !updatedEditableList[key];
         }
         setEditableList(updatedEditableList);
-        console.log(editableList);
     };
 
     const handleDeleteClick = (item) => {

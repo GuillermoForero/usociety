@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -96,18 +94,15 @@ function SingUpUserData(props) {
                     <LockOutlinedIcon/>
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Registra tus datos
                 </Typography>
                 <form className={classes.form}>
                     <Grid container spacing={2} style={{justifyContent: 'center'}}>
-                        <Grid item xs={6}>
+                        <Grid item xs={6} >
                             <Image
                                 src={image}
-                                style={{
-                                    maxWidth: '230px',
-                                    maxHeight: '95px',
-                                    width: ' auto',
-                                    height: ' auto',
+                                color={'rgba(0,0,0,0)'}
+                                imageStyle={{
                                     borderRadius: '100px',
                                     objectFit: 'content'
                                 }}/>
@@ -118,7 +113,6 @@ function SingUpUserData(props) {
                                 variant="outlined"
                                 fullWidth
                                 id="photo"
-                                //label="Foto"
                                 type='file'
                                 onChange={e => {
                                     onChangeFile([...e.target.files]);
@@ -146,7 +140,7 @@ function SingUpUserData(props) {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="Correo"
                                 name="email"
                                 autoComplete="email"
                                 value={user.email}
@@ -159,7 +153,7 @@ function SingUpUserData(props) {
                                 required
                                 fullWidth
                                 id="usuario"
-                                label="usuario"
+                                label="Usuario"
                                 name="username"
                                 autoComplete="username"
                                 value={user.username}

@@ -61,7 +61,6 @@ function Master2(props) {
                     <Grid container>
                         <TextField
                             variant="outlined"
-                            required
                             fullWidth
                             id="groupName"
                             label="Nombre del grupo"

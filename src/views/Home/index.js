@@ -11,6 +11,7 @@ import Image from 'material-ui-image';
 import {connect} from 'react-redux';
 import {listUserGroupsCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
+import * as actionTypes from "../../store/actionsTypes";
 
 function Copyright() {
     return (
@@ -52,6 +53,7 @@ function Master(props) {
     const classes = useStyles();
 
     useEffect(() => {
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'USociety'}});
         props.dispatch(listUserGroupsCreator(props.user))
     }, []);
 

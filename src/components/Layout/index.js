@@ -1,21 +1,10 @@
 import React, {Fragment} from 'react';
-import {
-    AppBar,
-    IconButton, List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    makeStyles,
-    Menu,
-    MenuItem,
-    Toolbar
-} from "@material-ui/core";
+import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Menu, MenuItem, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import {AccountCircle} from "@material-ui/icons";
-import { FixedSizeList } from 'react-window';
 
-import {connect, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
 
@@ -72,8 +61,8 @@ const Layout = (props) => {
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                                <ListItem button onClick={() => setMenuLeft(false)}>
-                                    <MenuIcon onClick={() => setMenuLeft(false)}/>
+                                <ListItem button style={{cursor:'default'}}>
+                                    <MenuIcon onClick={() => setMenuLeft(false)} button style={{cursor:'pointer'}}/>
                                 </ListItem>
                             <Link to={'/master'} className={classes.ancla}>
                                 <ListItem button>

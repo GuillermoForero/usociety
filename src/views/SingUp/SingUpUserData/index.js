@@ -59,7 +59,6 @@ function SingUpUserData(props) {
 
     const [user, setUser] = useState({
         'name': '',
-        'lastName': '',
         'email': '',
         'password': '',
         'photo': ''
@@ -130,7 +129,7 @@ function SingUpUserData(props) {
                         <Grid item xs={12}>
                             <TextField
                                 autoComplete="name"
-                                name="nombre"
+                                name="name"
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -161,7 +160,7 @@ function SingUpUserData(props) {
                                 fullWidth
                                 id="usuario"
                                 label="usuario"
-                                name="usuarios"
+                                name="username"
                                 autoComplete="username"
                                 value={user.username}
                                 onChange={e => handleChange(e)}
@@ -172,7 +171,7 @@ function SingUpUserData(props) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="Contraseña"
+                                name="password"
                                 label="Contraseña"
                                 type="Contraseña"
                                 id="Contraseña"

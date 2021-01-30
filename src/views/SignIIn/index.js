@@ -59,7 +59,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/master2')
+            history.push('/group/management')
     }, [props.data.logged, history]);
 
 
@@ -83,7 +83,7 @@ function SignIn(props) {
                         fullWidth
                         id="Usuario"
                         label="Usuario"
-                        name="Usuario"
+                        name="username"
                         autoComplete="Usuario"
                         autoFocus
                         value={user.username}
@@ -94,9 +94,9 @@ function SignIn(props) {
                         margin="normal"
                         required
                         fullWidth
-                        name="Contraseña"
+                        name="password"
                         label="Contraseña"
-                        type="Contraseña"
+                        type="password"
                         id="password"
                         autoComplete="current-password"
                         value={user.password}

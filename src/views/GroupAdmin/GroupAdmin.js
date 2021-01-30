@@ -103,7 +103,7 @@ function GroupAdmin(props) {
 
         <img
             className='container__main-photo'
-            src={props.group.photo}
+            src={data.group.photo}
             alt="Group"
         />
 

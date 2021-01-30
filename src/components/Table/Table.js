@@ -4,6 +4,7 @@ import Image from "material-ui-image";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import {makeStyles, withStyles} from '@material-ui/core/styles';
+import {Link} from "react-router-dom";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -83,12 +84,14 @@ function CustomTable(props) {
                             <TableCell
                                 className={classes.table}
                                 align="center">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}>
-                                    Visualizar
-                                </Button>
+                                <Link to={`/group/${row.slug}/view`}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}>
+                                        {props.buttonText}
+                                    </Button>
+                                </Link>
                             </TableCell>
                         </TableRow>))}
                 </TableBody>

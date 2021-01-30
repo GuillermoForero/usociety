@@ -31,7 +31,7 @@ export default function App() {
                     <Route path="/search" exact strict>
                         <GuardedRoute component={SearchGroup}/>
                     </Route>
-                    <Route path="/group/principal" exact strict>
+                    <Route path="/group/:slug/view" exact strict>
                         <GuardedRoute component={GroupPrincipal}>
                         </GuardedRoute>
                     </Route>

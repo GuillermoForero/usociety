@@ -4,6 +4,7 @@ import React from "react";
 import HeaderGroupPrincipal from "./HeaderGroupPrincipal";
 import RecipeReviewCard from "./Card";
 import Chat from "./Chat";
+import {useHistory, useParams} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function GroupPrincipal() {
+export default function GroupPrincipal(props) {
     const classes = useStyles();
+    const {slug} = useParams();
 
     return (
         <>

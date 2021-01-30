@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 const Chat = () => {
     const classes = useStyles();
     const [showChat, setShowChat] = React.useState(false);
-    console.log(showChat ? 'puta' : 'fucker')
+
     return (
         <>
             <Grid container className={classes.containerChat} xs={3}>

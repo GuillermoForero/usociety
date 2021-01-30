@@ -108,7 +108,7 @@ function SearchGroup(props) {
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
                 </Grid>
-                <CustomTable rows={rows}/>
+                <CustomTable rows={rows} buttonText='Visualizar'/>
             </Container>
         </>
 

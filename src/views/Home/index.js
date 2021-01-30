@@ -18,7 +18,7 @@ function Home(props) {
 
     return <Fragment>
         {<Loader isOpen={props.group.isFetching}/>}
-        <CustomTable rows={rows}/>
+        <CustomTable rows={rows} buttonText='Entrar'/>
     </Fragment>
 }
 

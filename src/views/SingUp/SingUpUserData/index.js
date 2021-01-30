@@ -130,12 +130,12 @@ function SingUpUserData(props) {
                         <Grid item xs={12}>
                             <TextField
                                 autoComplete="name"
-                                name="name"
+                                name="nombre"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="name"
-                                label="Name"
+                                id="nombre"
+                                label="Nombre"
                                 autoFocus
                                 value={user.name}
                                 onChange={e => handleChange(e)}
@@ -159,9 +159,9 @@ function SingUpUserData(props) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="username"
-                                label="Alias"
-                                name="username"
+                                id="usuario"
+                                label="usuario"
+                                name="usuarios"
                                 autoComplete="username"
                                 value={user.username}
                                 onChange={e => handleChange(e)}
@@ -172,10 +172,10 @@ function SingUpUserData(props) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
+                                name="Contraseña"
+                                label="Contraseña"
+                                type="Contraseña"
+                                id="Contraseña"
                                 autoComplete="current-password"
                                 value={user.password}
                                 onChange={e => handleChange(e)}
@@ -190,13 +190,13 @@ function SingUpUserData(props) {
                         className={classes.submit}
                         onClick={handleSubmit}
                     >
-                        Sign Up
+                        Registrarme
                     </Button>
 
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/" variant="body2">
-                                Already have an account? Sign in
+                                ¿Ya tienes cuenta? Ingresa
                             </Link>
                         </Grid>
                     </Grid>

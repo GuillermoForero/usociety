@@ -11,16 +11,19 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './GroupAdmin.css';
 
 import {getGroupCreator, updateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
-import CollapsableList from "../../components/CollapsableList/CollapsableList";
+import CollapsableEditList from "../../components/CollapsableList/CollapsableEditList";
 import ComplexCollapsableList from "../../components/CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Loader from "../../components/Loader/Loader";
 
+import GroupIcon from '@material-ui/icons/Group';
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import * as actionTypes from "../../store/actionsTypes";
 
 function GroupAdmin(props) {
     const classes = useStyles();
-    let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
+
     const [disableButton, setDisableButton] = useState(true);
 
     const [data, setData] = useState({
@@ -35,7 +38,8 @@ function GroupAdmin(props) {
     });
 
     useEffect(() => {
-        props.dispatch(getGroupCreator(props.user.userData, props.groupId));
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Administración de grupo'}});
+        props.dispatch(getGroupCreator(props.groupId));
     }, []);
 
     useEffect(() => {
@@ -55,52 +59,52 @@ function GroupAdmin(props) {
         setDisableButton(false);
     };
 
-    const handleDeleteRuleClick = (element) => {
-        let updatedRules = data.group.rules.filter(rule => rule !== element);
+    const handleDeleteRulesOrObjectiveClick = (attributeName, targetValue) => {
+        let updatedObjectives = data.group[attributeName].filter(value => value !== targetValue);
         setData({
             ...data,
             group: {
                 ...data.group,
-                rules: updatedRules
-            }
-        });
-        setDisableButton(false);
-    };
-
-    const handleDeleteObjectiveClick = (element) => {
-        let updatedObjectives = data.group.objectives.filter(rule => rule !== element);
-        setData({
-            ...data,
-            group: {
-                ...data.group,
-                objectives: updatedObjectives
+                [attributeName]: updatedObjectives
             }
         });
         setDisableButton(false);
     };
 
     const handleCheckUserGroupMembership = (userId, status) => {
-        props.dispatch(updateUserMembershipCreator(props.user.userData,
-            data.group.id,
+        props.dispatch(updateUserMembershipCreator(data.group.id,
             {
                 targetUserId: userId,
                 status: status
             }));
-        props.dispatch(getGroupCreator(props.user.userData, props.groupId));
+        props.dispatch(getGroupCreator(props.groupId));
     };
 
     const handleSaveClick = () => {
-        props.dispatch(updateGroupCreator(props.user.userData, data.group));
+        props.dispatch(updateGroupCreator(data.group));
         setDisableButton(true);
     };
 
-    return <Container className='container__main'>
+    const handleChangeTextListField = (e, attributeName, itemPosition) => {
+        let updatedList = Object.assign([], data.group[attributeName]);
+        updatedList[itemPosition] = e.target.value;
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                [attributeName]: updatedList
+            }
+        });
+        setDisableButton(false);
+    };
+
+    return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
         <Loader isOpen={props.group.isFetching}/>
 
         <img
             className='container__main-photo'
-            src={image}
-            alt="Group photo"
+            src={props.group.photo}
+            alt="Group"
         />
 
         <form className={classes.form}>
@@ -110,7 +114,7 @@ function GroupAdmin(props) {
                         id="name"
                         label="Nombre"
                         variant="outlined"
-                        value={data.group.name}
+                        value={data.group.name || ''}
                         name='name'
                         onChange={e => handleChangeTextFields(e)}
                     />
@@ -120,7 +124,7 @@ function GroupAdmin(props) {
                         id="description"
                         label="Descripción"
                         variant="outlined"
-                        value={data.group.description}
+                        value={data.group.description || ''}
                         name='description'
                         onChange={e => handleChangeTextFields(e)}
                     />
@@ -135,37 +139,47 @@ function GroupAdmin(props) {
             </ListSubheader>
 
 
-            <Grid item xs={8}>
-                <CollapsableList
+            <Grid item xs={12}>
+                <CollapsableEditList
                     typeName='Reglas'
+                    attributeName='rules'
                     items={data.group.rules}
-                    onclick={handleDeleteRuleClick}/>
+                    onclick={handleDeleteRulesOrObjectiveClick}
+                    onchange={handleChangeTextListField}
+                />
             </Grid>
-            <Grid item xs={8}>
-                <CollapsableList
+            <Grid item xs={12}>
+                <CollapsableEditList
                     typeName='Objetivos'
+                    attributeName='objectives'
                     items={data.group.objectives}
-                    onclick={handleDeleteObjectiveClick}/>
+                    onclick={handleDeleteRulesOrObjectiveClick}
+                    onchange={handleChangeTextListField}
+                />
             </Grid>
 
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 < ComplexCollapsableList
                     typeName='Miembros activos'
                     items={data.activeMembers}
                     onclick={handleCheckUserGroupMembership}
-                />
+                >
+                    <GroupIcon/>
+                </ComplexCollapsableList>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
                 < ComplexCollapsableList
                     typeName='Solicitudes de ingreso'
                     items={data.pendingMembers}
                     showCheck={true}
                     onclick={handleCheckUserGroupMembership}
-                />
+                >
+                    <GroupAdd/>
+                </ComplexCollapsableList>
             </Grid>
 
             <Grid
-                item xs={8}
+                item xs={12}
                 style={{display: 'flex', justifyContent: 'flex-end'}}
             >
                 <Button

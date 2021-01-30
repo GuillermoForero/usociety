@@ -55,7 +55,7 @@ export const saveUserCreator = user => {
 
         return basePostCreator('/users/', body, creatingUser, createdUser, receivedError);
     } catch (e) {
-        receivedError();
+        return receivedError();
     }
 };
 
@@ -65,7 +65,7 @@ export const loginUserCreator = user => {
         const body = JSON.stringify({"username": user.username, "password": user.password});
         return basePostCreator('/users/login', body, loggingUser, userLogged, receivedError);
     } catch (e) {
-        receivedError();
+       return receivedError();
     }
 };
 
@@ -83,6 +83,6 @@ export const updateUserCategoriesCreator = (categoriesId) => {
 
         return basePutCreator('/users/', body, updatingUserCategories, userCategoriesUpdated, receivedError);
     } catch (e) {
-        receivedError();
+        return receivedError();
     }
 };

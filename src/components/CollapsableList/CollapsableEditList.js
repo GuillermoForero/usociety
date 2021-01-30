@@ -7,19 +7,24 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
-import {ListItemSecondaryAction} from "@material-ui/core";
+import {ListItemSecondaryAction, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {useStyles} from "../../hooks/useStyles";
 
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
 
-function CollapsableList(props) {
+function CollapsableEditList(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    let items = props.items;
+    const attributeName = props.attributeName;
 
     return <List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 
@@ -34,14 +39,30 @@ function CollapsableList(props) {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-                {props.items && props.items.length > 0 && props.items.map(item =>
-                    (item && (<ListItem key={new Date()} button className={classes.nested}>
+
+                {items && items.length > 0 && items.map((item, index) =>
+                    (item && (<ListItem key={index} button className={classes.nested}>
                         <ListItemIcon>
                         </ListItemIcon>
-                        <ListItemText primary={item}
+                        <TextField
+                            value={item}
+                            fullWidth
+                            onChange={(e) =>
+                                props.onchange(e, attributeName, index)
+                            }
                         />
-                        <ListItemSecondaryAction onClick={() => props.onclick(item)}>
-                            <IconButton edge="end" aria-label="comments">
+
+                        <ListItemSecondaryAction>
+                            <IconButton
+                                edge="end"
+                                aria-label="comments">
+                                <EditIcon/>
+                            </IconButton>
+                            <IconButton
+                                edge="end"
+                                aria-label="comments"
+                                onClick={() => props.onclick(attributeName, item)}
+                            >
                                 <DeleteIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
@@ -52,4 +73,4 @@ function CollapsableList(props) {
 }
 
 
-export default CollapsableList;
+export default CollapsableEditList;

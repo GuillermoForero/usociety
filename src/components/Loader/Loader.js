@@ -17,7 +17,7 @@ function Loader(props) {
                     <div/>
                 </div>
             </div>,
-            document.getElementById('modal')));
+            document.getElementById('app')));
     return <></>;
 }
 

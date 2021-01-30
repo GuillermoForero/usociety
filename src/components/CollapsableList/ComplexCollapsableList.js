@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
@@ -28,7 +27,7 @@ function ComplexCollapsableList(props) {
 
         <ListItem button onClick={handleClick}>
             <ListItemIcon>
-                <FormatListBulletedIcon/>
+                {props.children}
             </ListItemIcon>
             <ListItemText primary={props.typeName}
             />

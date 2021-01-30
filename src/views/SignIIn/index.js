@@ -59,7 +59,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.data.logged)
-            history.push('/group/create')
+            history.push('/master2')
     }, [props.data.logged, history]);
 
 

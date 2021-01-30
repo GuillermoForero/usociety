@@ -52,7 +52,7 @@ function Master(props) {
     const classes = useStyles();
 
     useEffect(() => {
-        //props.dispatch(listUserGroupsCreator(props.user))
+        props.dispatch(listUserGroupsCreator(props.user))
     }, []);
 
     const rows = props.group.userGroups;

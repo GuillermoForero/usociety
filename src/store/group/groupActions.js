@@ -3,98 +3,117 @@ import * as actionTypes from '../actionsTypes';
 import {UpdateUserMembership} from "./groupInterfaces";
 import {User} from "../user/userInterfaces";
 
-import {baseGetCreator, basePutCreator} from "../commonActionsCreator";
+import {baseGetCreator, basePostCreator, basePutCreator} from "../commonActionsCreator";
 
 const FormData = require('form-data');
 
-export const updatingGroup = () => {
+
+const creatingGroup = () => {
+    return {
+        type: actionTypes.CREATING_GROUP,
+    };
+};
+
+const createGroupFailed = () => {
+    return {
+        type: actionTypes.CREATE_GROUP_FAILED
+    };
+};
+
+const createdGroupSuccessful = () => {
+    return {
+        type: actionTypes.CREATE_GROUP_FAILED
+    };
+};
+
+const updatingGroup = () => {
     return {
         type: actionTypes.UPDATING_GROUP,
     };
 };
 
-export const createGroupFailed = () => {
+const updateGroupFailed = () => {
     return {
         type: actionTypes.UPDATE_GROUP_FAILED
     };
 };
 
-export const updatingGroupSuccessful = () => {
+const updatingGroupSuccessful = () => {
     return {
         type: actionTypes.UPDATE_GROUP_SUCCESSFUL,
     };
 };
 
-export const listingUserGroups = () => {
+const listingUserGroups = () => {
     return {
         type: actionTypes.LISTING_USER_GROUPS,
     };
 };
 
-export const listUserGroupsFailed = () => {
+const listUserGroupsFailed = () => {
     return {
         type: actionTypes.LIST_USER_GROUPS_FAILED
     };
 };
 
-export const listUserGroupsSuccessful = (groups) => {
+const listUserGroupsSuccessful = (groups) => {
     return {
         type: actionTypes.LIST_USER_GROUPS_SUCCESSFUL,
         payload: {data: groups}
     };
 };
 
-export const searchingGroups = () => {
+const searchingGroups = () => {
     return {
         type: actionTypes.SEARCHING_GROUPS,
     };
 };
 
-export const searchGroupsFailed = () => {
+const searchGroupsFailed = () => {
     return {
         type: actionTypes.SEARCH_GROUPS_FAILED
     };
 };
 
-export const searchGroupsSuccessful = (groups) => {
+const searchGroupsSuccessful = (groups) => {
     return {
         type: actionTypes.SEARCH_GROUPS_SUCCESSFUL,
         payload: {data: groups}
     };
 };
 
-export const gettingGroup = () => {
+const gettingGroup = () => {
     return {
         type: actionTypes.GETTING_GROUP,
     };
 };
 
-export const getGroupFailed = () => {
+const getGroupFailed = () => {
     return {
         type: actionTypes.GET_GROUP_FAILED
     };
 };
 
-export const getGroupSuccessful = (group) => {
+const getGroupSuccessful = (group) => {
     return {
         type: actionTypes.GET_GROUP_SUCCESSFUL,
         payload: {data: group}
     };
 };
 
-export const updatingUserMembership = () => {
+const updatingUserMembership = () => {
     return {
         type: actionTypes.UPDATING_USER_MEMBERSHIP,
     };
 };
 
-export const updateUserMembershipFailed = () => {
+const updateUserMembershipFailed = () => {
     return {
         type: actionTypes.UPDATE_USER_MEMBERSHIP_FAILED
     };
 };
 
-export const updateUserMembershipSuccessful = () => {
+const updateUserMembershipSuccessful = () => {
     return {
         type: actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL,
     };
@@ -140,8 +159,22 @@ export const updateGroupCreator = (group) => {
         });
         body.append('group', groupBlob);
 
-        return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, createGroupFailed);
+        return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, updateGroupFailed);
     } catch (e) {
-        createGroupFailed();
+        updateGroupFailed();
+    }
+};
+
+export const createGroupCreator = (group) => {
+    try {
+        const body = new FormData();
+        const groupBlob = new Blob([JSON.stringify(group)], {
+            type: 'application/json'
+        });
+        body.append('group', groupBlob);
+
+        return basePostCreator('/groups/', body, creatingGroup, createdGroupSuccessful, createGroupFailed);
+    } catch (e) {
+        updateGroupFailed();
     }
 };

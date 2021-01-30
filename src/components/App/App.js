@@ -9,6 +9,7 @@ import Chat from "../Chat";
 import Master2 from "../../views/SearchGroup";
 import Layout from "../Layout";
 import GroupAdmin from "../../views/GroupAdmin/GroupAdmin";
+import CreateGroup from "../../views/CreateGroup/CreateGroup";
 
 export default function App() {
     return (
@@ -37,7 +38,10 @@ export default function App() {
                     <Route path="/chat" exact strict>
                         <Chat/>
                     </Route>
-                    <Route path="/group/administration" exact strict>
+                    <Route path="/group/create" exact strict>
+                        <CreateGroup/>
+                    </Route>
+                    <Route path="/group/management" exact strict>
                         <GroupAdmin/>
                     </Route>
                 </Layout>

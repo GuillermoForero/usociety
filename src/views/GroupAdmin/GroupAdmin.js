@@ -11,7 +11,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './GroupAdmin.css';
 
 import {getGroupCreator, updateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
-import CollapsableList from "../../components/CollapsableList/CollapsableList";
+import CollapsableEditList from "../../components/CollapsableList/CollapsableEditList";
 import ComplexCollapsableList from "../../components/CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -23,7 +23,6 @@ import * as actionTypes from "../../store/actionsTypes";
 
 function GroupAdmin(props) {
     const classes = useStyles();
-    let image = 'https://cdn.pixabay.com/photo/2015/03/17/14/05/sparkler-677774_960_720.jpg';
 
     const [disableButton, setDisableButton] = useState(true);
 
@@ -104,7 +103,7 @@ function GroupAdmin(props) {
 
         <img
             className='container__main-photo'
-            src={image}
+            src={props.group.photo}
             alt="Group"
         />
 
@@ -141,7 +140,7 @@ function GroupAdmin(props) {
 
 
             <Grid item xs={12}>
-                <CollapsableList
+                <CollapsableEditList
                     typeName='Reglas'
                     attributeName='rules'
                     items={data.group.rules}
@@ -150,7 +149,7 @@ function GroupAdmin(props) {
                 />
             </Grid>
             <Grid item xs={12}>
-                <CollapsableList
+                <CollapsableEditList
                     typeName='Objetivos'
                     attributeName='objectives'
                     items={data.group.objectives}

@@ -190,6 +190,7 @@ function CreateGroup(props) {
             <Button
                 variant="contained"
                 color="primary"
+                style={{backgroundColor: 'var(--terciary)'}}
                 className={classes.submit}
                 onClick={handleSaveClick}
             >

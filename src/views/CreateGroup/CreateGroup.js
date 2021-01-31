@@ -11,7 +11,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './CreateGroup.css';
 
 import {createGroupCreator} from "../../store/group/groupActions";
-import CollapsableAddList from "../../components/CollapsableList/CollapsableAddList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Loader from "../../components/Loader/Loader";
@@ -22,6 +21,7 @@ import PageError from "../../components/PageError/PageError";
 import {useHistory} from "react-router";
 
 import defaultGroupImage from '../../images/u-sergiojpg';
+import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
 
 function CreateGroup(props) {
     const classes = useStyles();
@@ -221,7 +221,7 @@ function CreateGroup(props) {
 
 
         <Grid item xs={12}>
-            <CollapsableAddList
+            <SimpleCollapsableList
                 typeName='Reglas'
                 attributeName='rules'
                 items={data.group.rules}
@@ -231,7 +231,7 @@ function CreateGroup(props) {
             />
         </Grid>
         <Grid item xs={12}>
-            <CollapsableAddList
+            <SimpleCollapsableList
                 typeName='Objetivos'
                 attributeName='objectives'
                 items={data.group.objectives}

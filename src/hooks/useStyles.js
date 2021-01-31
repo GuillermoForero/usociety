@@ -22,4 +22,6 @@ export const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
         backgroundColor: 'var(--primary)'
     },
+    withCursor: {cursor: 'pointer'},
+    withoutCursor: {cursor: 'default'},
 }));

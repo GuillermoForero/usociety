@@ -11,7 +11,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './GroupAdmin.css';
 
 import {getGroupCreator, updateGroupCreator, updateUserMembershipCreator} from "../../store/group/groupActions";
-import CollapsableEditList from "../../components/CollapsableList/CollapsableEditList";
+import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
 import ComplexCollapsableList from "../../components/CollapsableList/ComplexCollapsableList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -106,6 +106,19 @@ function GroupAdmin(props) {
         props.dispatch({type: actionTypes.RESET_ERROR})
     };
 
+    const handleAddNewListItem = (attributeName) => {
+        let updatedList = Object.assign([], data.group[attributeName]);
+        updatedList.push('');
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                [attributeName]: updatedList
+            }
+        });
+        console.log(updatedList);
+    };
+
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
         <Loader isOpen={props.groupState.isLoading}/>
         <PageError
@@ -152,21 +165,23 @@ function GroupAdmin(props) {
 
 
             <Grid item xs={12}>
-                <CollapsableEditList
+                <SimpleCollapsableList
                     typeName='Reglas'
                     attributeName='rules'
                     items={data.group.rules}
-                    onclick={handleDeleteRulesOrObjectiveClick}
+                    addlistitem={handleAddNewListItem}
                     onchange={handleChangeTextListField}
+                    ondeleteclick={handleDeleteRulesOrObjectiveClick}
                 />
             </Grid>
             <Grid item xs={12}>
-                <CollapsableEditList
+                <SimpleCollapsableList
                     typeName='Objetivos'
                     attributeName='objectives'
                     items={data.group.objectives}
-                    onclick={handleDeleteRulesOrObjectiveClick}
+                    addlistitem={handleAddNewListItem}
                     onchange={handleChangeTextListField}
+                    ondeleteclick={handleDeleteRulesOrObjectiveClick}
                 />
             </Grid>
 

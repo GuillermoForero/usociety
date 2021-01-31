@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import ListItemText from "@material-ui/core/ListItemText";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import {ListItemSecondaryAction, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
@@ -13,16 +11,24 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {useStyles} from "../../hooks/useStyles";
 
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from "@material-ui/icons/Add";
+import {ExpandMore} from "@material-ui/icons";
 
 
-function CollapsableEditList(props) {
+function SimpleCollapsableList(props) {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [editableList, setEditableList] = useState({});
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    let items = props.items;
+    useEffect(() => {
+        setOpen(items.length > 0);
+    }, [props.items]);
+
 
     const handleEditClick = key => {
         let updatedEditableList = Object.assign({}, editableList);
@@ -35,29 +41,36 @@ function CollapsableEditList(props) {
     };
 
     const handleDeleteClick = (item) => {
-        props.onclick(attributeName, item);
+        props.ondeleteclick(attributeName, item);
         setEditableList({});
     };
 
-    let items = props.items;
     const attributeName = props.attributeName;
+
 
     return <List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 
-        <ListItem button onClick={handleClick}>
-            <ListItemIcon>
+        <ListItem className={classes.withoutCursor} button>
+            <ListItemIcon onClick={handleClick} className={classes.withCursor}>
                 <FormatListBulletedIcon/>
             </ListItemIcon>
             <ListItemText primary={props.typeName}
             />
-            {open ? <ExpandLess/> : <ExpandMore/>}
+            {open || items.length === 0
+                ? <AddIcon
+                    className={classes.withCursor}
+                    onClick={() => props.addlistitem(attributeName)}
+                />
+                : <ExpandMore
+                    className={classes.withCursor}
+                    onClick={handleClick}/>}
         </ListItem>
 
         <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
 
                 {items && items.length > 0 && items.map((item, index) =>
-                    (item && (<ListItem key={index} button className={classes.nested}>
+                    (<ListItem key={index} button className={classes.nested}>
                         <ListItemIcon>
                         </ListItemIcon>
                         <TextField
@@ -85,11 +98,11 @@ function CollapsableEditList(props) {
                                 <DeleteIcon/>
                             </IconButton>
                         </ListItemSecondaryAction>
-                    </ListItem>)))}
+                    </ListItem>))}
             </List>
         </Collapse>
     </List>
 }
 
 
-export default CollapsableEditList;
+export default SimpleCollapsableList;

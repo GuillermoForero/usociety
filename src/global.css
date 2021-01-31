@@ -8,6 +8,15 @@
     font-family: 'lato', serif;
 }
 
+html, body {
+    height: 100%;
+}
+
+
+#app {
+    min-height: calc(100% - 50px);
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

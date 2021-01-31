@@ -11,7 +11,7 @@ import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
-import CustomTable from "../../components/Table/Table";
+import CustomTable from "../../components/CustomTable/CustomTable";
 import PageError from "../../components/PageError/PageError";
 
 function SearchGroup(props) {

@@ -14,6 +14,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Footer from "../Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -40,7 +41,7 @@ const Layout = (props) => {
     const classes = useStyles();
     const [menuLeft, setMenuLeft] = React.useState(false);
     const mainTitle = useSelector(state => state.global.mainTitle);
-    const userPhoto = useSelector(state => state.user.data.user.photo);
+    const userPhoto = useSelector(state => state.user.data.user?.photo);
 
     const handleMenu = (event) => {
         //open edit profile view
@@ -106,6 +107,7 @@ const Layout = (props) => {
             </AppBar>
         </div>
         {props.children}
+        <Footer/>
     </Fragment>
 };
 

@@ -62,7 +62,7 @@ function CustomTable(props) {
 
     let defaultGroupImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvOG20v4uuVi8OimyyVYks8ITGovRRlSbmUQ&usqp=CAU';
 
-    return <Container component="main" maxWidth={"md"} className={classes.container}>
+    return <Container component="main" maxWidth={"md"} className={classes.container} style={{marginBottom: '50px'}}>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>

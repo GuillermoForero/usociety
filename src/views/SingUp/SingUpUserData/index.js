@@ -55,6 +55,7 @@ function SingUpUserData(props) {
         'name': '',
         'email': '',
         'password': '',
+        'confirmedPassword': '',
         'photo': '',
         'username': ''
     });
@@ -223,6 +224,20 @@ function SingUpUserData(props) {
                                 id="password"
                                 autoComplete="current-password"
                                 value={user.password}
+                                onChange={e => handleChange(e)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confirmedPassword"
+                                label="Confirma la contraseña"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={user.confirmedPassword}
                                 onChange={e => handleChange(e)}
                             />
                         </Grid>

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {listUserGroupsCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
-import CustomTable from "../../components/Table/Table";
+import CustomTable from "../../components/CustomTable/CustomTable";
 import {useStyles} from "../../hooks/useStyles";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";

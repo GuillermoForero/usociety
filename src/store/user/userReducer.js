@@ -7,6 +7,7 @@ const initialState = {
     isLogged: false,
     isLoading: false,
     errorDescription: '',
+    errorCode: '',
     operationCompleted: false
 };
 
@@ -19,8 +20,18 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.UPDATING_USER_CATEGORIES:
             return Object.assign({}, state, {
                 ...state,
+                errorCode: '',
                 operationCompleted: false,
                 isLoading: true,
+                hasError: false,
+            });
+
+        case actionTypes.VERIFYING_EMAIL:
+            return Object.assign({}, state, {
+                ...state,
+                errorCode: '',
+                operationCompleted: false,
+                isLoading: false,
                 hasError: false,
             });
 
@@ -49,6 +60,7 @@ const userReducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 ...state,
                 errorDescription: action.payload.error,
+                errorCode: action.payload.status,
                 hasError: true,
                 isLoading: false,
                 operationCompleted: false

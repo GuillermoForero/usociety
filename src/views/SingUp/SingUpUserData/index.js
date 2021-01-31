@@ -63,6 +63,17 @@ function SingUpUserData(props) {
         }
     }, [props.userState.isLogged]);
 
+    useEffect(() => {
+        if (props.userState.errorCode === 'INVALID_OTP') {
+            setVerifiedEmailModalIsOpen(false);
+            setVerifiedEmail(false);
+        }
+        if (props.userState.hasError) {
+            setVerifiedEmailModalIsOpen(false);
+        }
+    }, [props.userState.hasError]);
+
+
     const handleChange = (e) => {
         setUser({
             ...user,

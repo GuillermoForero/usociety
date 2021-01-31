@@ -89,11 +89,13 @@ function processResponse(response) {
 
 function processError(e, dispatch, errorCallback) {
     let responseError = 'Error de conexión con el servidor';
+    let statusCode = 'ERROR_GENERAL';
     if (e.response) {
         const data = e.response.data;
         responseError = data.description;
+        statusCode = data.statusCode;
     }
 
-    dispatch(errorCallback(responseError));
-    console.log(responseError);
+    dispatch(errorCallback(responseError, statusCode));
+    console.log(responseError, statusCode);
 }

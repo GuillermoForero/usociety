@@ -18,10 +18,10 @@ const userCreated = user => {
     };
 };
 
-const createUserFailed = errorDescription => {
+const createUserFailed = (errorDescription, statusCode ) => {
     return {
         type: actionTypes.CREATE_USER_FAILED,
-        payload: {error: errorDescription}
+        payload: {error: errorDescription, status: statusCode}
     };
 };
 
@@ -38,10 +38,10 @@ const emailVerifiedSuccessful = user => {
     };
 };
 
-const verifyEmailFailed = errorDescription => {
+const verifyEmailFailed = (errorDescription, statusCode) => {
     return {
         type: actionTypes.EMAIL_VERIFY_FAILED,
-        payload: {error: errorDescription}
+        payload: {error: errorDescription, status: statusCode}
     };
 };
 

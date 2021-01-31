@@ -42,7 +42,7 @@ export default function App() {
                     <Route path="/group/create" exact strict>
                         <GuardedRoute component={CreateGroup}/>
                     </Route>
-                    <Route path="/group/management" exact strict>
+                    <Route path="/group/:slug/management" exact strict>
                         <GuardedRoute component={GroupAdmin}/>
                     </Route>
                 </Layout>

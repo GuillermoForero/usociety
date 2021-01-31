@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import {FormControl, InputLabel, MenuItem, Select, TableCell} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
@@ -11,19 +11,8 @@ import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
-import {withStyles} from "@material-ui/core/styles";
 import CustomTable from "../../components/Table/Table";
-
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: 'var(--terciary)',
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
+import PageError from "../../components/PageError/PageError";
 
 function SearchGroup(props) {
     const classes = useStyles();
@@ -38,7 +27,7 @@ function SearchGroup(props) {
         props.dispatch(loadCategoriesCreator());
     }, []);
 
-    const rows = props.group.groups;
+    const rows = props.groupState.groups;
 
     const handleSearchButtonClick = () => {
         props.dispatch(searchGroupsCreator(query));
@@ -48,6 +37,10 @@ function SearchGroup(props) {
         setQuery({...query, categoryId: categoryId});
     };
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
     const handleChange = e => {
         setQuery({...query, groupName: e.target.value});
     };
@@ -55,7 +48,11 @@ function SearchGroup(props) {
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
-                <Loader isOpen={props.group.isFetching || props.category.isFetching}/>
+                <Loader isOpen={props.groupState.isLoading || props.categoryState.isLoading}/>
+                <PageError
+                    isOpen={props.groupState.hasError || props.categoryState.hasError}
+                    onclose={handleClosePageError}
+                    errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
                 <Grid container spacing={1}>
                     <Grid container>
@@ -81,7 +78,7 @@ function SearchGroup(props) {
                             <MenuItem value="none" disabled>
                                 Selecciona una categoría
                             </MenuItem>
-                            {props.category && props.category.categories.map(category =>
+                            {props.categoryState.categories.map(category =>
                                 (<MenuItem
                                     key={category.id}
                                     id={category.id}
@@ -116,10 +113,8 @@ function SearchGroup(props) {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        category: state.category,
-        group: state.group,
-        global: state.global
+        categoryState: state.category,
+        groupState: state.group,
     }
 };
 

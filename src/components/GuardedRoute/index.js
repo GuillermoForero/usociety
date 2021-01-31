@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Route, Redirect } from "react-router-dom";
+import {Route} from "react-router-dom";
 import {connect} from "react-redux";
 
 const GuardedRoute = ({ component: Component }) => (
@@ -11,7 +10,7 @@ const GuardedRoute = ({ component: Component }) => (
 const mapStateToProps = state => {
     return {
         group: state.group,
-        user: state.user.userData
+        user: state.user.data
     }
 };
 

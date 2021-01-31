@@ -1,13 +1,5 @@
 import store from "./store";
 import {get, post, put} from "../configuration/service";
-import * as actionTypes from "./actionsTypes";
-
-export const receivedError = (errorDescription) => {
-    return {
-        type: actionTypes.RECEIVED_ERROR,
-        payload: {error: errorDescription}
-    };
-};
 
 export const baseGetCreator = (path, initialCallback, successCallback, errorCallback) => {
     store.dispatch(initialCallback());

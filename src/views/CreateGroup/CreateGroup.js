@@ -24,6 +24,7 @@ import {useHistory} from "react-router";
 function CreateGroup(props) {
     const classes = useStyles();
     const history = useHistory();
+
     const [image, setImage] = useState('https://pbs.twimg.com/profile_images/737629024919265281/c3xXF2Iw_400x400.jpg');
     const [data, setData] = useState({
         group: {
@@ -123,16 +124,19 @@ function CreateGroup(props) {
     };
 
     useEffect(() => {
-        if (props.group.operationCompleted) {
+        if (props.groupState.operationCompleted) {
             history.push('/home');
         }
-    }, [props.group.operationCompleted]);
+    }, [props.groupState.operationCompleted]);
 
 
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
-        <Loader isOpen={props.group.isFetching}/>
-        <PageError isOpen={props.group.isError} onclose={handleClosePageError}
-                   errorDescription={props.group.errorDescription}/>
+
+        <Loader isOpen={props.groupState.isLoading || props.categoryState.isLoading}/>
+        <PageError
+            isOpen={props.groupState.hasError || props.categoryState.hasError}
+            onclose={handleClosePageError}
+            errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
         <Grid container>
             <Grid item xs={2}>
@@ -195,7 +199,7 @@ function CreateGroup(props) {
                 <MenuItem value="none" disabled>
                     Selecciona una categoría
                 </MenuItem>
-                {props.category && props.category.categories.map(category =>
+                {props.categoryState && props.categoryState.categories.map(category =>
                     (<MenuItem
                         key={category.id}
                         id={category.id}
@@ -254,9 +258,8 @@ function CreateGroup(props) {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        group: state.group,
-        category: state.category
+        groupState: state.group,
+        categoryState: state.category
     };
 };
 

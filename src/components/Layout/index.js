@@ -6,7 +6,8 @@ import {AccountCircle} from "@material-ui/icons";
 import Divider from '@material-ui/core/Divider';
 
 import {useSelector} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
+import Link from '@material-ui/core/Link';
 
 import GroupAdd from '@material-ui/icons/GroupAdd';
 import GroupIcon from '@material-ui/icons/Group';
@@ -34,22 +35,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function renderRow(props) {
-    const { text, index } = props;
-
-    return (
-        <ListItem button key={index}>
-            <ListItemText primary={`${text}`} />
-        </ListItem>
-    );
-}
 
 const Layout = (props) => {
     const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [menuLeft, setMenuLeft] = React.useState(false);
-    const open = Boolean(anchorEl);
     const mainTitle = useSelector(state => state.global.mainTitle);
 
     const handleMenu = (event) => {
@@ -68,25 +57,25 @@ const Layout = (props) => {
                                 <ListItem button style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
                                     <MenuIcon  button style={{cursor:'pointer'}}/>
                                 </ListItem>
-                            <Link to={'/home'} className={classes.ancla}>
+                            <RouterLink to={'/home'} className={classes.ancla}>
                                 <ListItem button>
                                     <ListItemIcon>
                                         <GroupIcon className={classes.button}/>
                                     </ListItemIcon>
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>
-                            </Link>
-                            <Link to={'/search'} className={classes.ancla}>
+                            </RouterLink>
+                            <RouterLink to={'/search'} className={classes.ancla}>
                                 <ListItem button href="#simple-list">
                                     <ListItemIcon>
                                         <GroupAdd className={classes.button}/>
                                     </ListItemIcon>
                                     <ListItemText primary="Descubrir grupos" />
                                 </ListItem>
-                            </Link>
+                            </RouterLink>
 
                             <Divider/>
-                            <Link to={'/'} className={classes.ancla}>
+                            <Link href='/' className={classes.ancla}>
                                 <ListItem button href="#simple-list">
                                     <ListItemIcon>
                                         <ExitToAppIcon className={classes.button}/>
@@ -99,7 +88,7 @@ const Layout = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         {mainTitle || 'USociety (dynamically)'}
                     </Typography>
-                    {auth && (
+
                         <div>
                             <IconButton
                                 aria-label="account of current user"
@@ -111,7 +100,6 @@ const Layout = (props) => {
                                 <AccountCircle/>
                             </IconButton>
                         </div>
-                    )}
                 </Toolbar>
             </AppBar>
         </div>

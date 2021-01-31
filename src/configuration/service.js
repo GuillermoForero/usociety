@@ -14,8 +14,10 @@ export const get = async (path, dispatch, successCallback, errorCallback, getSta
 
         console.log('GET: ', path, `Token -> ${authorizationHeader}`);
         const response = await axios(config);
+        console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
+        console.log('Axios error: ', e);
         processError(e, dispatch, errorCallback);
     }
 };
@@ -38,8 +40,10 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
 
         console.log('POST: ', path, `Token -> ${authorizationHeader}`);
         const response = await axios(config);
+        console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
+        console.log('Axios error: ', e);
         processError(e, dispatch, errorCallback);
     }
 };
@@ -62,8 +66,10 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
 
         console.log('PUT: ', path, `Token -> ${authorizationHeader}`);
         const response = await axios(config);
+        console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
+        console.log('Axios error: ', e);
         processError(e, dispatch, errorCallback);
     }
 };
@@ -71,8 +77,8 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
 function buildAuthorizationToken(getState) {
     const state = getState();
     let authorizationHeader = '';
-    if (state.user.logged) {
-        authorizationHeader = {'Authorization': 'Bearer ' + state.user.userData.token.accessToken};
+    if (state.user.isLogged) {
+        authorizationHeader = {'Authorization': 'Bearer ' + state.user.data.token.accessToken};
     }
     return authorizationHeader;
 }
@@ -82,8 +88,12 @@ function processResponse(response) {
 }
 
 function processError(e, dispatch, errorCallback) {
-    let data = e.response.data;
-    const responseError = data.description;
+    let responseError = 'Error de conexión con el servidor';
+    if (e.response) {
+        const data = e.response.data;
+        responseError = data.description;
+    }
+
     dispatch(errorCallback(responseError));
     console.log(responseError);
 }

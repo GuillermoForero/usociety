@@ -1,45 +1,65 @@
 import * as actionTypes from '../actionsTypes';
 
-
 const initialState = {
-    logged: false,
-    userData: {},
-    isFetching: false,
-    isError: false,
-    errorDescription: ''
+    data: {},
+
+    hasError: false,
+    isLogged: false,
+    isLoading: false,
+    errorDescription: '',
+    operationCompleted: false
 };
 
 const userReducer = (state = initialState, action) => {
+
     switch (action.type) {
 
         case actionTypes.LOGGING_USER:
         case actionTypes.CREATING_USER:
+        case actionTypes.UPDATING_USER_CATEGORIES:
             return Object.assign({}, state, {
-                isFetching: true,
-                isError: false,
-                logged: false,
+                ...state,
+                operationCompleted: false,
+                isLoading: true,
+                hasError: false,
             });
-        case actionTypes.RECEIVED_ERROR:
+
+        case actionTypes.USER_CREATED_SUCCESSFUL:
+        case actionTypes.USER_LOGGED_SUCCESSFUL:
             return Object.assign({}, state, {
-                isError: true,
-                isFetching: false,
-                errorDescription: action.payload.error
+                ...state,
+                data: action.payload.data,
+                isLoading: false,
+                hasError: false,
+                isLogged: true
             });
-        case actionTypes.USER_CREATED:
-        case actionTypes.USER_LOGGED:
+
+        case actionTypes.USER_CATEGORIES_UPDATED_SUCCESSFUL:
             return Object.assign({}, state, {
-                userData: action.data,
-                isError: false,
-                isFetching: false,
-                logged: true,
+                ...state,
+                operationCompleted: true,
+                isLoading: false,
+                hasError: false
             });
+
+        case actionTypes.LOG_USER_FAILED:
+        case actionTypes.CREATE_USER_FAILED:
+        case actionTypes.UPDATE_USER_CATEGORIES_FAILED:
+            return Object.assign({}, state, {
+                ...state,
+                errorDescription: action.payload.error,
+                hasError: true,
+                isLoading: false,
+                operationCompleted: false
+            });
+
         case actionTypes.RESET_ERROR: {
             return Object.assign({}, state, {
                 ...state,
-                isError: false,
-                errorDescription: ''
+                hasError: false,
             });
         }
+
         default:
             return state;
     }

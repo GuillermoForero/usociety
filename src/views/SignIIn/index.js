@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -17,6 +17,7 @@ import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
 import * as actionTypes from '../../store/actionsTypes';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -61,9 +62,9 @@ function SignIn(props) {
     };
 
     useEffect(() => {
-        if (props.data.logged)
-            history.push('/home')
-    }, [props.data.logged, history]);
+        if (props.userState.isLogged)
+            history.push('/group/lols/management')
+    }, [props.userState.isLogged, history]);
 
     const handleClosePageError = () => {
         props.dispatch({type: actionTypes.RESET_ERROR})
@@ -71,8 +72,13 @@ function SignIn(props) {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Loader isOpen={props.data.isFetching}/>
-            <PageError isOpen={props.data.isError} onclose={handleClosePageError} errorDescription={props.data.errorDescription}/>
+
+            <Loader isOpen={props.userState.isLoading}/>
+
+            <PageError
+                isOpen={props.userState.hasError}
+                onclose={handleClosePageError}
+                errorDescription={props.userState.errorDescription}/>
 
             <CssBaseline/>
             <div className={classes.paper}>
@@ -121,12 +127,12 @@ function SignIn(props) {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/" variant="body2" style={{color: 'var(--cuaterciary)'}}>
+                            <Link href="/" style={{color: 'var(--cuaterciary)'}}>
                                 ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/signup" variant="body2" style={{color: 'var(--cuaterciary)'}}>
+                            <Link to="/signup" style={{color: 'var(--cuaterciary)'}}>
                                 {"¿No tienes cuenta? Registrate"}
                             </Link>
                         </Grid>
@@ -139,7 +145,7 @@ function SignIn(props) {
 
 const mapStateToProps = state => {
     return {
-        data: state.user
+        userState: state.user
     };
 };
 export default connect(mapStateToProps)(SignIn);

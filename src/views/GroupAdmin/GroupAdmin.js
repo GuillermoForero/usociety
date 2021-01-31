@@ -20,12 +20,13 @@ import Loader from "../../components/Loader/Loader";
 import GroupIcon from '@material-ui/icons/Group';
 import GroupAdd from '@material-ui/icons/GroupAdd';
 import * as actionTypes from "../../store/actionsTypes";
+import PageError from "../../components/PageError/PageError";
+import {useParams} from "react-router";
 
 function GroupAdmin(props) {
     const classes = useStyles();
-
+    const {slug: groupSlug} = useParams();
     const [disableButton, setDisableButton] = useState(true);
-
     const [data, setData] = useState({
         group: {
             name: '',
@@ -39,12 +40,15 @@ function GroupAdmin(props) {
 
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Administración de grupo'}});
-        props.dispatch(getGroupCreator(props.groupId));
+        props.dispatch(getGroupCreator(groupSlug));
     }, []);
 
     useEffect(() => {
-        setData(props.group.currentGroup);
-    }, [props.group.currentGroup]);
+        let currentGroup = props.groupState.currentGroup;
+        if (props.groupState.operationCompleted) {
+            setData(currentGroup);
+        }
+    }, [props.groupState.operationCompleted]);
 
     const handleChangeTextFields = e => {
         let name = e.target.name;
@@ -98,8 +102,16 @@ function GroupAdmin(props) {
         setDisableButton(false);
     };
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
-        <Loader isOpen={props.group.isFetching}/>
+        <Loader isOpen={props.groupState.isLoading}/>
+        <PageError
+            isOpen={props.groupState.hasError}
+            onclose={handleClosePageError}
+            errorDescription={props.groupState.errorDescription}/>
 
         <img
             className='container__main-photo'
@@ -199,8 +211,7 @@ function GroupAdmin(props) {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        group: state.group,
+        groupState: state.group
     };
 };
 

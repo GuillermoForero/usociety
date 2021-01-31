@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 
 import {useStyles} from "../../hooks/useStyles";
-import {TextField} from '@material-ui/core';
+import {InputLabel, TextField} from '@material-ui/core';
 import Grid from "@material-ui/core/Grid";
 
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -22,6 +22,7 @@ import GroupAdd from '@material-ui/icons/GroupAdd';
 import * as actionTypes from "../../store/actionsTypes";
 import PageError from "../../components/PageError/PageError";
 import {useParams} from "react-router";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 function GroupAdmin(props) {
     const classes = useStyles();
@@ -143,11 +144,14 @@ function GroupAdmin(props) {
                         onChange={e => handleChangeTextFields(e)}
                     />
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField
+                <Grid item xs={8}>
+                    <InputLabel style={{fontSize:'13.33px'}}>Descripción</InputLabel>
+                    <TextareaAutosize
+                        style={{width:'400px', fontSize:'15px', padding: '10px' }}
+                        rowsMin={4}
+                        rowsMax={4}
                         id="description"
-                        label="Descripción"
-                        variant="outlined"
+                        placeholder="Detalles sobre el grupo..."
                         value={data.group.description || ''}
                         name='description'
                         onChange={e => handleChangeTextFields(e)}

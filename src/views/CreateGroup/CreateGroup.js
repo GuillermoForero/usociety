@@ -22,6 +22,7 @@ import {useHistory} from "react-router";
 
 import defaultGroupImage from '../../images/u-sergiojpg';
 import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 function CreateGroup(props) {
     const classes = useStyles();
@@ -140,14 +141,15 @@ function CreateGroup(props) {
             onclose={handleClosePageError}
             errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
-        <Grid container>
+        <Grid container className='container__create-group-photo'>
             <Grid item xs={3}>
                 <Image
                     src={image}
                     color={'rgba(0,0,0,0)'}
                     imageStyle={{
                         borderRadius: '20px',
-                        objectFit: 'contain'
+                        objectFit: 'cover',
+                        boxShadow: '20px 0 20px 1px rgba(0, 0, 0, 0.20)',
                     }}/>
             </Grid>
         </Grid>
@@ -178,11 +180,13 @@ function CreateGroup(props) {
                         onChange={e => handleChangeTextFields(e)}
                     />
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField
+                <Grid item xs={8}>
+                    <TextareaAutosize
+                        style={{width:'400px', fontSize:'15px', padding: '10px' }}
+                        rowsMin={4}
+                        rowsMax={4}
                         id="description"
-                        label="Descripción"
-                        variant="outlined"
+                        placeholder="Detalles sobre el grupo..."
                         value={data.group.description || ''}
                         name='description'
                         onChange={e => handleChangeTextFields(e)}

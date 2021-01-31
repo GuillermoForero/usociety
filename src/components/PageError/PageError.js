@@ -8,7 +8,8 @@ import errorImage from '../../images/error-svgrepo-com.svg'
 function PageError(props) {
     return <Modal
         isOpen={props.isOpen}
-        onclose={props.onclose}>
+        onclose={props.onclose}
+        showCloseButton={true}>
         <div className='container__on-error'>
             <h3 style={{marginBottom: '10px', fontSize: '30px', color: 'gray'}}>Se ha producido un error :(</h3>
 

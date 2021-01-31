@@ -1,11 +1,16 @@
 import React from 'react';
-import {createPortal} from 'react-dom';
 
 import './Loader.css';
+import Modal from "../Modal/Modal";
 
 function Loader(props) {
-    if (props.isOpen === true)
-        return (createPortal(<div className="container__main">
+    let open = props.isOpen;
+    if (open === true)
+        return <Modal
+            isOpen={open}
+            transparent={true}
+            showCloseButton={false}>
+            <div className="container__main">
                 <div className="lds-roller">
                     <div/>
                     <div/>
@@ -16,8 +21,8 @@ function Loader(props) {
                     <div/>
                     <div/>
                 </div>
-            </div>,
-            document.getElementById('app')));
+            </div>
+        </Modal>;
     return <></>;
 }
 

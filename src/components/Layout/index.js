@@ -58,7 +58,7 @@ const Layout = (props) => {
                                     <MenuIcon  button style={{cursor:'pointer'}}/>
                                 </ListItem>
                             <RouterLink to={'/home'} className={classes.ancla}>
-                                <ListItem button>
+                                <ListItem button onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupIcon className={classes.button}/>
                                     </ListItemIcon>
@@ -66,7 +66,7 @@ const Layout = (props) => {
                                 </ListItem>
                             </RouterLink>
                             <RouterLink to={'/search'} className={classes.ancla}>
-                                <ListItem button href="#simple-list">
+                                <ListItem button href="#simple-list" onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupAdd className={classes.button}/>
                                     </ListItemIcon>

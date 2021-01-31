@@ -2,6 +2,9 @@ const axios = require('axios');
 
 const BASE_API_URL = 'http://localhost:8080/manager/services';
 
+export const INVALID_OTP  = 'INVALID_OTP';
+export const EMAIL_NOT_VERIFIED  = 'Email not verified';
+
 export const get = async (path, dispatch, successCallback, errorCallback, getState) => {
     try {
         const authorizationHeader = buildAuthorizationToken(getState);

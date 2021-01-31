@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionsTypes';
 import {Category, UpdateUserCategories} from "../category/categoryInterfaces";
-import {basePostCreator, basePutCreator} from "../commonActionsCreator";
+import {baseGetCreator, basePostCreator, basePutCreator} from "../commonActionsCreator";
 
 const FormData = require('form-data');
 const generalError = "Error general";
@@ -18,9 +18,29 @@ const userCreated = user => {
     };
 };
 
-const createUserFailed = (errorDescription, statusCode ) => {
+const createUserFailed = (errorDescription, statusCode) => {
     return {
         type: actionTypes.CREATE_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const sendingVerificationEmail = () => {
+    return {
+        type: actionTypes.SENDING_VERIFICATION_EMAIL,
+    };
+};
+
+const emailVerificationSentSuccessful = user => {
+    return {
+        type: actionTypes.EMAIL_VERIFICATION_SENT_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const sendEmailVerificationFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.SEND_EMAIL_VERIFICATION_FAILED,
         payload: {error: errorDescription, status: statusCode}
     };
 };
@@ -31,14 +51,14 @@ const verifyingEmail = () => {
     };
 };
 
-const emailVerifiedSuccessful = user => {
+const emailVerificationSuccessful = user => {
     return {
         type: actionTypes.EMAIL_VERIFIED_SUCCESSFUL,
         payload: {data: user}
     };
 };
 
-const verifyEmailFailed = (errorDescription, statusCode) => {
+const emailVerificationFailed = (errorDescription, statusCode) => {
     return {
         type: actionTypes.EMAIL_VERIFY_FAILED,
         payload: {error: errorDescription, status: statusCode}
@@ -58,10 +78,30 @@ const userLogged = user => {
     };
 };
 
-const logUserFailed = errorDescription => {
+const logUserFailed = (errorDescription, statusCode) => {
     return {
         type: actionTypes.LOG_USER_FAILED,
-        payload: {error: errorDescription}
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const gettingUser = () => {
+    return {
+        type: actionTypes.GETTING_USER,
+    };
+};
+
+const userGotSuccessful = user => {
+    return {
+        type: actionTypes.USER_GOT_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const getUserFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.GET_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
     };
 };
 
@@ -110,12 +150,18 @@ export const loginUserCreator = user => {
     }
 };
 
-export const verifyEmailCreator = email => {
-    try {
-        return basePostCreator('/users/verifyEmail?email=' + email, {}, verifyingEmail, emailVerifiedSuccessful, verifyEmailFailed);
-    } catch (e) {
-        return verifyEmailFailed(generalError);
-    }
+export const sendVerificationEmailCreator = (email, resendEmail) => {
+    return basePostCreator('/users/verifyEmail?email=' + email + '&resendCode=' + resendEmail, {},
+        sendingVerificationEmail, emailVerificationSentSuccessful, sendEmailVerificationFailed);
+};
+
+export const verifyEmailCreator = (email, otpCode) => {
+    return basePostCreator('/users/enableAccount?email=' + email + '&otpCode=' + otpCode, {},
+        verifyingEmail, emailVerificationSuccessful, emailVerificationFailed);
+};
+
+export const getUserCreator = username => {
+    return baseGetCreator('/users/' + username, gettingUser, userGotSuccessful, getUserFailed);
 };
 
 export const updateUserCategoriesCreator = (categoriesId) => {

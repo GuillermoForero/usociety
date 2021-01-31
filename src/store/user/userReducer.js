@@ -2,6 +2,7 @@ import * as actionTypes from '../actionsTypes';
 
 const initialState = {
     data: {},
+    tmpUser: {},
 
     hasError: false,
     isLogged: false,
@@ -16,6 +17,7 @@ const userReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case actionTypes.LOGGING_USER:
+        case actionTypes.GETTING_USER:
         case actionTypes.CREATING_USER:
         case actionTypes.UPDATING_USER_CATEGORIES:
             return Object.assign({}, state, {
@@ -26,7 +28,7 @@ const userReducer = (state = initialState, action) => {
                 hasError: false,
             });
 
-        case actionTypes.VERIFYING_EMAIL:
+        case actionTypes.SENDING_VERIFICATION_EMAIL:
             return Object.assign({}, state, {
                 ...state,
                 errorCode: '',
@@ -53,10 +55,18 @@ const userReducer = (state = initialState, action) => {
                 hasError: false
             });
 
+        case actionTypes.USER_GOT_SUCCESSFUL:
+            return Object.assign({}, state, {
+                ...state,
+                tmpUser: action.payload.data,
+                isLoading: false,
+                hasError: false,
+            });
+
         case actionTypes.LOG_USER_FAILED:
         case actionTypes.CREATE_USER_FAILED:
-        case actionTypes.EMAIL_VERIFY_FAILED:
         case actionTypes.UPDATE_USER_CATEGORIES_FAILED:
+        case actionTypes.SEND_EMAIL_VERIFICATION_FAILED:
             return Object.assign({}, state, {
                 ...state,
                 errorDescription: action.payload.error,
@@ -66,7 +76,7 @@ const userReducer = (state = initialState, action) => {
                 operationCompleted: false
             });
 
-        case actionTypes.EMAIL_VERIFIED_SUCCESSFUL: {
+        case actionTypes.EMAIL_VERIFICATION_SENT_SUCCESSFUL: {
             return Object.assign({}, state, {
                 ...state,
                 operationCompleted: true,

@@ -10,7 +10,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import {connect} from 'react-redux';
-import {createUserCreator, verifyEmailCreator} from "../../../store/user/userActions";
+import {createUserCreator, sendVerificationEmailCreator} from "../../../store/user/userActions";
 
 import {useHistory} from "react-router";
 import Image from "material-ui-image";
@@ -21,6 +21,7 @@ import {Link} from "react-router-dom";
 
 import defaultUserImage from '../../../images/default-user-image.png';
 import VerifyEmail from "../../../components/VerifyEmail/VerifyEmail";
+import {INVALID_OTP} from "../../../configuration/service";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,6 +49,7 @@ function SingUpUserData(props) {
     const history = useHistory();
     const [image, setImage] = useState(defaultUserImage);
     const [verifiedEmail, setVerifiedEmail] = useState(false);
+    const [emailUsedToVerify, setEmailUsedToVerify] = useState('');
     const [verifiedEmailModalIsOpen, setVerifiedEmailModalIsOpen] = useState(false);
     const [user, setUser] = useState({
         'name': '',
@@ -64,7 +66,7 @@ function SingUpUserData(props) {
     }, [props.userState.isLogged]);
 
     useEffect(() => {
-        if (props.userState.errorCode === 'INVALID_OTP') {
+        if (props.userState.errorCode === INVALID_OTP) {
             setVerifiedEmailModalIsOpen(false);
             setVerifiedEmail(false);
         }
@@ -104,12 +106,20 @@ function SingUpUserData(props) {
         setUser({...user, image: file});
     };
 
-    const handleVerifyEmail = () => {
-        props.dispatch(verifyEmailCreator(user.email));
+    const handleVerifyEmail = (sendCode) => {
+        const email = user.email;
+        if (sendCode) {
+            if (emailUsedToVerify === '' || email !== emailUsedToVerify) {
+                props.dispatch(sendVerificationEmailCreator(email, false));
+            }
+            setEmailUsedToVerify(email);
+        }
         setVerifiedEmailModalIsOpen(!verifiedEmailModalIsOpen);
     };
 
     const handleCatchCode = verificationCode => {
+        props.dispatch(sendVerificationEmailCreator(user.email, false));
+        setVerifiedEmailModalIsOpen(!verifiedEmailModalIsOpen);
         setUser({...user, otpCode: verificationCode});
         setVerifiedEmail(verifiedEmailModalIsOpen);
         setVerifiedEmailModalIsOpen(!verifiedEmailModalIsOpen);
@@ -125,7 +135,7 @@ function SingUpUserData(props) {
                 errorDescription={props.userState.errorDescription}/>
             <VerifyEmail
                 isOpen={verifiedEmailModalIsOpen}
-                onclose={handleVerifyEmail}
+                onclose={() => handleVerifyEmail(false)}
                 onclick={handleCatchCode}
             />
 
@@ -232,7 +242,7 @@ function SingUpUserData(props) {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={handleVerifyEmail}
+                            onClick={() => handleVerifyEmail(true)}
                             disabled={user.email === ''}>
                             Verificar correo
                         </Button>

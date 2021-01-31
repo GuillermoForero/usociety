@@ -28,6 +28,7 @@ export default function App() {
                 <Route path="/preferences" exact strict>
                         <SingUpPreferences/>
                 </Route>
+
                 <Layout>
                     <Route path="/home" exact strict>
                         <GuardedRoute component={Home}/>

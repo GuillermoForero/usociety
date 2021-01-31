@@ -10,7 +10,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import {connect} from 'react-redux';
-import {createUserCreator} from "../../../store/user/userActions";
+import {createUserCreator, verifyEmailCreator} from "../../../store/user/userActions";
 
 import {useHistory} from "react-router";
 import Image from "material-ui-image";
@@ -20,6 +20,7 @@ import PageError from "../../../components/PageError/PageError";
 import {Link} from "react-router-dom";
 
 import defaultUserImage from '../../../images/default-user-image.png';
+import VerifyEmail from "../../../components/VerifyEmail/VerifyEmail";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,6 +47,8 @@ function SingUpUserData(props) {
     const classes = useStyles();
     const history = useHistory();
     const [image, setImage] = useState(defaultUserImage);
+    const [verifiedEmail, setVerifiedEmail] = useState(false);
+    const [verifiedEmailModalIsOpen, setVerifiedEmailModalIsOpen] = useState(false);
     const [user, setUser] = useState({
         'name': '',
         'email': '',
@@ -67,6 +70,14 @@ function SingUpUserData(props) {
         });
     };
 
+    const handleEmailChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        });
+        setVerifiedEmail(false);
+    };
+
     const handleSubmit = async () => {
         props.dispatch(createUserCreator(user));
     };
@@ -82,6 +93,17 @@ function SingUpUserData(props) {
         setUser({...user, image: file});
     };
 
+    const handleVerifyEmail = () => {
+        props.dispatch(verifyEmailCreator(user.email));
+        setVerifiedEmailModalIsOpen(!verifiedEmailModalIsOpen);
+    };
+
+    const handleCatchCode = verificationCode => {
+        setUser({...user, otpCode: verificationCode});
+        setVerifiedEmail(verifiedEmailModalIsOpen);
+        setVerifiedEmailModalIsOpen(!verifiedEmailModalIsOpen);
+    };
+
     return (
         <Container component="main" maxWidth="xs">
 
@@ -90,6 +112,11 @@ function SingUpUserData(props) {
                 isOpen={props.userState.hasError}
                 onclose={handleClosePageError}
                 errorDescription={props.userState.errorDescription}/>
+            <VerifyEmail
+                isOpen={verifiedEmailModalIsOpen}
+                onclose={handleVerifyEmail}
+                onclick={handleCatchCode}
+            />
 
             <CssBaseline/>
             <div className={classes.paper}>
@@ -125,6 +152,20 @@ function SingUpUserData(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Correo"
+                                name="email"
+                                autoComplete="email"
+                                value={user.email}
+                                onChange={e => handleEmailChange(e)}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <TextField
                                 autoComplete="name"
                                 name="name"
                                 variant="outlined"
@@ -136,19 +177,7 @@ function SingUpUserData(props) {
                                 onChange={e => handleChange(e)}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Correo"
-                                name="email"
-                                autoComplete="email"
-                                value={user.email}
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
+
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
@@ -178,14 +207,25 @@ function SingUpUserData(props) {
                         </Grid>
                     </Grid>
 
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={handleSubmit}>
-                        Registrarme
-                    </Button>
+                    {verifiedEmail ?
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={handleSubmit}>
+                            Registrarme
+                        </Button> :
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                            onClick={handleVerifyEmail}
+                            disabled={user.email === ''}>
+                            Verificar correo
+                        </Button>
+                    }
 
                     <Grid container justify="flex-end">
                         <Grid item>

@@ -25,6 +25,26 @@ const createUserFailed = errorDescription => {
     };
 };
 
+const verifyingEmail = () => {
+    return {
+        type: actionTypes.VERIFYING_EMAIL,
+    };
+};
+
+const emailVerifiedSuccessful = user => {
+    return {
+        type: actionTypes.EMAIL_VERIFIED_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const verifyEmailFailed = errorDescription => {
+    return {
+        type: actionTypes.EMAIL_VERIFY_FAILED,
+        payload: {error: errorDescription}
+    };
+};
+
 const loggingUser = () => {
     return {
         type: actionTypes.LOGGING_USER,
@@ -90,6 +110,13 @@ export const loginUserCreator = user => {
     }
 };
 
+export const verifyEmailCreator = email => {
+    try {
+        return basePostCreator('/users/verifyEmail?email=' + email, {}, verifyingEmail, emailVerifiedSuccessful, verifyEmailFailed);
+    } catch (e) {
+        return verifyEmailFailed(generalError);
+    }
+};
 
 export const updateUserCategoriesCreator = (categoriesId) => {
     try {

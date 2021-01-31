@@ -44,6 +44,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.LOG_USER_FAILED:
         case actionTypes.CREATE_USER_FAILED:
+        case actionTypes.EMAIL_VERIFY_FAILED:
         case actionTypes.UPDATE_USER_CATEGORIES_FAILED:
             return Object.assign({}, state, {
                 ...state,
@@ -52,6 +53,13 @@ const userReducer = (state = initialState, action) => {
                 isLoading: false,
                 operationCompleted: false
             });
+
+        case actionTypes.EMAIL_VERIFIED_SUCCESSFUL: {
+            return Object.assign({}, state, {
+                ...state,
+                operationCompleted: true,
+            });
+        }
 
         case actionTypes.RESET_ERROR: {
             return Object.assign({}, state, {

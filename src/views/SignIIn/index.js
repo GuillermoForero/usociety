@@ -17,6 +17,7 @@ import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
 import * as actionTypes from '../../store/actionsTypes';
 import {Link} from "react-router-dom";
+import Footer from "../../components/Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -138,6 +139,7 @@ function SignIn(props) {
                     </Grid>
                 </form>
             </div>
+            <Footer/>
         </Container>
     );
 }

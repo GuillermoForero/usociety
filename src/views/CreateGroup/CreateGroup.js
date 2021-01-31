@@ -20,7 +20,7 @@ import Image from "material-ui-image";
 import PageError from "../../components/PageError/PageError";
 import {useHistory} from "react-router";
 
-import defaultGroupImage from '../../images/u-sergiojpg';
+import defaultGroupImage from '../../images/background.jpg';
 import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
@@ -141,8 +141,10 @@ function CreateGroup(props) {
             onclose={handleClosePageError}
             errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
-        <Grid container className='container__create-group-photo'>
-            <Grid item xs={3}>
+
+        <FormControl className={classes.formControl} fullWidth style={{marginTop: '10px'}}>
+
+            <Grid item xs={6} style={{marginBottom: '20px', marginTop: '10px'}}>
                 <Image
                     src={image}
                     color={'rgba(0,0,0,0)'}
@@ -150,11 +152,11 @@ function CreateGroup(props) {
                         borderRadius: '20px',
                         objectFit: 'cover',
                         boxShadow: '20px 0 20px 1px rgba(0, 0, 0, 0.20)',
-                    }}/>
+                    }}
+                    aspectRatio={16 / 9}
+                />
             </Grid>
-        </Grid>
 
-        <FormControl className={classes.formControl} fullWidth style={{marginTop: '10px'}}>
             <Grid container style={{flexDirection: 'column'}} spacing={2}>
                 <Grid item xs={12}>
                     <TextField

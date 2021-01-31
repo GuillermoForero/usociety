@@ -23,7 +23,7 @@ import * as actionTypes from "../../store/actionsTypes";
 import PageError from "../../components/PageError/PageError";
 import {useParams} from "react-router";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import defaultGroupImage from "../../images/u-sergiojpg";
+import defaultGroupImage from "../../images/background.jpg";
 import Image from "material-ui-image";
 import {isEmpty} from "lodash";
 

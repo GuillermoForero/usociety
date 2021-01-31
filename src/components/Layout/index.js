@@ -2,8 +2,8 @@ import React, {Fragment} from 'react';
 import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
-import {AccountCircle} from "@material-ui/icons";
 import Divider from '@material-ui/core/Divider';
+import defaultUserImage from '../../images/default-user-image.png';
 
 import {useSelector} from "react-redux";
 import {Link as RouterLink} from "react-router-dom";
@@ -40,6 +40,7 @@ const Layout = (props) => {
     const classes = useStyles();
     const [menuLeft, setMenuLeft] = React.useState(false);
     const mainTitle = useSelector(state => state.global.mainTitle);
+    const userPhoto = useSelector(state => state.user.data.user.photo);
 
     const handleMenu = (event) => {
         //open edit profile view
@@ -49,16 +50,17 @@ const Layout = (props) => {
         <div className={classes.root}>
             <AppBar position="static" style={{backgroundColor: 'var(--primary)'}}>
                 <Toolbar style={{justifyContent: "space-between"}}>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => setMenuLeft(true)}>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                onClick={() => setMenuLeft(true)}>
                         <MenuIcon/>
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                                <ListItem button style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
-                                    <MenuIcon  button style={{cursor:'pointer'}}/>
+                                <ListItem style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
+                                    <MenuIcon style={{cursor:'pointer'}}/>
                                 </ListItem>
                             <RouterLink to={'/home'} className={classes.ancla}>
-                                <ListItem button onClick={() => setMenuLeft(false)}>
+                                <ListItem onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupIcon className={classes.button}/>
                                     </ListItemIcon>
@@ -66,7 +68,7 @@ const Layout = (props) => {
                                 </ListItem>
                             </RouterLink>
                             <RouterLink to={'/search'} className={classes.ancla}>
-                                <ListItem button href="#simple-list" onClick={() => setMenuLeft(false)}>
+                                <ListItem href="#simple-list" onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupAdd className={classes.button}/>
                                     </ListItemIcon>
@@ -76,7 +78,7 @@ const Layout = (props) => {
 
                             <Divider/>
                             <Link href='/' className={classes.ancla}>
-                                <ListItem button href="#simple-list">
+                                <ListItem href="#simple-list">
                                     <ListItemIcon>
                                         <ExitToAppIcon className={classes.button}/>
                                     </ListItemIcon>
@@ -89,17 +91,17 @@ const Layout = (props) => {
                         {mainTitle || 'USociety (dynamically)'}
                     </Typography>
 
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle/>
-                            </IconButton>
-                        </div>
+                    <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
+
+                        <img
+                            src={userPhoto || defaultUserImage}
+                            style={{
+                                borderRadius: '50px',
+                                objectFit: 'cover',
+                                cursor: 'pointer'
+                            }}
+                            alt='User'/>
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>

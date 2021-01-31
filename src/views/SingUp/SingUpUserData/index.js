@@ -19,6 +19,8 @@ import * as actionTypes from "../../../store/actionsTypes";
 import PageError from "../../../components/PageError/PageError";
 import {Link} from "react-router-dom";
 
+import defaultUserImage from '../../../images/default-user-image.png';
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -43,12 +45,13 @@ const useStyles = makeStyles((theme) => ({
 function SingUpUserData(props) {
     const classes = useStyles();
     const history = useHistory();
-    const [image, setImage] = useState('https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png');
+    const [image, setImage] = useState(defaultUserImage);
     const [user, setUser] = useState({
         'name': '',
         'email': '',
         'password': '',
-        'photo': ''
+        'photo': '',
+        'username': ''
     });
 
     useEffect(() => {

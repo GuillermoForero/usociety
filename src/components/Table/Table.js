@@ -78,14 +78,14 @@ function CustomTable(props) {
                     {props.rows.map((row) => (
                         <StyledTableRow key={row.id}>
                             <TableCell calign="left">
-                                {<Image
+                                <Image
                                     className={classes.table}
                                     src={row.photo || defaultGroupImage}
                                     color={'rgba(0,0,0,0)'}
                                     imageStyle={{
                                         borderRadius: '100px',
                                         objectFit: 'cover'
-                                    }}/>}
+                                    }}/>
                             </TableCell>
                             <TableCell
                                 className={classes.table}

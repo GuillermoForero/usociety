@@ -21,11 +21,13 @@ import Image from "material-ui-image";
 import PageError from "../../components/PageError/PageError";
 import {useHistory} from "react-router";
 
+import defaultGroupImage from '../../images/u-sergiojpg';
+
 function CreateGroup(props) {
     const classes = useStyles();
     const history = useHistory();
 
-    const [image, setImage] = useState('https://pbs.twimg.com/profile_images/737629024919265281/c3xXF2Iw_400x400.jpg');
+    const [image, setImage] = useState(defaultGroupImage);
     const [data, setData] = useState({
         group: {
             name: '',
@@ -139,12 +141,12 @@ function CreateGroup(props) {
             errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
         <Grid container>
-            <Grid item xs={2}>
+            <Grid item xs={3}>
                 <Image
                     src={image}
                     color={'rgba(0,0,0,0)'}
                     imageStyle={{
-                        borderRadius: '50px',
+                        borderRadius: '20px',
                         objectFit: 'contain'
                     }}/>
             </Grid>

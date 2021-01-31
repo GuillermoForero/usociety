@@ -127,7 +127,7 @@ function SignIn(props) {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/" style={{color: 'var(--cuaterciary)'}}>
+                            <Link to="#" style={{color: 'var(--cuaterciary)'}}>
                                 ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>

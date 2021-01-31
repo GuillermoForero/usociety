@@ -81,7 +81,6 @@ function GroupAdmin(props) {
                 targetUserId: userId,
                 status: status
             }));
-        props.dispatch(getGroupCreator(props.groupId));
     };
 
     const handleSaveClick = () => {

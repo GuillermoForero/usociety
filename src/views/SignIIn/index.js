@@ -62,7 +62,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.userState.isLogged)
-            history.push('/group/lols/management')
+            history.push('/group/lolsito/management')
     }, [props.userState.isLogged, history]);
 
     const handleClosePageError = () => {

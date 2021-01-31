@@ -33,9 +33,10 @@ const updatingGroup = () => {
     };
 };
 
-const updatingGroupSuccessful = () => {
+const updatingGroupSuccessful = (updatedGroup) => {
     return {
         type: actionTypes.GROUP_UPDATE_SUCCESSFUL,
+        payload: {data: updatedGroup}
     };
 };
 
@@ -113,9 +114,10 @@ const updatingUserMembership = () => {
     };
 };
 
-const updateUserMembershipSuccessful = () => {
+const updateUserMembershipSuccessful = (updatedGroup) => {
     return {
         type: actionTypes.USER_MEMBERSHIP_UPDATED_SUCCESSFUL,
+        payload: {data: updatedGroup}
     };
 };
 

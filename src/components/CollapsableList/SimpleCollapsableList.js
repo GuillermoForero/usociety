@@ -26,7 +26,7 @@ function SimpleCollapsableList(props) {
 
     let items = props.items;
     useEffect(() => {
-        setOpen(items.length > 0);
+        setOpen(items && items.length > 0);
     }, [props.items]);
 
 
@@ -56,7 +56,7 @@ function SimpleCollapsableList(props) {
             </ListItemIcon>
             <ListItemText primary={props.typeName}
             />
-            {open || items.length === 0
+            {open || !items || items.length === 0
                 ? <AddIcon
                     className={classes.withCursor}
                     onClick={() => props.addlistitem(attributeName)}

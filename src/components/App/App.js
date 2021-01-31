@@ -11,23 +11,17 @@ import GuardedRoute from "../GuardedRoute";
 import Home from "../../views/Home";
 import SearchGroup from "../../views/SearchGroup";
 import CreatePost from "../../views/GroupPrincipal/CreatePost";
+import FooterPage from "../../views/FooterPage/FooterPage";
 
 export default function App() {
     return (
         <Router>
+        <FooterPage>
             <Switch>
-                <Route path="/" exact strict>
-                        <SignIn/>
-                </Route>
-                <Route path="/hola" exact strict>
-                        <CreatePost/>
-                </Route>
-                <Route path="/signup" exact strict>
-                        <SingUpUserData/>
-                </Route>
-                <Route path="/preferences" exact strict>
-                        <SingUpPreferences/>
-                </Route>
+                <Route path="/" component={SignIn} exact strict/>
+                <Route path="/hola" component={CreatePost} exact strict/>
+                <Route path="/signup" component={SingUpUserData} exact strict/>
+                <Route path="/preferences" component={SingUpPreferences} exact strict/>
 
                 <Layout>
                     <Route path="/home" exact strict>
@@ -47,8 +41,9 @@ export default function App() {
                         <GuardedRoute component={GroupAdmin}/>
                     </Route>
                 </Layout>
-            </Switch>
 
+            </Switch>
+        </FooterPage>
         </Router>
     );
 }

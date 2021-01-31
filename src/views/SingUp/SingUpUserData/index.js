@@ -25,7 +25,7 @@ import {INVALID_OTP} from "../../../configuration/service";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(5),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

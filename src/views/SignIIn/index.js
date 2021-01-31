@@ -17,11 +17,10 @@ import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
 import * as actionTypes from '../../store/actionsTypes';
 import {Link} from "react-router-dom";
-import Footer from "../../components/Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(14),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -63,7 +62,7 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.userState.isLogged)
-            history.push('/group/lolsitoss/management')
+            history.push('/home')
     }, [props.userState.isLogged, history]);
 
     const handleClosePageError = () => {
@@ -139,7 +138,6 @@ function SignIn(props) {
                     </Grid>
                 </form>
             </div>
-            <Footer/>
         </Container>
     );
 }

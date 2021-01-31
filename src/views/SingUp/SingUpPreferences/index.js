@@ -21,7 +21,7 @@ import PageError from "../../../components/PageError/PageError";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(10),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -117,6 +117,7 @@ function SingUpPreferences(props) {
                         color="primary"
                         backgroundColor='var(--primary)'
                         onClick={e => handleSaveClick(e)}
+                        style={{marginTop:'10px'}}
                     >
                         Guardar
                     </Button>

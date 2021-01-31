@@ -26,7 +26,14 @@ function SimpleCollapsableList(props) {
 
     let items = props.items;
     useEffect(() => {
-        setOpen(items && items.length > 0);
+        const thereExistsItems = items && items.length > 0;
+        setOpen(thereExistsItems);
+
+        let updatedEditableList = Object.assign({}, editableList);
+        if (thereExistsItems && items[items.length - 1] === '') {
+            updatedEditableList[items.length - 1] = true;
+        }
+        setEditableList(updatedEditableList);
     }, [props.items]);
 
 
@@ -40,13 +47,12 @@ function SimpleCollapsableList(props) {
         setEditableList(updatedEditableList);
     };
 
-    const handleDeleteClick = (item) => {
-        props.ondeleteclick(attributeName, item);
+    const handleDeleteClick = (position) => {
+        props.ondeleteclick(attributeName, position);
         setEditableList({});
     };
 
     const attributeName = props.attributeName;
-
 
     return <List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
 
@@ -79,6 +85,7 @@ function SimpleCollapsableList(props) {
                             onChange={(e) =>
                                 props.onchange(e, attributeName, index)
                             }
+                            disabled={!editableList[index]}
                         />
 
                         <ListItemSecondaryAction>
@@ -93,7 +100,7 @@ function SimpleCollapsableList(props) {
                             <IconButton
                                 edge="end"
                                 aria-label="comments"
-                                onClick={() => handleDeleteClick(item)}
+                                onClick={() => handleDeleteClick(index)}
                             >
                                 <DeleteIcon/>
                             </IconButton>

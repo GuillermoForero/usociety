@@ -73,13 +73,15 @@ function GroupAdmin(props) {
         setDisableButton(false);
     };
 
-    const handleDeleteRulesOrObjectiveClick = (attributeName, targetValue) => {
-        let updatedObjectives = data.group[attributeName].filter(value => value !== targetValue);
+    const handleDeleteRulesOrObjectiveClick = (attributeName, position) => {
+        let list = data.group[attributeName];
+
+        list.splice(position, 1);
         setData({
             ...data,
             group: {
                 ...data.group,
-                [attributeName]: updatedObjectives
+                [attributeName]: list
             }
         });
         setDisableButton(false);

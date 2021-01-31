@@ -23,11 +23,15 @@ import * as actionTypes from "../../store/actionsTypes";
 import PageError from "../../components/PageError/PageError";
 import {useParams} from "react-router";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import defaultGroupImage from "../../images/u-sergiojpg";
+import Image from "material-ui-image";
+import {isEmpty} from "lodash";
 
 function GroupAdmin(props) {
     const classes = useStyles();
     const {slug: groupSlug} = useParams();
     const [disableButton, setDisableButton] = useState(true);
+    const [image, setImage] = useState({url: defaultGroupImage, value: {}});
     const [data, setData] = useState({
         group: {
             name: '',
@@ -48,6 +52,11 @@ function GroupAdmin(props) {
         let currentGroup = props.groupState.currentGroup;
         if (props.groupState.operationCompleted) {
             setData(currentGroup);
+
+            const currentImageGroup = currentGroup.group.photo;
+            if (isEmpty(currentGroup)) {
+                setImage({...image, url: currentImageGroup});
+            }
         }
     }, [props.groupState.operationCompleted]);
 
@@ -85,7 +94,7 @@ function GroupAdmin(props) {
     };
 
     const handleSaveClick = () => {
-        props.dispatch(updateGroupCreator(data.group));
+        props.dispatch(updateGroupCreator(data.group, image.value));
         setDisableButton(true);
     };
 
@@ -102,9 +111,6 @@ function GroupAdmin(props) {
         setDisableButton(false);
     };
 
-    const handleClosePageError = () => {
-        props.dispatch({type: actionTypes.RESET_ERROR})
-    };
 
     const handleAddNewListItem = (attributeName) => {
         let updatedList = Object.assign([], data.group[attributeName]);
@@ -116,7 +122,16 @@ function GroupAdmin(props) {
                 [attributeName]: updatedList
             }
         });
-        console.log(updatedList);
+    };
+
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
+    const onChangeFile = files => {
+        let imageUrl = URL.createObjectURL(files[0]);
+        setImage({url: imageUrl, value: files[0]});
+        setDisableButton(false);
     };
 
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
@@ -126,14 +141,35 @@ function GroupAdmin(props) {
             onclose={handleClosePageError}
             errorDescription={props.groupState.errorDescription}/>
 
-        <img
-            className='container__main-photo'
-            src={data.group.photo}
-            alt="Group"
-        />
 
         <form className={classes.form}>
+
+            <Grid item xs={6} style={{marginBottom: '20px'}}>
+                <Image
+                    className='container__main-photo'
+                    src={image.url}
+                    alt="Group"
+                    aspectRatio={16 / 9}
+                />
+            </Grid>
+
             <Grid container style={{flexDirection: 'column'}} spacing={2}>
+
+
+                <Grid item xs={12}>
+                    <TextField
+                        name="photo"
+                        variant="outlined"
+                        fullWidth
+                        id="photo"
+                        type='file'
+                        required
+                        onChange={e => {
+                            onChangeFile([...e.target.files]);
+                        }}
+                    />
+                </Grid>
+
                 <Grid item xs={6}>
                     <TextField
                         id="name"
@@ -145,9 +181,9 @@ function GroupAdmin(props) {
                     />
                 </Grid>
                 <Grid item xs={8}>
-                    <InputLabel style={{fontSize:'13.33px'}}>Descripción</InputLabel>
+                    <InputLabel style={{fontSize: '13.33px'}}>Descripción</InputLabel>
                     <TextareaAutosize
-                        style={{width:'400px', fontSize:'15px', padding: '10px' }}
+                        style={{width: '400px', fontSize: '15px', padding: '10px'}}
                         rowsMin={4}
                         rowsMax={4}
                         id="description"

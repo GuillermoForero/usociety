@@ -110,7 +110,7 @@ function CreateGroup(props) {
         });
     };
 
-    const onChangeFile = async files => {
+    const onChangeFile = files => {
         let imageUrl = URL.createObjectURL(files[0]);
         setImage(imageUrl);
         setData({

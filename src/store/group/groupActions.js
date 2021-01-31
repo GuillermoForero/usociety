@@ -160,13 +160,16 @@ export const updateUserMembershipCreator = (groupId, request) => {
     }
 };
 
-export const updateGroupCreator = (group) => {
+export const updateGroupCreator = (group, photo) => {
     try {
         const body = new FormData();
         const groupBlob = new Blob([JSON.stringify(group)], {
             type: 'application/json'
         });
         body.append('group', groupBlob);
+        body.append('photo', photo);
+
+        console.log(group);
 
         return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, updateGroupFailed);
     } catch (e) {

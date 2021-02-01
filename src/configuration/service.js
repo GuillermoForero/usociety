@@ -1,5 +1,10 @@
 const https = require('https');
 const axios = require('axios');
+const axiosInstance = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+    })
+});
 
 const BASE_API_URL = 'https://ec2-18-210-16-233.compute-1.amazonaws.com:8443/manager/services';
 
@@ -14,11 +19,10 @@ export const get = async (path, dispatch, successCallback, errorCallback, getSta
             method: 'get',
             url: `${BASE_API_URL}${path}`,
             headers: {...authorizationHeader},
-            httpsAgent: buildNonSSLAgent(),
         };
 
         console.log('GET: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
@@ -40,12 +44,11 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
                 ...body.getHeaders,
                 ...authorizationHeader,
             },
-            httpsAgent: buildNonSSLAgent(),
             data: body
         };
 
         console.log('POST: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
@@ -67,12 +70,11 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
                 ...body.getHeaders,
                 ...authorizationHeader
             },
-            httpsAgent: buildNonSSLAgent(),
             data: body
         };
 
         console.log('PUT: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {

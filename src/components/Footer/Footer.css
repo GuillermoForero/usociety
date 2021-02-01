@@ -1,0 +1,31 @@
+.container__footer {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    color: white;
+    position: sticky;
+}
+
+.container__footer-legends {
+    width: 80%;
+    margin: 0 25px;
+}
+
+.container__footer-legends span {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.container__footer-social {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.container__footer-social * {
+    margin: 5px;
+    cursor: pointer;
+}

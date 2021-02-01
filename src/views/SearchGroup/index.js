@@ -3,19 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import {
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow
-} from "@material-ui/core";
+import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
 
 import {connect} from 'react-redux';
 import {searchGroupsCreator} from "../../store/group/groupActions";
@@ -23,20 +11,10 @@ import {loadCategoriesCreator} from "../../store/category/categoryActions";
 import {useStyles} from "../../hooks/useStyles";
 import * as actionTypes from "../../store/actionsTypes";
 import Loader from "../../components/Loader/Loader";
-import {withStyles} from "@material-ui/core/styles";
+import CustomTable from "../../components/CustomTable/CustomTable";
+import PageError from "../../components/PageError/PageError";
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: 'gray',
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-
-function Master2(props) {
+function SearchGroup(props) {
     const classes = useStyles();
 
     const [query, setQuery] = useState({
@@ -49,7 +27,7 @@ function Master2(props) {
         props.dispatch(loadCategoriesCreator());
     }, []);
 
-    const rows = props.group.groups;
+    const rows = props.groupState.groups;
 
     const handleSearchButtonClick = () => {
         props.dispatch(searchGroupsCreator(query));
@@ -59,6 +37,10 @@ function Master2(props) {
         setQuery({...query, categoryId: categoryId});
     };
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
     const handleChange = e => {
         setQuery({...query, groupName: e.target.value});
     };
@@ -66,7 +48,11 @@ function Master2(props) {
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
-                <Loader isOpen={props.group.isFetching || props.category.isFetching}/>
+                <Loader isOpen={props.groupState.isLoading || props.categoryState.isLoading}/>
+                <PageError
+                    isOpen={props.groupState.hasError || props.categoryState.hasError}
+                    onclose={handleClosePageError}
+                    errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
 
                 <Grid container spacing={1}>
                     <Grid container>
@@ -92,7 +78,7 @@ function Master2(props) {
                             <MenuItem value="none" disabled>
                                 Selecciona una categoría
                             </MenuItem>
-                            {props.category && props.category.categories.map(category =>
+                            {props.categoryState.categories.map(category =>
                                 (<MenuItem
                                     key={category.id}
                                     id={category.id}
@@ -107,11 +93,10 @@ function Master2(props) {
                     <Grid container item xs={12} spacing={3} style={{display: 'flex', justifyContent: 'center'}}>
                         <Button
                             variant="contained"
-                            color="default"
+                            color="primary"
                             className={classes.submit}
-                            style={{marginTop: '30px'}}
+                            style={{marginTop: '30px', backgroundColor:'var(--primary)'}}
                             onClick={handleSearchButtonClick}
-                            disabled={(!query.groupName && !query.categoryId)}
                         >
                             Buscar
                         </Button>
@@ -119,35 +104,8 @@ function Master2(props) {
                     <Grid container item xs={12} spacing={3}>
                     </Grid>
                 </Grid>
-                <TableContainer component={Paper} style={{marginTop:'20px'}}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Nombre</StyledTableCell>
-                                <StyledTableCell align="center">Categoria</StyledTableCell>
-                                <StyledTableCell align="center">Acción</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.category.name}</TableCell>
-                                    <TableCell align="center"><Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                    >
-                                        Entrar
-                                    </Button></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
             </Container>
+            <CustomTable rows={rows} buttonText='Visualizar'/>
         </>
 
     );
@@ -155,11 +113,9 @@ function Master2(props) {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        category: state.category,
-        group: state.group,
-        global: state.global
+        categoryState: state.category,
+        groupState: state.group,
     }
 };
 
-export default connect(mapStateToProps)(Master2);
+export default connect(mapStateToProps)(SearchGroup);

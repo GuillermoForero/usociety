@@ -1,9 +1,11 @@
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import React from "react";
+import React, {useState} from "react";
 import HeaderGroupPrincipal from "./HeaderGroupPrincipal";
 import RecipeReviewCard from "./Card";
 import Chat from "./Chat";
+import {useParams} from "react-router";
+import CreatePost from "./CreatePost";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: 'var(--primary)',
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -31,13 +33,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function GroupPrincipal() {
+export default function GroupPrincipal(props) {
     const classes = useStyles();
+    const {slug} = useParams();
+    const [showCreatePost, setShowCreatePost] = useState(false);
 
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
-                <HeaderGroupPrincipal />
+                <HeaderGroupPrincipal handleCreatePost={setShowCreatePost} />
+                {showCreatePost && <CreatePost />}
                 <RecipeReviewCard />
                 <RecipeReviewCard />
                 <RecipeReviewCard />

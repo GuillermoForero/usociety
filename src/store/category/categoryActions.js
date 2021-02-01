@@ -1,19 +1,26 @@
 import * as actionTypes from '../actionsTypes';
-import {baseGetCreator, receivedError} from "../commonActionsCreator";
+import {baseGetCreator} from "../commonActionsCreator";
 
-export const loadingCategories = () => {
+const loadingCategories = () => {
     return {
         type: actionTypes.LOADING_CATEGORIES,
     };
 };
 
-export const categoriesLoaded = categories => {
+const categoriesLoadedSuccessful = categories => {
     return {
-        type: actionTypes.CATEGORIES_LOADED,
-        data: categories
+        type: actionTypes.CATEGORIES_LOADED_SUCCESSFUL,
+        payload: {data: categories}
+    };
+};
+
+const loadCategoriesFailed = errorDescription => {
+    return {
+        type: actionTypes.LOAD_CATEGORIES_FAILED,
+        payload: {error: errorDescription}
     };
 };
 
 export const loadCategoriesCreator = () => {
-    return baseGetCreator('/categories/all', loadingCategories, categoriesLoaded, receivedError);
+    return baseGetCreator('/categories/all', loadingCategories, categoriesLoadedSuccessful, loadCategoriesFailed);
 };

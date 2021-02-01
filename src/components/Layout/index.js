@@ -2,11 +2,12 @@ import React, {Fragment} from 'react';
 import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
-import {AccountCircle} from "@material-ui/icons";
 import Divider from '@material-ui/core/Divider';
+import defaultUserImage from '../../images/default-user-image.png';
 
 import {useSelector} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
+import Link from '@material-ui/core/Link';
 
 import GroupAdd from '@material-ui/icons/GroupAdd';
 import GroupIcon from '@material-ui/icons/Group';
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         left: '0',
         top: '0',
-        backgroundColor: '#4051b5',
+        backgroundColor: 'var(--primary)',
         zIndex: 10
     },
     ancla: {
@@ -34,23 +35,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function renderRow(props) {
-    const { text, index } = props;
-
-    return (
-        <ListItem button key={index}>
-            <ListItemText primary={`${text}`} />
-        </ListItem>
-    );
-}
 
 const Layout = (props) => {
     const classes = useStyles();
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
     const [menuLeft, setMenuLeft] = React.useState(false);
-    const open = Boolean(anchorEl);
     const mainTitle = useSelector(state => state.global.mainTitle);
+    const userPhoto = useSelector(state => state.user.data.user?.photo);
 
     const handleMenu = (event) => {
         //open edit profile view
@@ -58,36 +48,37 @@ const Layout = (props) => {
 
     return <Fragment>
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="static" style={{backgroundColor: 'var(--primary)'}}>
                 <Toolbar style={{justifyContent: "space-between"}}>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon on onClick={() => setMenuLeft(true)}/>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                onClick={() => setMenuLeft(true)}>
+                        <MenuIcon/>
                     </IconButton>
                     {menuLeft &&
                         <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
-                                <ListItem button style={{cursor:'default'}}>
-                                    <MenuIcon onClick={() => setMenuLeft(false)} button style={{cursor:'pointer'}}/>
+                                <ListItem style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
+                                    <MenuIcon style={{cursor:'pointer'}}/>
                                 </ListItem>
-                            <Link to={'/master'} className={classes.ancla}>
-                                <ListItem button>
+                            <RouterLink to={'/home'} className={classes.ancla}>
+                                <ListItem onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupIcon className={classes.button}/>
                                     </ListItemIcon>
                                     <ListItemText primary="Mis grupos" />
                                 </ListItem>
-                            </Link>
-                            <Link to={'/master2'} className={classes.ancla}>
-                                <ListItem button href="#simple-list">
+                            </RouterLink>
+                            <RouterLink to={'/search'} className={classes.ancla}>
+                                <ListItem href="#simple-list" onClick={() => setMenuLeft(false)}>
                                     <ListItemIcon>
                                         <GroupAdd className={classes.button}/>
                                     </ListItemIcon>
                                     <ListItemText primary="Descubrir grupos" />
                                 </ListItem>
-                            </Link>
+                            </RouterLink>
 
                             <Divider/>
-                            <Link to={'/'} className={classes.ancla}>
-                                <ListItem button href="#simple-list">
+                            <Link href='/' className={classes.ancla}>
+                                <ListItem href="#simple-list">
                                     <ListItemIcon>
                                         <ExitToAppIcon className={classes.button}/>
                                     </ListItemIcon>
@@ -99,19 +90,18 @@ const Layout = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         {mainTitle || 'USociety (dynamically)'}
                     </Typography>
-                    {auth && (
-                        <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle/>
-                            </IconButton>
-                        </div>
-                    )}
+
+                    <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
+
+                        <img
+                            src={userPhoto || defaultUserImage}
+                            style={{
+                                borderRadius: '50px',
+                                objectFit: 'cover',
+                                cursor: 'pointer'
+                            }}
+                            alt='User'/>
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>

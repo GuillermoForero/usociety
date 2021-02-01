@@ -11,23 +11,34 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import './CreateGroup.css';
 
 import {createGroupCreator} from "../../store/group/groupActions";
-import CollapsableAddList from "../../components/CollapsableList/CollapsableAddList";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
+import Image from "material-ui-image";
+import PageError from "../../components/PageError/PageError";
+import {useHistory} from "react-router";
+
+import defaultGroupImage from '../../images/background.jpg';
+import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 function CreateGroup(props) {
     const classes = useStyles();
+    const history = useHistory();
 
-
+    const [image, setImage] = useState(defaultGroupImage);
     const [data, setData] = useState({
         group: {
             name: '',
             description: '',
+            photo: '',
             rules: [],
             objectives: [],
+            category: {
+                id: ''
+            }
         }
     });
 
@@ -78,6 +89,13 @@ function CreateGroup(props) {
     };
 
     const handleCategoryItemClick = categoryId => {
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                category: {id: categoryId}
+            }
+        });
     };
 
     const handleAddRule = (attributeName) => {
@@ -92,11 +110,53 @@ function CreateGroup(props) {
         });
     };
 
+    const onChangeFile = files => {
+        let imageUrl = URL.createObjectURL(files[0]);
+        setImage(imageUrl);
+        setData({
+            ...data,
+            group: {
+                ...data.group,
+                photo: files[0]
+            }
+        });
+    };
+
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
+
+    useEffect(() => {
+        if (props.groupState.operationCompleted) {
+            history.push('/home');
+        }
+    }, [props.groupState.operationCompleted]);
+
 
     return <Container component="main" maxWidth={"md"} className={classes.container + ', container__group-main'}>
-        <Loader isOpen={props.group.isFetching}/>
+
+        <Loader isOpen={props.groupState.isLoading || props.categoryState.isLoading}/>
+        <PageError
+            isOpen={props.groupState.hasError || props.categoryState.hasError}
+            onclose={handleClosePageError}
+            errorDescription={props.groupState.errorDescription || props.categoryState.errorDescription}/>
+
 
         <FormControl className={classes.formControl} fullWidth style={{marginTop: '10px'}}>
+
+            <Grid item xs={6} style={{marginBottom: '20px', marginTop: '10px'}}>
+                <Image
+                    src={image}
+                    color={'rgba(0,0,0,0)'}
+                    imageStyle={{
+                        borderRadius: '20px',
+                        objectFit: 'cover',
+                        boxShadow: '20px 0 20px 1px rgba(0, 0, 0, 0.20)',
+                    }}
+                    aspectRatio={16 / 9}
+                />
+            </Grid>
+
             <Grid container style={{flexDirection: 'column'}} spacing={2}>
                 <Grid item xs={12}>
                     <TextField
@@ -104,9 +164,11 @@ function CreateGroup(props) {
                         variant="outlined"
                         fullWidth
                         id="photo"
-                        //label="Foto"
                         type='file'
                         required
+                        onChange={e => {
+                            onChangeFile([...e.target.files]);
+                        }}
                     />
                 </Grid>
 
@@ -120,11 +182,13 @@ function CreateGroup(props) {
                         onChange={e => handleChangeTextFields(e)}
                     />
                 </Grid>
-                <Grid item xs={6}>
-                    <TextField
+                <Grid item xs={8}>
+                    <TextareaAutosize
+                        style={{width:'400px', fontSize:'15px', padding: '10px' }}
+                        rowsMin={4}
+                        rowsMax={4}
                         id="description"
-                        label="Descripción"
-                        variant="outlined"
+                        placeholder="Detalles sobre el grupo..."
                         value={data.group.description || ''}
                         name='description'
                         onChange={e => handleChangeTextFields(e)}
@@ -143,7 +207,7 @@ function CreateGroup(props) {
                 <MenuItem value="none" disabled>
                     Selecciona una categoría
                 </MenuItem>
-                {props.category && props.category.categories.map(category =>
+                {props.categoryState && props.categoryState.categories.map(category =>
                     (<MenuItem
                         key={category.id}
                         id={category.id}
@@ -163,7 +227,7 @@ function CreateGroup(props) {
 
 
         <Grid item xs={12}>
-            <CollapsableAddList
+            <SimpleCollapsableList
                 typeName='Reglas'
                 attributeName='rules'
                 items={data.group.rules}
@@ -173,7 +237,7 @@ function CreateGroup(props) {
             />
         </Grid>
         <Grid item xs={12}>
-            <CollapsableAddList
+            <SimpleCollapsableList
                 typeName='Objetivos'
                 attributeName='objectives'
                 items={data.group.objectives}
@@ -190,6 +254,7 @@ function CreateGroup(props) {
             <Button
                 variant="contained"
                 color="primary"
+                style={{backgroundColor: 'var(--primary)'}}
                 className={classes.submit}
                 onClick={handleSaveClick}
             >
@@ -201,9 +266,8 @@ function CreateGroup(props) {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
-        group: state.group,
-        category: state.category
+        groupState: state.group,
+        categoryState: state.category
     };
 };
 

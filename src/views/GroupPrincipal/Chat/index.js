@@ -40,14 +40,14 @@ const useStyles = makeStyles({
 const Chat = () => {
     const classes = useStyles();
     const [showChat, setShowChat] = React.useState(false);
-    console.log(showChat ? 'puta' : 'fucker')
+
     return (
         <>
             <Grid container className={classes.containerChat} xs={3}>
             {showChat ?
             <Grid container component={Paper} className={classes.chatSection} xs={12}>
                 <Grid item xs={12}>
-                    <Button variant="contained" fullWidth onClick={() => setShowChat(false)}>Chat</Button>
+                    <Button variant="contained" style={{backgroundColor: 'var(--secondary)'}} fullWidth onClick={() => setShowChat(false)}>Chat</Button>
                 </Grid>
                 <Grid item xs={12}>
                     <List className={classes.messageArea}>
@@ -98,12 +98,12 @@ const Chat = () => {
                             <TextField id="outlined-basic-email" label="Type Something" fullWidth />
                         </Grid>
                         <Grid xs={1} align="right">
-                            <Fab color="primary" aria-label="add"><SendIcon /></Fab>
+                            <Fab style={{backgroundColor: 'var(--terciary)'}} color="primary" aria-label="add"><SendIcon  /></Fab>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>:
-                <Button variant="contained" style={{width: '80%'}} onClick={() => setShowChat(true)}>Chat</Button>
+                <Button variant="contained" style={{width: '80%', backgroundColor: 'var(--secondary)'}} onClick={() => setShowChat(true)}>Chat</Button>
             }
             </Grid>
         </>

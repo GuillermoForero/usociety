@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -15,17 +14,20 @@ import {connect} from 'react-redux';
 import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
+import PageError from "../../components/PageError/PageError";
+import * as actionTypes from '../../store/actionsTypes';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(14),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: 'var(--primary)',
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: 'var(--primary)'
     },
 }));
 
@@ -58,21 +61,30 @@ function SignIn(props) {
     };
 
     useEffect(() => {
-        if (props.data.logged)
-            history.push('/group/management')
-    }, [props.data.logged, history]);
+        if (props.userState.isLogged)
+            history.push('/home')
+    }, [props.userState.isLogged, history]);
 
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
 
     return (
         <Container component="main" maxWidth="xs">
-            <Loader isOpen={props.data.isFetching}/>
+
+            <Loader isOpen={props.userState.isLoading}/>
+
+            <PageError
+                isOpen={props.userState.hasError}
+                onclose={handleClosePageError}
+                errorDescription={props.userState.errorDescription}/>
 
             <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon/>
                 </Avatar>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" style={{color: 'var(--quitiary)'}}>
                     U Society
                 </Typography>
                 <form className={classes.form} noValidate>
@@ -114,12 +126,12 @@ function SignIn(props) {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/" variant="body2">
+                            <Link to="#" style={{color: 'var(--cuaterciary)'}}>
                                 ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/signup" variant="body2">
+                            <Link to="/signup" style={{color: 'var(--cuaterciary)'}}>
                                 {"¿No tienes cuenta? Registrate"}
                             </Link>
                         </Grid>
@@ -132,7 +144,7 @@ function SignIn(props) {
 
 const mapStateToProps = state => {
     return {
-        data: state.user
+        userState: state.user
     };
 };
 export default connect(mapStateToProps)(SignIn);

@@ -1,114 +1,59 @@
-import React, {useEffect} from 'react';
-import Button from '@material-ui/core/Button';
-import {makeStyles, withStyles} from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
-
-import Image from 'material-ui-image';
+import React, {Fragment, useEffect} from 'react';
 
 import {connect} from 'react-redux';
 import {listUserGroupsCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
+import CustomTable from "../../components/CustomTable/CustomTable";
+import {useStyles} from "../../hooks/useStyles";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import {Link} from "react-router-dom";
+import PageError from "../../components/PageError/PageError";
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: 'gray',
-        color: theme.palette.common.white,
-        fontFamily: 'lato',
-        fontSize: '16px'
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    container: {
-        marginTop: theme.spacing(4),
-    },
-    avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-    },
-    table: {
-        fontFamily: 'lato'
-    }
-}));
-
-function Master(props) {
+function Home(props) {
     const classes = useStyles();
 
+    //eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
-        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'USociety'}});
-        props.dispatch(listUserGroupsCreator(props.user))
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
+        props.dispatch(listUserGroupsCreator(props.userState.data))
     }, []);
 
-    const rows = props.group.userGroups;
+    const rows = props.groupState.userGroups;
 
-    return (
-        <>
-            <Container component="main" maxWidth={"md"} className={classes.container}>
-                {<Loader isOpen={props.group.isFetching}/>}
-                <TableContainer component={Paper}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align="left"/>
-                                <StyledTableCell align="left">Nombre</StyledTableCell>
-                                <StyledTableCell align="center">Categoria</StyledTableCell>
-                                <StyledTableCell align="center">Acción</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.id}>
-                                    <TableCell align="left">
-                                        <Image
-                                            src={row.photo}
-                                            aspectRatio={(4 / 3)}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.category.name}</TableCell>
-                                    <TableCell align="center"><Button
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.submit}
-                                    >
-                                        Visualizar
-                                    </Button></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Container>
-        </>
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
 
-    );
+    return <Fragment>
+        {<Loader isOpen={props.groupState.isLoading}/>}
+        <PageError
+            isOpen={props.groupState.hasError}
+            onclose={handleClosePageError}
+            errorDescription={props.groupState.errorDescription}/>
+
+        <Container component="main" maxWidth={"md"} className={classes.container}>
+            <Link to='/group/create'>
+                <Button
+                    color='primary'
+                    variant='contained'
+                    className={classes.submit}
+                    style={{height:'50px'}}
+                >
+                    Crea tu propio grupo
+                </Button>
+            </Link>
+        </Container>
+        <CustomTable rows={rows} buttonText='Entrar'/>
+    </Fragment>
 }
 
 const mapStateToProps = state => {
     return {
-        group: state.group,
-        user: state.user.userData
+        groupState: state.group,
+        userState: state.user
     }
 };
 
-export default connect(mapStateToProps)(Master);
+export default connect(mapStateToProps)(Home);

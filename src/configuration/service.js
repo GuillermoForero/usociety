@@ -1,9 +1,10 @@
+const https = require('https');
 const axios = require('axios');
 
-const BASE_API_URL = 'https://ec2-18-210-16-233.compute-1.amazonaws.com:443/manager/services';
+const BASE_API_URL = 'https://ec2-18-210-16-233.compute-1.amazonaws.com:8443/manager/services';
 
-export const INVALID_OTP  = 'INVALID_OTP';
-export const EMAIL_NOT_VERIFIED  = 'Email not verified';
+export const INVALID_OTP = 'INVALID_OTP';
+export const EMAIL_NOT_VERIFIED = 'Email not verified';
 
 export const get = async (path, dispatch, successCallback, errorCallback, getState) => {
     try {
@@ -12,7 +13,8 @@ export const get = async (path, dispatch, successCallback, errorCallback, getSta
         const config = {
             method: 'get',
             url: `${BASE_API_URL}${path}`,
-            headers: {...authorizationHeader}
+            headers: {...authorizationHeader},
+            httpsAgent: buildNonSSLAgent(),
         };
 
         console.log('GET: ', path, `Token -> ${authorizationHeader}`);
@@ -38,6 +40,7 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
                 ...body.getHeaders,
                 ...authorizationHeader,
             },
+            httpsAgent: buildNonSSLAgent(),
             data: body
         };
 
@@ -64,6 +67,7 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
                 ...body.getHeaders,
                 ...authorizationHeader
             },
+            httpsAgent: buildNonSSLAgent(),
             data: body
         };
 
@@ -101,4 +105,10 @@ function processError(e, dispatch, errorCallback) {
 
     dispatch(errorCallback(responseError, statusCode));
     console.log(responseError, statusCode);
+}
+
+function buildNonSSLAgent() {
+    return new https.Agent({
+        rejectUnauthorized: false
+    });
 }

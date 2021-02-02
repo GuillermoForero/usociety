@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     })
 });
 
-const BASE_API_URL = 'https://ec2-18-210-16-233.compute-1.amazonaws.com:8443/manager/services';
+const BASE_API_URL = 'https://ec2-54-85-206-8.compute-1.amazonaws.com:8443/manager/services';
 
 export const INVALID_OTP = 'INVALID_OTP';
 export const EMAIL_NOT_VERIFIED = 'Email not verified';

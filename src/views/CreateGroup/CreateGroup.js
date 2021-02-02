@@ -23,6 +23,7 @@ import {useHistory} from "react-router";
 import defaultGroupImage from '../../images/background.jpg';
 import SimpleCollapsableList from "../../components/CollapsableList/SimpleCollapsableList";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import {fileToBase64} from "../../configuration/utils";
 
 function CreateGroup(props) {
     const classes = useStyles();
@@ -111,14 +112,18 @@ function CreateGroup(props) {
     };
 
     const onChangeFile = files => {
-        let imageUrl = URL.createObjectURL(files[0]);
+        let file = files[0];
+        let imageUrl = URL.createObjectURL(file);
         setImage(imageUrl);
-        setData({
-            ...data,
-            group: {
-                ...data.group,
-                photo: files[0]
-            }
+
+        fileToBase64(file, (result) => {
+            setData({
+                ...data,
+                group: {
+                    ...data.group,
+                    photo: result
+                }
+            });
         });
     };
 

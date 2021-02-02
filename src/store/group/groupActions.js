@@ -161,18 +161,9 @@ export const updateUserMembershipCreator = (groupId, request) => {
     }
 };
 
-export const updateGroupCreator = (group, photo) => {
+export const updateGroupCreator = (group) => {
     try {
-        const body = new FormData();
-        const groupBlob = new Blob([JSON.stringify(group)], {
-            type: 'application/json'
-        });
-        body.append('group', groupBlob);
-        body.append('photo', photo);
-
-        console.log(group);
-
-        return basePutCreator('/groups/', body, updatingGroup, updatingGroupSuccessful, updateGroupFailed);
+        return basePutCreator('/groups/', JSON.stringify(group), updatingGroup, updatingGroupSuccessful, updateGroupFailed);
     } catch (e) {
         return updateGroupFailed(generalError);
     }
@@ -180,14 +171,7 @@ export const updateGroupCreator = (group, photo) => {
 
 export const createGroupCreator = (group) => {
     try {
-        const body = new FormData();
-        const groupBlob = new Blob([JSON.stringify(group)], {
-            type: 'application/json'
-        });
-        body.append('group', groupBlob);
-        body.append('photo', group.photo);
-
-        return basePostCreator('/groups/', body, creatingGroup, createdGroupSuccessful, createGroupFailed);
+        return basePostCreator('/groups/', JSON.stringify(group), creatingGroup, createdGroupSuccessful, createGroupFailed);
     } catch (e) {
         return createGroupFailed(generalError);
     }

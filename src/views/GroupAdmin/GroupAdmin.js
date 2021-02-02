@@ -26,18 +26,20 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import defaultGroupImage from "../../images/background.jpg";
 import Image from "material-ui-image";
 import {isEmpty} from "lodash";
+import {fileToBase64} from "../../configuration/utils";
 
 function GroupAdmin(props) {
     const classes = useStyles();
     const {slug: groupSlug} = useParams();
     const [disableButton, setDisableButton] = useState(true);
-    const [image, setImage] = useState({url: defaultGroupImage, value: {}});
+    const [image, setImage] = useState(defaultGroupImage);
     const [data, setData] = useState({
         group: {
             name: '',
             description: '',
             rules: [],
             objectives: [],
+            photo: ''
         },
         activeMembers: [],
         pendingMembers: [],
@@ -55,8 +57,7 @@ function GroupAdmin(props) {
             console.log(currentGroup)
             const currentImageGroup = currentGroup.group.photo;
             if (!isEmpty(currentGroup)) {
-                setImage({...image, url: currentImageGroup});
-                console.log("fucker", currentImageGroup)
+                setImage({currentImageGroup});
             }
         }
     }, [props.groupState.operationCompleted]);
@@ -97,7 +98,7 @@ function GroupAdmin(props) {
     };
 
     const handleSaveClick = () => {
-        props.dispatch(updateGroupCreator(data.group, image.value));
+        props.dispatch(updateGroupCreator(data.group));
         setDisableButton(true);
     };
 
@@ -132,8 +133,19 @@ function GroupAdmin(props) {
     };
 
     const onChangeFile = files => {
-        let imageUrl = URL.createObjectURL(files[0]);
-        setImage({url: imageUrl, value: files[0]});
+        let file = files[0];
+        let imageUrl = URL.createObjectURL(file);
+        setImage(imageUrl);
+
+        fileToBase64(file, (result) => {
+            setData({
+                ...data,
+                group: {
+                    ...data.group,
+                    photo: result
+                }
+            });
+        });
         setDisableButton(false);
     };
 
@@ -150,7 +162,7 @@ function GroupAdmin(props) {
             <Grid item xs={6} style={{marginBottom: '20px'}}>
                 <Image
                     className='container__main-photo'
-                    src={image.url}
+                    src={image}
                     alt="Group"
                     aspectRatio={16 / 9}
                 />

@@ -19,9 +19,10 @@ import * as actionTypes from "../../../store/actionsTypes";
 import PageError from "../../../components/PageError/PageError";
 import {Link} from "react-router-dom";
 
-import defaultUserImage from '../../../images/default-user-image.png';
+import defaultUserImage from '../../../images/default-user.png';
 import VerifyEmail from "../../../components/VerifyEmail/VerifyEmail";
 import {INVALID_OTP} from "../../../configuration/service";
+import {fileToBase64} from "../../../configuration/utils";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -104,8 +105,12 @@ function SingUpUserData(props) {
         const file = files[0];
         const imageUrl = URL.createObjectURL(file);
         setImage(imageUrl);
-        setUser({...user, image: file});
+
+        fileToBase64(file, (result) => {
+            setUser({...user, photo: result});
+        });
     };
+
 
     const handleVerifyEmail = (sendCode) => {
         const email = user.email;

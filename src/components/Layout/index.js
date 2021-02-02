@@ -3,7 +3,7 @@ import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} f
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
 import Divider from '@material-ui/core/Divider';
-import defaultUserImage from '../../images/default-user-image.png';
+import defaultUserImage from '../../images/default-user.png';
 
 import {useSelector} from "react-redux";
 import {Link as RouterLink} from "react-router-dom";
@@ -94,7 +94,7 @@ const Layout = (props) => {
                     <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
 
                         <img
-                            src={userPhoto || defaultUserImage}
+                            src={(userPhoto && userPhoto !== '') || defaultUserImage}
                             style={{
                                 borderRadius: '50px',
                                 objectFit: 'cover',

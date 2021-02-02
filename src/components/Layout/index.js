@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
@@ -55,6 +55,16 @@ const Layout = (props) => {
     const handleMenu = (event) => {
         //open edit profile view
     };
+    const handleClick = () => {
+        const menu = document.getElementById('menu-left');
+        if (menu.target){
+            return null
+        }
+        setMenuLeft(false);
+    }
+    useEffect(() => {
+        document.addEventListener('mousedown', )
+    }, [])
 
     return <Fragment>
         <div className={classes.root}>
@@ -64,7 +74,7 @@ const Layout = (props) => {
                         <MenuIcon/>
                     </IconButton>
                     {menuLeft &&
-                        <List component="nav" aria-label="secondary mailbox folders" className={classes.list}>
+                        <List component="nav" aria-label="secondary mailbox folders" className={classes.list} id={'menu-left'}>
                                 <ListItem button style={{cursor:'default'}} onClick={() => setMenuLeft(false)}>
                                     <MenuIcon  button style={{cursor:'pointer'}}/>
                                 </ListItem>

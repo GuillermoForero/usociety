@@ -49,6 +49,12 @@ const groupReducer = (state = initialState, action) => {
                 isError: false,
                 isFetching: false
             });
+        case actionTypes.GETTING_INFO_GROUP_SUCCESS:
+            return Object.assign({}, state, {
+                currentGroup: action.payload.data,
+                isError: false,
+                isFetching: false
+            });
 
         case actionTypes.UPDATE_GROUP_SUCCESSFUL:
         case actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL:

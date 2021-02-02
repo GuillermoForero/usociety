@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RecipeReviewCard() {
+export default function RecipeReviewCard(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [showReactContainer1, setShowReactContainer1] = React.useState(false);
@@ -82,16 +82,20 @@ export default function RecipeReviewCard() {
         setExpanded(!expanded);
     };
 
+    const handleReaction = (value) => {
+
+    }
+
     return (
         <Card className={classes.root}>
             {showReactContainer1?
             <Box className={classes.reactContainer} onMouseLeave={() => setShowReactContainer1(false)}>
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/1zk00q5n4o055s08tjpy4rswf'} />
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/6xvr3hrj4c24dak8r7z64pgj3'} />
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/9wjxk9w5wguhpev3dm13672dq'} />
-                <img className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/3tn3hb1r3nls9c4ddwbg2pymr'} />
+                <img onClick={() => handleReaction(0)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
+                <img onClick={() => handleReaction(1)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/1zk00q5n4o055s08tjpy4rswf'} />
+                <img onClick={() => handleReaction(2)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/6xvr3hrj4c24dak8r7z64pgj3'} />
+                <img onClick={() => handleReaction(3)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
+                <img onClick={() => handleReaction(4)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/9wjxk9w5wguhpev3dm13672dq'} />
+                <img onClick={() => handleReaction(5)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/3tn3hb1r3nls9c4ddwbg2pymr'} />
             </Box>: null
             }
             <CardHeader

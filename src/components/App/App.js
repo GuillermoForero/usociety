@@ -11,6 +11,7 @@ import GuardedRoute from "../GuardedRoute";
 import Home from "../../views/Home";
 import SearchGroup from "../../views/SearchGroup";
 import CreatePost from "../../views/GroupPrincipal/CreatePost";
+import HeaderGroupPrincipal from "../../views/GroupPrincipal/HeaderGroupPrincipal";
 
 export default function App() {
     return (
@@ -20,7 +21,7 @@ export default function App() {
                         <SignIn/>
                 </Route>
                 <Route path="/hola" exact strict>
-                        <CreatePost/>
+                        <HeaderGroupPrincipal/>
                 </Route>
                 <Route path="/signup" exact strict>
                         <SingUpUserData/>

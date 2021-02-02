@@ -3,6 +3,7 @@ import Container from "@material-ui/core/Container";
 import React from "react";
 import {Box, Button} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     imageContainer: {
@@ -37,21 +38,36 @@ const useStyles = makeStyles((theme) => ({
     typography2: {
         fontSize: '15px',
         color: 'gray',
-        marginTop: '10px'
+        marginTop: '5px'
     },
     container: {
         boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+        padding: '10px 0',
         borderRadius: '4px',
-        paddingLeft: '0',
-        paddingRight: '0',
         overflow: 'hidden'
     },
     submit: {
-        justifyContent: 'space-between'
+        justifyContent: 'center'
+    },
+    subtitle: {
+        fontSize: '25px',
+        color: 'black',
+        fontWeight: '700',
+        marginTop: '10px'
+    },
+    objetives: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingLeft: '20px'
+    },
+    objetivesLi: {
+        width: '50%',
+        fontSize: '15px',
+        color: 'gray',
     }
 }));
 
-export default function HeaderGroupPrincipal(props) {
+function HeaderGroupPrincipal(props) {
     const classes = useStyles();
 
     return (
@@ -63,32 +79,47 @@ export default function HeaderGroupPrincipal(props) {
                 <Box className={classes.containerContent}>
                     <Box className={classes.textContainer}>
                         <Typography className={classes.typography1}>
-                            Matemáticas
+                            {props.currentGroup.name}
+                        </Typography>
+                        <Typography className={classes.subtitle}>
+                            Descripción:
                         </Typography>
                         <Typography className={classes.typography2}>
-                            Descripción: Este grupo es el grupo de matemáticas, unete si te apasionan las matematicas o simplemente quieres mejorar en ellas
+                            {props.currentGroup.description}
                         </Typography>
-                        <Typography className={classes.typography2}>
-                            Objetivos: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, blanditiis culpa debitis earum et hic incidunt ipsa laborum laudantium magni maiores neque obcaecati ratione recusandae similique tempora ut vel vero!
+                        <Typography className={classes.subtitle}>
+                            Objetivos:
                         </Typography>
+                        <ul className={classes.objetives}>
+                            {props.currentGroup.objetives.map((value, index) => {
+                                return <li key={index} className={classes.objetivesLi}>{value}</li>;
+                            })}
+                        </ul>
                     </Box>
                     <Box className={classes.buttonsContainer}>
-                        <Button
+                        {props.user.type === 'admin'?<><Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                            className={classes.submit}
+                        >Unirse</Button> <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
-                            style={{backgroundColor: 'var(--primary)'}}
+                            style={{backgroundColor: 'var(--primary)', textAlign: 'center'}}
                             className={classes.submit}
-                        >Unirse</Button>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                style={{backgroundColor: 'var(--primary)'}}
-                                className={classes.submit}
-                                onClick={() => props.handleCreatePost(true)}
-                            >Crear Post</Button>
+                            onClick={() => props.handleCreatePost(true)}
+                        >Crear Post</Button></> : <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                            className={classes.submit}
+                        >Unirse</Button>}
                     </Box>
                 </Box>
             </Container>
@@ -96,3 +127,12 @@ export default function HeaderGroupPrincipal(props) {
 
     );
 }
+const mapStateToProps = state => {
+    return {
+        group: state.group,
+        user: state.user.userData,
+        currentGroup: state.currentGroup
+    }
+};
+
+export default connect(mapStateToProps)(HeaderGroupPrincipal);

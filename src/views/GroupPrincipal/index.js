@@ -1,11 +1,15 @@
 import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import HeaderGroupPrincipal from "./HeaderGroupPrincipal";
 import RecipeReviewCard from "./Card";
 import Chat from "./Chat";
-import {useHistory, useParams} from "react-router";
+import {useParams} from "react-router";
 import CreatePost from "./CreatePost";
+import {connect} from "react-redux";
+import * as actionTypes from "../../store/actionsTypes";
+import {getInfoGroup} from "../../store/group/groupActions";
+import {current} from "@reduxjs/toolkit";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,21 +37,34 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function GroupPrincipal(props) {
+function GroupPrincipal(props) {
     const classes = useStyles();
     const {slug} = useParams();
-    const [showCreatePost, setShowCreatePost] = useState(false)
+    const [showCreatePost, setShowCreatePost] = useState(false);
+    useEffect(() => {
+        props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
+        props.dispatch(getInfoGroup(slug))
+    }, []);
     return (
         <>
             <Container component="main" maxWidth={"md"} className={classes.container}>
                 <HeaderGroupPrincipal handleCreatePost={setShowCreatePost} />
                 {showCreatePost && <CreatePost />}
-                <RecipeReviewCard />
-                <RecipeReviewCard />
-                <RecipeReviewCard />
+                {props.currentGroup.posts.map(() => {
+                    <RecipeReviewCard />
+                })}
                 <Chat />
             </Container>
         </>
 
     );
 }
+const mapStateToProps = state => {
+    return {
+        group: state.group,
+        user: state.user.userData,
+        currentGroup: state.currentGroup
+    }
+};
+
+export default connect(mapStateToProps)(GroupPrincipal);

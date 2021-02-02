@@ -7,7 +7,6 @@ import {baseGetCreator, basePostCreator, basePutCreator} from "../commonActionsC
 
 const FormData = require('form-data');
 
-
 const creatingGroup = () => {
     return {
         type: actionTypes.CREATING_GROUP,
@@ -178,4 +177,29 @@ export const createGroupCreator = (group) => {
     } catch (e) {
         updateGroupFailed();
     }
+};
+
+
+const gettingInfoGroup = () => {
+    return {
+        type: actionTypes.GETTING_INFO_GROUP
+    };
+};
+
+const getInfoGroupFailed = () => {
+    return {
+        type: actionTypes.GETTING_INFO_GROUP_FAILED
+    };
+};
+
+const getInfoGroupSuccessful = (group) => {
+    return {
+        type: actionTypes.GETTING_INFO_GROUP_SUCCESS,
+        payload: {data: group}
+    };
+};
+
+export const getInfoGroup = (slug) => {
+    const path = `/groups/${slug}/slug`;
+    return baseGetCreator(path, gettingInfoGroup, getInfoGroupSuccessful, getInfoGroupFailed);
 };

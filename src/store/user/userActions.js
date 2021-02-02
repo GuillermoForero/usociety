@@ -1,49 +1,130 @@
 import * as actionTypes from '../actionsTypes';
 import {Category, UpdateUserCategories} from "../category/categoryInterfaces";
-import {basePostCreator, basePutCreator, receivedError} from "../commonActionsCreator";
+import {baseGetCreator, basePostCreator, basePutCreator} from "../commonActionsCreator";
 
 const FormData = require('form-data');
+const generalError = "Error general";
 
-export const creatingUser = () => {
+const creatingUser = () => {
     return {
         type: actionTypes.CREATING_USER,
     };
 };
 
-export const createdUser = user => {
+const userCreated = user => {
     return {
-        type: actionTypes.USER_CREATED,
-        data: user
+        type: actionTypes.USER_CREATED_SUCCESSFUL,
+        payload: {data: user}
     };
 };
 
-export const loggingUser = () => {
+const createUserFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.CREATE_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const sendingVerificationEmail = () => {
+    return {
+        type: actionTypes.SENDING_VERIFICATION_EMAIL,
+    };
+};
+
+const emailVerificationSentSuccessful = user => {
+    return {
+        type: actionTypes.EMAIL_VERIFICATION_SENT_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const sendEmailVerificationFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.SEND_EMAIL_VERIFICATION_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const verifyingEmail = () => {
+    return {
+        type: actionTypes.VERIFYING_EMAIL,
+    };
+};
+
+const emailVerificationSuccessful = user => {
+    return {
+        type: actionTypes.EMAIL_VERIFIED_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const emailVerificationFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.EMAIL_VERIFY_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const loggingUser = () => {
     return {
         type: actionTypes.LOGGING_USER,
     };
 };
 
-export const userLogged = user => {
+const userLogged = user => {
     return {
-        type: actionTypes.USER_LOGGED,
-        data: user
+        type: actionTypes.USER_LOGGED_SUCCESSFUL,
+        payload: {data: user}
     };
 };
 
-export const updatingUserCategories = () => {
+const logUserFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.LOG_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const gettingUser = () => {
+    return {
+        type: actionTypes.GETTING_USER,
+    };
+};
+
+const userGotSuccessful = user => {
+    return {
+        type: actionTypes.USER_GOT_SUCCESSFUL,
+        payload: {data: user}
+    };
+};
+
+const getUserFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.GET_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+const updatingUserCategories = () => {
     return {
         type: actionTypes.UPDATING_USER_CATEGORIES,
     };
 };
 
-export const userCategoriesUpdated = () => {
+const userCategoriesUpdated = () => {
     return {
-        type: actionTypes.USER_CATEGORIES_UPDATED,
+        type: actionTypes.USER_CATEGORIES_UPDATED_SUCCESSFUL,
     };
 };
 
+const updateUserCategoriesFailed = errorDescription => {
+    return {
+        type: actionTypes.UPDATE_USER_CATEGORIES_FAILED,
+        payload: {error: errorDescription}
+    };
+};
 
-export const saveUserCreator = user => {
+export const createUserCreator = user => {
     try {
         const body = new FormData();
         const userBlob = new Blob([JSON.stringify(user)], {
@@ -53,9 +134,9 @@ export const saveUserCreator = user => {
         body.append('user', userBlob);
         body.append('photo', user.image);
 
-        return basePostCreator('/users/', body, creatingUser, createdUser, receivedError);
+        return basePostCreator('/users/', body, creatingUser, userCreated, createUserFailed);
     } catch (e) {
-        return receivedError();
+        return createUserFailed(generalError);
     }
 };
 
@@ -63,12 +144,25 @@ export const saveUserCreator = user => {
 export const loginUserCreator = user => {
     try {
         const body = JSON.stringify({"username": user.username, "password": user.password});
-        return basePostCreator('/users/login', body, loggingUser, userLogged, receivedError);
+        return basePostCreator('/users/login', body, loggingUser, userLogged, logUserFailed);
     } catch (e) {
-       return receivedError();
+        return logUserFailed(generalError);
     }
 };
 
+export const sendVerificationEmailCreator = (email, resendEmail) => {
+    return basePostCreator('/users/verifyEmail?email=' + email + '&resendCode=' + resendEmail, {},
+        sendingVerificationEmail, emailVerificationSentSuccessful, sendEmailVerificationFailed);
+};
+
+export const verifyEmailCreator = (email, otpCode) => {
+    return basePostCreator('/users/enableAccount?email=' + email + '&otpCode=' + otpCode, {},
+        verifyingEmail, emailVerificationSuccessful, emailVerificationFailed);
+};
+
+export const getUserCreator = username => {
+    return baseGetCreator('/users/' + username, gettingUser, userGotSuccessful, getUserFailed);
+};
 
 export const updateUserCategoriesCreator = (categoriesId) => {
     try {
@@ -81,8 +175,8 @@ export const updateUserCategoriesCreator = (categoriesId) => {
         });
         body.append('user', blob);
 
-        return basePutCreator('/users/', body, updatingUserCategories, userCategoriesUpdated, receivedError);
+        return basePutCreator('/users/', body, updatingUserCategories, userCategoriesUpdated, updateUserCategoriesFailed);
     } catch (e) {
-        return receivedError();
+        return updateUserCategoriesFailed(generalError);
     }
 };

@@ -5,16 +5,13 @@ const initialState = {
     mainTitle: 'USociety'
 };
 
-const globalReducer = (state= initialState, action) => {
-    switch (action.type) {
-        case actionTypes.SET_MAIN_TITLE:
-            return {
-              mainTitle: action.payload.title
-            };
-        default:
-            return state;
-
+const globalReducer = (state = initialState, action) => {
+    if (action.type === actionTypes.SET_MAIN_TITLE) {
+        return {
+            mainTitle: action.payload.title
+        };
     }
+    return state;
 };
 
 export default globalReducer;

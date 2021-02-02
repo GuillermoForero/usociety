@@ -2,42 +2,46 @@ import * as actionTypes from '../actionsTypes';
 
 const initialState = {
     categories: [],
-    isFetching: false,
-    isError: false,
+
+    hasError: false,
+    isLoading: false,
     operationCompleted: false
 };
 
 const categoryReducer = (state = initialState, action) => {
     switch (action.type) {
+
         case actionTypes.LOADING_CATEGORIES:
-        case actionTypes.UPDATING_USER_CATEGORIES:
             return Object.assign({}, state, {
                 ...state,
-                isFetching: true,
-                isError: false,
+                hasError: false,
+                isLoading: true,
                 operationCompleted: false
             });
-        case actionTypes.CATEGORIES_LOADED:
+
+        case actionTypes.CATEGORIES_LOADED_SUCCESSFUL:
             return Object.assign({}, state, {
-                categories: action.data,
-                isFetching: false,
-                isError: false,
-                operationCompleted: false
-            });
-        case actionTypes.USER_CATEGORIES_UPDATED:
-            return Object.assign({}, state, {
-                ...state,
-                isFetching: false,
-                isError: false,
+                categories: action.payload.data,
+                hasError: false,
+                isLoading: false,
                 operationCompleted: true
             });
-        case actionTypes.RECEIVED_ERROR:
+
+        case actionTypes.LOAD_CATEGORIES_FAILED:
             return Object.assign({}, state, {
                 ...state,
-                isError: true,
-                isFetching: false,
-                operationCompleted: false
+                hasError: true,
+                isLoading: false,
+                operationCompleted: false,
+                errorDescription: action.payload.error
             });
+
+        case actionTypes.RESET_ERROR: {
+            return Object.assign({}, state, {
+                ...state,
+                hasError: false,
+            });
+        }
 
         default:
             return state;

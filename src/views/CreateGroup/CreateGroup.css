@@ -10,15 +10,9 @@
     align-items: center;
     justify-content: center;
     margin: 0;
-    padding: 50px;
 }
 
-.container__main-photo {
+.container__create-group-photo {
     height: 250px;
     border-radius: 20px;
-    margin-bottom: 20px;
-}
-
-.container__main-photo .Grid {
-    margin-top: 5px;
 }

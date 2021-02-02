@@ -62,7 +62,7 @@ function CustomTable(props) {
 
     let defaultGroupImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvOG20v4uuVi8OimyyVYks8ITGovRRlSbmUQ&usqp=CAU';
 
-    return <Container component="main" maxWidth={"md"} className={classes.container}>
+    return <Container component="main" maxWidth={"md"} className={classes.container} style={{marginBottom: '50px'}}>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
@@ -78,14 +78,14 @@ function CustomTable(props) {
                     {props.rows.map((row) => (
                         <StyledTableRow key={row.id}>
                             <TableCell calign="left">
-                                {<Image
+                                <Image
                                     className={classes.table}
                                     src={row.photo || defaultGroupImage}
                                     color={'rgba(0,0,0,0)'}
                                     imageStyle={{
                                         borderRadius: '100px',
                                         objectFit: 'cover'
-                                    }}/>}
+                                    }}/>
                             </TableCell>
                             <TableCell
                                 className={classes.table}

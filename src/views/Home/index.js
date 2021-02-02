@@ -4,11 +4,12 @@ import {connect} from 'react-redux';
 import {listUserGroupsCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import * as actionTypes from "../../store/actionsTypes";
-import CustomTable from "../../components/Table/Table";
+import CustomTable from "../../components/CustomTable/CustomTable";
 import {useStyles} from "../../hooks/useStyles";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import {Link} from "react-router-dom";
+import PageError from "../../components/PageError/PageError";
 
 function Home(props) {
     const classes = useStyles();
@@ -16,13 +17,22 @@ function Home(props) {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
-        props.dispatch(listUserGroupsCreator(props.user))
+        props.dispatch(listUserGroupsCreator(props.userState.data))
     }, []);
 
-    const rows = props.group.userGroups;
+    const rows = props.groupState.userGroups;
+
+    const handleClosePageError = () => {
+        props.dispatch({type: actionTypes.RESET_ERROR})
+    };
 
     return <Fragment>
-        {<Loader isOpen={props.group.isFetching}/>}
+        {<Loader isOpen={props.groupState.isLoading}/>}
+        <PageError
+            isOpen={props.groupState.hasError}
+            onclose={handleClosePageError}
+            errorDescription={props.groupState.errorDescription}/>
+
         <Container component="main" maxWidth={"md"} className={classes.container}>
             <Link to='/group/create'>
                 <Button
@@ -41,8 +51,8 @@ function Home(props) {
 
 const mapStateToProps = state => {
     return {
-        group: state.group,
-        user: state.user.userData
+        groupState: state.group,
+        userState: state.user
     }
 };
 

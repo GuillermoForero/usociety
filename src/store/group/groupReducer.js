@@ -2,52 +2,86 @@ import * as actionTypes from '../actionsTypes';
 
 
 const initialState = {
+    currentGroup: {},
     userGroups: [],
     groups: [],
-    currentGroup: {group: {}},
-    isFetching: false,
-    isError: false
+
+    hasError: false,
+    isLoading: false,
+    errorDescription: '',
+    operationCompleted: false
 };
 
 const groupReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case actionTypes.GETTING_GROUP:
+        case actionTypes.UPDATING_GROUP:
+        case actionTypes.CREATING_GROUP:
         case actionTypes.SEARCHING_GROUPS:
         case actionTypes.LISTING_USER_GROUPS:
-        case actionTypes.GETTING_GROUP:
         case actionTypes.UPDATING_USER_MEMBERSHIP:
-        case actionTypes.UPDATING_GROUP:
             return Object.assign({}, state, {
-                isFetching: true,
-                isError: false
+                ...state,
+                isLoading: true,
+                hasError: false,
+                operationCompleted: false
             });
+
+        case actionTypes.GET_GROUP_FAILED:
+        case actionTypes.UPDATE_GROUP_FAILED:
+        case actionTypes.CREATE_GROUP_FAILED:
         case actionTypes.SEARCH_GROUPS_FAILED:
         case actionTypes.LIST_USER_GROUPS_FAILED:
-        case actionTypes.GET_GROUP_FAILED:
-        case actionTypes.UPDATE_USER_MEMBERSHIP_FAILED:
-        case actionTypes.UPDATE_GROUP_FAILED:
+        case actionTypes.UPDATED_USER_MEMBERSHIP_FAILED:
             return Object.assign({}, state, {
-                userGroups: [],
-                groups: [],
-                isFetching: false,
-                isError: true
+                ...state,
+                hasError: true,
+                isLoading: false,
+                errorDescription: action.payload.error
             });
-        case actionTypes.LIST_USER_GROUPS_SUCCESSFUL:
+
+        case actionTypes.USER_GROUPS_LISTED_SUCCESSFUL:
             return Object.assign({}, state, {
+                ...state,
                 userGroups: action.payload.data,
-                isError: false,
-                isFetching: false
+                hasError: false,
+                isLoading: false
             });
-        case actionTypes.SEARCH_GROUPS_SUCCESSFUL:
+
+        case actionTypes.GROUPS_SEARCHED_SUCCESSFUL:
             return Object.assign({}, state, {
+                ...state,
                 groups: action.payload.data,
-                isError: false,
-                isFetching: false
+                hasError: false,
+                isLoading: false
             });
+
         case actionTypes.GET_GROUP_SUCCESSFUL:
             return Object.assign({}, state, {
+                ...state,
                 currentGroup: action.payload.data,
-                isError: false,
-                isFetching: false
+                operationCompleted: true,
+                hasError: false,
+                isLoading: false
+            });
+
+        case actionTypes.GROUP_CREATED_SUCCESSFUL:
+        case actionTypes.USER_MEMBERSHIP_UPDATED_SUCCESSFUL:
+            return Object.assign({}, state, {
+                ...state,
+                hasError: false,
+                isLoading: false,
+                operationCompleted: true
+            });
+
+        case actionTypes.GROUP_UPDATE_SUCCESSFUL:
+            return Object.assign({}, state, {
+                ...state,
+                currentGroup: action.payload.data,
+                hasError: false,
+                isLoading: false,
+                operationCompleted: true
             });
         case actionTypes.GETTING_INFO_GROUP_SUCCESS:
             return Object.assign({}, state, {
@@ -56,13 +90,13 @@ const groupReducer = (state = initialState, action) => {
                 isFetching: false
             });
 
-        case actionTypes.UPDATE_GROUP_SUCCESSFUL:
-        case actionTypes.UPDATE_USER_MEMBERSHIP_SUCCESSFUL:
+        case actionTypes.RESET_ERROR: {
             return Object.assign({}, state, {
                 ...state,
-                isError: false,
-                isFetching: false
+                hasError: false,
             });
+        }
+
         default:
             return state;
     }

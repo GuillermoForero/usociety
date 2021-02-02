@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -16,10 +15,12 @@ import {loginUserCreator} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
+import * as actionTypes from '../../store/actionsTypes';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        paddingTop: theme.spacing(14),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -41,7 +42,6 @@ const useStyles = makeStyles((theme) => ({
 function SignIn(props) {
     const classes = useStyles();
     const history = useHistory();
-    const [showErrorModal, setShowErrorModal] = useState(true);
 
     const [user, setUser] = useState({
         'username': '',
@@ -61,18 +61,23 @@ function SignIn(props) {
     };
 
     useEffect(() => {
-        if (props.data.logged)
+        if (props.userState.isLogged)
             history.push('/home')
-    }, [props.data.logged, history]);
+    }, [props.userState.isLogged, history]);
 
     const handleClosePageError = () => {
-        setShowErrorModal(!showErrorModal);
+        props.dispatch({type: actionTypes.RESET_ERROR})
     };
 
     return (
         <Container component="main" maxWidth="xs">
-            <Loader isOpen={props.data.isFetching}/>
-            <PageError isOpen={showErrorModal} onclose={handleClosePageError}/>
+
+            <Loader isOpen={props.userState.isLoading}/>
+
+            <PageError
+                isOpen={props.userState.hasError}
+                onclose={handleClosePageError}
+                errorDescription={props.userState.errorDescription}/>
 
             <CssBaseline/>
             <div className={classes.paper}>
@@ -121,12 +126,12 @@ function SignIn(props) {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="/" variant="body2" style={{color: 'var(--cuaterciary)'}}>
+                            <Link to="#" style={{color: 'var(--cuaterciary)'}}>
                                 ¿Olvidaste la contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="/signup" variant="body2" style={{color: 'var(--cuaterciary)'}}>
+                            <Link to="/signup" style={{color: 'var(--cuaterciary)'}}>
                                 {"¿No tienes cuenta? Registrate"}
                             </Link>
                         </Grid>
@@ -139,7 +144,7 @@ function SignIn(props) {
 
 const mapStateToProps = state => {
     return {
-        data: state.user
+        userState: state.user
     };
 };
 export default connect(mapStateToProps)(SignIn);

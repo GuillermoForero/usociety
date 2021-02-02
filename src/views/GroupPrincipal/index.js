@@ -8,8 +8,10 @@ import {useParams} from "react-router";
 import CreatePost from "./CreatePost";
 import {connect} from "react-redux";
 import * as actionTypes from "../../store/actionsTypes";
-import {getInfoGroup} from "../../store/group/groupActions";
+import {getGroupCreator, getInfoGroup} from "../../store/group/groupActions";
 import {current} from "@reduxjs/toolkit";
+import Loader from "../../components/Loader/Loader";
+import PageError from "../../components/PageError/PageError";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -43,27 +45,29 @@ function GroupPrincipal(props) {
     const [showCreatePost, setShowCreatePost] = useState(false);
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
-        props.dispatch(getInfoGroup(slug))
+        props.dispatch(getGroupCreator(slug));
     }, []);
+    console.log(props.groupState)
     return (
         <>
-            <Container component="main" maxWidth={"md"} className={classes.container}>
+            <Loader isOpen={props.groupState.isLoading}/>
+            <PageError
+                isOpen={props.groupState.hasError}
+                errorDescription={props.groupState.errorDescription}/>
+            {props.groupState.operationCompleted && <Container component="main" maxWidth={"md"} className={classes.container}>
                 <HeaderGroupPrincipal handleCreatePost={setShowCreatePost} />
                 {showCreatePost && <CreatePost />}
-                {props.currentGroup.posts.map(() => {
-                    <RecipeReviewCard />
-                })}
+
                 <Chat />
-            </Container>
+            </Container>}
         </>
 
     );
 }
 const mapStateToProps = state => {
     return {
-        group: state.group,
+        groupState: state.group,
         user: state.user.userData,
-        currentGroup: state.currentGroup
     }
 };
 

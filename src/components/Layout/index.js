@@ -47,13 +47,9 @@ const Layout = (props) => {
     };
     const handleClick = () => {
         const menu = document.getElementById('menu-left');
-        if (menu.target){
-            return null
-        }
-        setMenuLeft(false);
     }
     useEffect(() => {
-        document.addEventListener('mousedown', )
+        document.addEventListener('mousedown', handleClick)
     }, [])
 
     return <Fragment>
@@ -102,13 +98,14 @@ const Layout = (props) => {
                     </Typography>
 
                     <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
-
                         <img
-                            src={userPhoto || defaultUserImage}
+                            src={ defaultUserImage}
                             style={{
-                                borderRadius: '50px',
+                                borderRadius: '100px',
                                 objectFit: 'cover',
-                                cursor: 'pointer'
+                                cursor: 'pointer',
+                                width: '100%',
+                                height: '100%'
                             }}
                             alt='User'/>
                     </div>

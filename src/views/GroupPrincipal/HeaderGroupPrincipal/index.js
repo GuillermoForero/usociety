@@ -4,6 +4,7 @@ import React from "react";
 import {Box, Button} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     imageContainer: {
@@ -69,42 +70,44 @@ const useStyles = makeStyles((theme) => ({
 
 function HeaderGroupPrincipal(props) {
     const classes = useStyles();
-
+    console.log(props.groupState)
     return (
         <>
             <Container maxWidth={"md"} className={classes.container}>
                 <Box className={classes.imageContainer}>
-                    <img className={classes.imgImg} src="https://concepto.de/wp-content/uploads/2013/08/matematicas-e1551990337130.jpg" alt=""/>
+                    <img className={classes.imgImg} src={props.groupState.currentGroup.group.photo} alt=""/>
                 </Box>
                 <Box className={classes.containerContent}>
                     <Box className={classes.textContainer}>
                         <Typography className={classes.typography1}>
-                            {props.currentGroup.name}
+                            {props.groupState.currentGroup.group.name}
                         </Typography>
                         <Typography className={classes.subtitle}>
                             Descripción:
                         </Typography>
                         <Typography className={classes.typography2}>
-                            {props.currentGroup.description}
+                            {props.groupState.currentGroup.group.description}
                         </Typography>
                         <Typography className={classes.subtitle}>
                             Objetivos:
                         </Typography>
                         <ul className={classes.objetives}>
-                            {props.currentGroup.objetives.map((value, index) => {
+                            {props.groupState.currentGroup.group.objectives.map((value, index) => {
                                 return <li key={index} className={classes.objetivesLi}>{value}</li>;
                             })}
                         </ul>
                     </Box>
                     <Box className={classes.buttonsContainer}>
-                        {props.user.type === 'admin'?<><Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
-                            className={classes.submit}
-                        >Unirse</Button> <Button
+                        {props.groupState.currentGroup.isAdmin ?<><Link to={`/group/${props.groupState.currentGroup.group.slug}/management`}>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                                className={classes.submit}
+                            >Administrar</Button>
+                        </Link> <Button
                             type="submit"
                             fullWidth
                             variant="contained"
@@ -129,9 +132,8 @@ function HeaderGroupPrincipal(props) {
 }
 const mapStateToProps = state => {
     return {
-        group: state.group,
+        groupState: state.group,
         user: state.user.userData,
-        currentGroup: state.currentGroup
     }
 };
 

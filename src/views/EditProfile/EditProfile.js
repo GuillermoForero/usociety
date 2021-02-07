@@ -127,7 +127,7 @@ const EditProfile = (props) => {
                             <TextField
                                 autoComplete="name"
                                 name="name"
-                                variant="outlined"
+                                variant="filled"
                                 required
                                 fullWidth
                                 id="name"

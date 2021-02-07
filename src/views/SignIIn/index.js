@@ -48,10 +48,22 @@ function SignIn(props) {
         'password': '',
     });
 
+    const [validations, setValidations] = useState({
+        'username': true,
+        'password': true,
+    });
+
     const handleChange = (e) => {
+        let propValue = e.target.value;
+        let propName = e.target.name;
         setUser({
             ...user,
-            [e.target.name]: e.target.value
+            [propName]: propValue
+        });
+
+        setValidations({
+            ...validations,
+            [propName]: (!propValue)
         });
     };
 
@@ -62,12 +74,14 @@ function SignIn(props) {
 
     useEffect(() => {
         if (props.userState.isLogged)
-            history.push('/group/lol/management')
+            history.push('/home')
     }, [props.userState.isLogged, history]);
 
     const handleClosePageError = () => {
         props.dispatch({type: actionTypes.RESET_ERROR})
     };
+
+    console.log(validations);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -87,8 +101,10 @@ function SignIn(props) {
                 <Typography component="h1" variant="h5" style={{color: 'var(--quitiary)'}}>
                     U Society
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form}>
                     <TextField
+                        error={validations.username}
+                        helperText={validations.username && "El usuario no es válido"}
                         variant="outlined"
                         margin="normal"
                         required
@@ -102,6 +118,8 @@ function SignIn(props) {
                         onChange={e => handleChange(e)}
                     />
                     <TextField
+                        error={validations.password}
+                        helperText={validations.password && "La contraseña no puede estar vacía"}
                         variant="outlined"
                         margin="normal"
                         required
@@ -121,6 +139,7 @@ function SignIn(props) {
                         className={classes.submit}
                         onClick={(e) => handleSubmit(e)}
                         type="submit"
+                        disabled={validations.username || validations.password}
                     >
                         Ingresar
                     </Button>

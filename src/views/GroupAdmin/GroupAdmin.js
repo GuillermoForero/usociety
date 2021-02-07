@@ -45,6 +45,12 @@ function GroupAdmin(props) {
         pendingMembers: [],
     });
 
+
+    const [validations, setValidations] = useState({
+        name: false,
+        category: true
+    });
+
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Administración de grupo'}});
         props.dispatch(getGroupCreator(groupSlug));
@@ -72,7 +78,16 @@ function GroupAdmin(props) {
                 [name]: value
             }
         });
-        setDisableButton(false);
+
+        setValidations({
+            ...validations,
+            [name]: !value
+        });
+
+        if (name === 'name') {
+            setDisableButton(!value);
+        } else
+            setDisableButton(false);
     };
 
     const handleDeleteRulesOrObjectiveClick = (attributeName, position) => {

@@ -281,7 +281,6 @@ function CreateGroup(props) {
             <Button
                 variant="contained"
                 color="primary"
-                style={{backgroundColor: 'var(--primary)'}}
                 className={classes.submit}
                 onClick={handleSaveClick}
                 disabled={validations.category || validations.name}

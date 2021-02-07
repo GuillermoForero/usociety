@@ -43,6 +43,11 @@ function CreateGroup(props) {
         }
     });
 
+    const [validations, setValidations] = useState({
+            name: false,
+            category: true
+    });
+
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Crea tu grupo'}});
         props.dispatch(loadCategoriesCreator());
@@ -57,6 +62,11 @@ function CreateGroup(props) {
                 ...data.group,
                 [name]: value
             }
+        });
+
+        setValidations({
+            ...validations,
+            [name]: !value
         });
     };
 
@@ -96,6 +106,11 @@ function CreateGroup(props) {
                 ...data.group,
                 category: {id: categoryId}
             }
+        });
+
+        setValidations({
+            ...validations,
+            category: false
         });
     };
 
@@ -179,6 +194,8 @@ function CreateGroup(props) {
 
                 <Grid item xs={6}>
                     <TextField
+                        error={validations.name}
+                        helperText={validations.name && "Debes darle un nombre al grupo"}
                         id="name"
                         label="Nombre"
                         variant="outlined"
@@ -203,7 +220,12 @@ function CreateGroup(props) {
         </FormControl>
 
         <FormControl className={classes.formControl} fullWidth style={{marginTop: '20px'}}>
-            <InputLabel id="category">Categoría</InputLabel>
+            <InputLabel
+                id="category"
+                error={validations.category}
+            >
+                Categoría
+            </InputLabel>
             <Select
                 labelId="category"
                 id="category"
@@ -254,7 +276,7 @@ function CreateGroup(props) {
 
         <Grid
             item xs={12}
-            style={{display: 'flex', justifyContent: 'flex-end'}}
+            style={{display: 'flex', justifyContent: 'flex-end', marginBottom:'20px'}}
         >
             <Button
                 variant="contained"
@@ -262,6 +284,7 @@ function CreateGroup(props) {
                 style={{backgroundColor: 'var(--primary)'}}
                 className={classes.submit}
                 onClick={handleSaveClick}
+                disabled={validations.category || validations.name}
             >
                 Guardar
             </Button>

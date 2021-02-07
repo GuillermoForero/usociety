@@ -12,6 +12,8 @@ import {getGroupCreator, getInfoGroup} from "../../store/group/groupActions";
 import {current} from "@reduxjs/toolkit";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
+import {loadPostsCreator} from "../../store/groupContent/groupContentActions";
+import PostCard from "./Card";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,7 +49,12 @@ function GroupPrincipal(props) {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
         props.dispatch(getGroupCreator(slug));
     }, []);
-    console.log(props.groupState)
+    useEffect(() => {
+        if(props.groupState.currentGroup.group){
+            props.dispatch(loadPostsCreator({groupId: props.groupState.currentGroup.group.id}));
+        }
+    },[props.groupState.currentGroup])
+    console.log(props.groupContent)
     return (
         <>
             <Loader isOpen={props.groupState.isLoading}/>
@@ -57,7 +64,9 @@ function GroupPrincipal(props) {
             {props.groupState.operationCompleted && <Container component="main" maxWidth={"md"} className={classes.container}>
                 <HeaderGroupPrincipal handleCreatePost={setShowCreatePost} />
                 {showCreatePost && <CreatePost />}
-
+                {props.groupContent.posts.map((post, index) => {
+                    return <PostCard {...post} />
+                })}
                 <Chat />
             </Container>}
         </>
@@ -68,6 +77,7 @@ const mapStateToProps = state => {
     return {
         groupState: state.group,
         user: state.user.userData,
+        groupContent: state.groupContent,
     }
 };
 

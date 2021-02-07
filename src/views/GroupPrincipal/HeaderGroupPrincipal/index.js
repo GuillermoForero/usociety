@@ -5,6 +5,7 @@ import {Box, Button} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {ACTIVE} from "../../../store/group/groupInterfaces";
 
 const useStyles = makeStyles((theme) => ({
     imageContainer: {
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '20px'
     },
     objetivesLi: {
-        width: '50%',
+        width: '100%',
         fontSize: '15px',
         color: 'gray',
     }
@@ -115,14 +116,14 @@ function HeaderGroupPrincipal(props) {
                             style={{backgroundColor: 'var(--primary)', textAlign: 'center'}}
                             className={classes.submit}
                             onClick={() => props.handleCreatePost(true)}
-                        >Crear Post</Button></> : <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
-                            className={classes.submit}
-                        >Unirse</Button>}
+                        >Crear Post</Button></> :props.groupState.currentGroup.membershiptStatus? null: <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                                className={classes.submit}
+                            >Unirse</Button>}
                     </Box>
                 </Box>
             </Container>

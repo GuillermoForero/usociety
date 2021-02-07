@@ -16,10 +16,13 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import CommentIcon from "@material-ui/icons/Comment";
 import Comments from "../Comments";
+import {CreatePostCreator, reactPostCreator} from "../../../store/groupContent/groupContentActions";
+import {connect} from "react-redux";
+import {isEmpty} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: '80%',
+        minWidth: '80%',
         position: 'relative',
         marginTop: '40px'
     },
@@ -72,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RecipeReviewCard(props) {
+function PostCard(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [showReactContainer1, setShowReactContainer1] = React.useState(false);
@@ -83,19 +86,17 @@ export default function RecipeReviewCard(props) {
     };
 
     const handleReaction = (value) => {
-
+        props.dispatch(reactPostCreator({postId: props.id, type: value}));
     }
-
+    console.log(isEmpty(props.reacts))
     return (
         <Card className={classes.root}>
             {showReactContainer1?
             <Box className={classes.reactContainer} onMouseLeave={() => setShowReactContainer1(false)}>
-                <img onClick={() => handleReaction(0)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
-                <img onClick={() => handleReaction(1)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/1zk00q5n4o055s08tjpy4rswf'} />
-                <img onClick={() => handleReaction(2)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/6xvr3hrj4c24dak8r7z64pgj3'} />
-                <img onClick={() => handleReaction(3)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
-                <img onClick={() => handleReaction(4)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/9wjxk9w5wguhpev3dm13672dq'} />
-                <img onClick={() => handleReaction(5)} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/3tn3hb1r3nls9c4ddwbg2pymr'} />
+                <img onClick={() => handleReaction("LIKE")} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
+                <img onClick={() => handleReaction("DISLIKE")} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/1zk00q5n4o055s08tjpy4rswf'} />
+                <img onClick={() => handleReaction("ANGRY")} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/6xvr3hrj4c24dak8r7z64pgj3'} />
+                <img onClick={() => handleReaction("LAUGH")} className={classes.reactImage} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
             </Box>: null
             }
             <CardHeader
@@ -112,26 +113,25 @@ export default function RecipeReviewCard(props) {
                 title="Guillermo Forero"
                 subheader="Enero 14, 2021"
             />
-            <CardMedia
+            {props.content.type === "IMAGE" && <CardMedia
                 className={classes.media}
-                image="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+                image={props.content.type === "IMAGE" ? props.content.value : ""}
                 title="Paella dish"
-            />
+            />}
+
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    beneficios de la meditación son muy variados y su práctica puede ayudarnos en numerosas ocasiones. Gracias a la meditación logramos relajarnos, pues no consiste en concentrarse o enfocarse en los pensamientos. Más bien todo lo contrario. Se trata de soltar y dejar ir la mente, de lograr tranquilidad.
-
-                    Los efectos fisiológicos de practicar la meditación en nuestro organismo son muy concretos. Además, cada vez hay más estudios clínicos y científicos que avalan la existencia de dichos efectos.
-
-                    La ventaja de la meditación es que puedes practicar muchas formas diferentes y que la mayoría no requieren de un equipo especializado ni de demasiado espacio. Para practicarlo sólo necesitas unos minutos al día.
+                    {props.content.type === "IMAGE" ? props.description : props.content.value}
                 </Typography>
             </CardContent>
             <Box className={classes.reactions}>
-                <img className={classes.imgReactions} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
-                <img className={classes.imgReactions} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
-            <Typography className={classes.typoReactions}>20</Typography>
-            <Typography className={classes.typoReactions}>·</Typography>
-            <Typography className={classes.typoReactions}>2 comentarios</Typography>
+                {!(isEmpty(props.reacts)) && <><img className={classes.imgReactions} src={'https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb'}/>
+                    <img className={classes.imgReactions} src={'https://static-exp1.licdn.com/sc/h/7fx9nkd7mx8avdpqm5hqcbi97'} />
+                    <Typography className={classes.typoReactions}>{Object.values(props.reacts).reduce((a, b) => a + b)}</Typography>
+                    <Typography className={classes.typoReactions}>·</Typography></>}
+                {!(isEmpty(props.comments)) &&
+                    <Typography className={classes.typoReactions}>{props.comments?.length} {' '}{'comentarios'}</Typography>
+                }
             </Box>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
@@ -156,3 +156,12 @@ export default function RecipeReviewCard(props) {
         </Card>
     );
 }
+const mapStateToProps = state => {
+    return {
+        groupState: state.group,
+        user: state.user.userData,
+        groupContent: state.groupContent,
+    }
+};
+
+export default connect(mapStateToProps)(PostCard);

@@ -7,10 +7,11 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import {red} from '@material-ui/core/colors';
 import {Box, Button, FormControl, MenuItem, Select, TextField} from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
+import {CreatePostCreator} from "../../../store/groupContent/groupContentActions";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,9 +43,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CreatePost() {
+function CreatePost(props) {
     const classes = useStyles();
     const [image, setImage] = useState('');
+    const [text, setText] = useState('');
     const [valueSelect, setValueSelect] = useState(0);
     const handleClickButtonAddPhoto = () => {
             const fileInput = document.getElementById('fileInput');
@@ -63,6 +65,9 @@ export default function CreatePost() {
             reader.readAsDataURL(file[0]);
         }
     };
+    const handleSubmit = () => {
+        props.dispatch(CreatePostCreator({image: image, groupId: props.groupState.currentGroup.group.id, isPublic: valueSelect === 0, value: text}));
+    }
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -97,6 +102,7 @@ export default function CreatePost() {
                     placeholder="¿Sobre qué quieres hablar?"
                     multiline
                     fullWidth
+                    onChange={(e) => setText(e.target.value)}
                     style={{color: 'black'}}
                 />
             </CardContent>
@@ -116,9 +122,18 @@ export default function CreatePost() {
                 <Button type="submit"
                         variant="contained"
                         color="primary"
+                        onClick={handleSubmit}
                         style={{backgroundColor: 'var(--primary)', width: '20%'}}
                         className={classes.submit}>Publicar</Button>
             </CardActions>
         </Card>
     );
 }
+const mapStateToProps = state => {
+    return {
+        groupState: state.group,
+        user: state.user.userData,
+    }
+};
+
+export default connect(mapStateToProps)(CreatePost);

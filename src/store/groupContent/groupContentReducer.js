@@ -1,17 +1,17 @@
 import * as actionTypes from '../actionsTypes';
 
 const initialState = {
-    categories: [],
+    posts: [],
 
     hasError: false,
     isLoading: false,
     operationCompleted: false
 };
 
-const categoryReducer = (state = initialState, action) => {
+const groupContentReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case actionTypes.LOADING_CATEGORIES:
+        case actionTypes.LOAD_POSTS:
             return Object.assign({}, state, {
                 ...state,
                 hasError: false,
@@ -19,9 +19,9 @@ const categoryReducer = (state = initialState, action) => {
                 operationCompleted: false
             });
 
-        case actionTypes.CATEGORIES_LOADED_SUCCESSFUL:
+        case actionTypes.LOAD_POSTS_SUCCESSFUL:
             return Object.assign({}, state, {
-                categories: action.payload.data,
+                posts: action.payload.data,
                 hasError: false,
                 isLoading: false,
                 operationCompleted: true
@@ -48,4 +48,4 @@ const categoryReducer = (state = initialState, action) => {
     }
 };
 
-export default categoryReducer;
+export default groupContentReducer;

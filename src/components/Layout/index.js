@@ -100,7 +100,7 @@ const Layout = (props) => {
                     <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
 
                         <img
-                            src={(userPhoto && userPhoto !== '') || defaultUserImage}
+                            src={userPhoto && userPhoto !== '' ? userPhoto : defaultUserImage}
                             style={{
                                 borderRadius: '100px',
                                 objectFit: 'cover',

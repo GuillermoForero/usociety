@@ -126,15 +126,7 @@ const updateUserCategoriesFailed = errorDescription => {
 
 export const createUserCreator = user => {
     try {
-        const body = new FormData();
-        const userBlob = new Blob([JSON.stringify(user)], {
-            type: 'application/json'
-        });
-
-        body.append('user', userBlob);
-        body.append('photo', user.image);
-
-        return basePostCreator('/users/', body, creatingUser, userCreated, createUserFailed);
+        return basePostCreator('/users/', JSON.stringify(user), creatingUser, userCreated, createUserFailed);
     } catch (e) {
         return createUserFailed(generalError);
     }
@@ -168,12 +160,7 @@ export const updateUserCategoriesCreator = (categoriesId) => {
     try {
         let serialized = [];
         categoriesId.map(categoryId => serialized.push(new Category(categoryId)));
-
-        const body = new FormData();
-        const blob = new Blob([JSON.stringify(new UpdateUserCategories(serialized))], {
-            type: 'application/json'
-        });
-        body.append('user', blob);
+        const body = JSON.stringify(new UpdateUserCategories(serialized));
 
         return basePutCreator('/users/', body, updatingUserCategories, userCategoriesUpdated, updateUserCategoriesFailed);
     } catch (e) {

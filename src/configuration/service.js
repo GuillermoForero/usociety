@@ -1,9 +1,15 @@
+const https = require('https');
 const axios = require('axios');
+const axiosInstance = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+    })
+});
 
-const BASE_API_URL = 'http://localhost:8080/manager/services';
+const BASE_API_URL = 'https://ec2-54-85-206-8.compute-1.amazonaws.com:8443/manager/services';
 
-export const INVALID_OTP  = 'INVALID_OTP';
-export const EMAIL_NOT_VERIFIED  = 'Email not verified';
+export const INVALID_OTP = 'INVALID_OTP';
+export const EMAIL_NOT_VERIFIED = 'Email not verified';
 
 export const get = async (path, dispatch, successCallback, errorCallback, getState) => {
     try {
@@ -12,11 +18,11 @@ export const get = async (path, dispatch, successCallback, errorCallback, getSta
         const config = {
             method: 'get',
             url: `${BASE_API_URL}${path}`,
-            headers: {...authorizationHeader}
+            headers: {...authorizationHeader},
         };
 
         console.log('GET: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
@@ -42,7 +48,7 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
         };
 
         console.log('POST: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
@@ -68,7 +74,7 @@ export const put = async (path, body, dispatch, successCallback, errorCallback, 
         };
 
         console.log('PUT: ', path, `Token -> ${authorizationHeader}`);
-        const response = await axios(config);
+        const response = await axiosInstance(config);
         console.log('Response: ', processResponse(response));
         dispatch(successCallback(processResponse(response)));
     } catch (e) {
@@ -101,4 +107,10 @@ function processError(e, dispatch, errorCallback) {
 
     dispatch(errorCallback(responseError, statusCode));
     console.log(responseError, statusCode);
+}
+
+function buildNonSSLAgent() {
+    return new https.Agent({
+        rejectUnauthorized: false
+    });
 }

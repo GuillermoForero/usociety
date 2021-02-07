@@ -49,8 +49,8 @@ function SignIn(props) {
     });
 
     const [validations, setValidations] = useState({
-        'username': true,
-        'password': true,
+        'username': false,
+        'password': false,
     });
 
     const handleChange = (e) => {
@@ -80,8 +80,6 @@ function SignIn(props) {
     const handleClosePageError = () => {
         props.dispatch({type: actionTypes.RESET_ERROR})
     };
-
-    console.log(validations);
 
     return (
         <Container component="main" maxWidth="xs">

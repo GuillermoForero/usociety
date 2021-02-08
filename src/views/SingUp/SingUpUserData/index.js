@@ -61,6 +61,15 @@ function SingUpUserData(props) {
         'username': ''
     });
 
+    const [validations, setValidations] = useState({
+        'name': false,
+        'email': false,
+        'password': false,
+        'confirmedPassword': false,
+        'photo': false,
+        'username': false
+    });
+
     useEffect(() => {
         if (props.userState.isLogged) {
             history.push('/preferences')
@@ -79,18 +88,29 @@ function SingUpUserData(props) {
 
 
     const handleChange = (e) => {
+        let propValue = e.target.value;
+        let propName = e.target.name;
         setUser({
             ...user,
-            [e.target.name]: e.target.value
+            [propName]: propValue
         });
-    };
 
-    const handleEmailChange = (e) => {
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value
+        const fieldHasErrors = !propValue;
+        setValidations({
+            ...validations,
+            [propName]: fieldHasErrors
         });
-        setVerifiedEmail(false);
+
+        if (propName === 'email') {
+            setVerifiedEmail(fieldHasErrors);
+        }
+
+        if (propName === 'confirmedPassword') {
+            setValidations({
+                ...validations,
+                confirmedPassword: user.password !== propValue
+            });
+        }
     };
 
     const handleSubmit = async () => {
@@ -179,6 +199,8 @@ function SingUpUserData(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validations.email}
+                                helperText={validations.email && "El correo es requerido"}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -187,12 +209,14 @@ function SingUpUserData(props) {
                                 name="email"
                                 autoComplete="email"
                                 value={user.email}
-                                onChange={e => handleEmailChange(e)}
+                                onChange={e => handleChange(e)}
                             />
                         </Grid>
 
                         <Grid item xs={12}>
                             <TextField
+                                error={validations.name}
+                                helperText={validations.name && "El nombre no es válido"}
                                 autoComplete="name"
                                 name="name"
                                 variant="outlined"
@@ -207,6 +231,8 @@ function SingUpUserData(props) {
 
                         <Grid item xs={12}>
                             <TextField
+                                error={validations.username}
+                                helperText={validations.username && "El usuario es requerido"}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -220,6 +246,8 @@ function SingUpUserData(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validations.password}
+                                helperText={validations.password && "La contraseña no es válida"}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -234,13 +262,15 @@ function SingUpUserData(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={validations.confirmedPassword}
+                                helperText={validations.confirmedPassword && "Las contraseñas no coinciden"}
                                 variant="outlined"
                                 required
                                 fullWidth
                                 name="confirmedPassword"
                                 label="Confirma la contraseña"
                                 type="password"
-                                id="password"
+                                id="confirmedPassword"
                                 autoComplete="current-password"
                                 value={user.confirmedPassword}
                                 onChange={e => handleChange(e)}

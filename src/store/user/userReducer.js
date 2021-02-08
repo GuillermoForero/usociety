@@ -19,6 +19,7 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.LOGGING_USER:
         case actionTypes.GETTING_USER:
         case actionTypes.CREATING_USER:
+        case actionTypes.UPDATING_USER:
         case actionTypes.UPDATING_USER_CATEGORIES:
             return Object.assign({}, state, {
                 ...state,
@@ -47,6 +48,7 @@ const userReducer = (state = initialState, action) => {
                 isLogged: true
             });
 
+        case actionTypes.USER_UPDATED_SUCCESSFUL:
         case actionTypes.USER_CATEGORIES_UPDATED_SUCCESSFUL:
             return Object.assign({}, state, {
                 ...state,
@@ -65,6 +67,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.LOG_USER_FAILED:
         case actionTypes.CREATE_USER_FAILED:
+        case actionTypes.UPDATE_USER_FAILED:
         case actionTypes.UPDATE_USER_CATEGORIES_FAILED:
         case actionTypes.SEND_EMAIL_VERIFICATION_FAILED:
             return Object.assign({}, state, {

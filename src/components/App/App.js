@@ -12,6 +12,7 @@ import Home from "../../views/Home";
 import SearchGroup from "../../views/SearchGroup";
 import CreatePost from "../../views/GroupPrincipal/CreatePost";
 import FooterPage from "../../views/FooterPage/FooterPage";
+import EditProfile from "../../views/EditProfile/EditProfile";
 
 export default function App() {
     return (
@@ -26,6 +27,9 @@ export default function App() {
                 <Layout>
                     <Route path="/home" exact strict>
                         <GuardedRoute component={Home}/>
+                    </Route>
+                    <Route path="/profile/:username" exact strict>
+                        <GuardedRoute component={EditProfile}/>
                     </Route>
                     <Route path="/search" exact strict>
                         <GuardedRoute component={SearchGroup}/>

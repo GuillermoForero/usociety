@@ -2,7 +2,6 @@ import * as actionTypes from '../actionsTypes';
 import {Category, UpdateUserCategories} from "../category/categoryInterfaces";
 import {baseGetCreator, basePostCreator, basePutCreator} from "../commonActionsCreator";
 
-const FormData = require('form-data');
 const generalError = "Error general";
 
 const creatingUser = () => {
@@ -21,6 +20,26 @@ const userCreated = user => {
 const createUserFailed = (errorDescription, statusCode) => {
     return {
         type: actionTypes.CREATE_USER_FAILED,
+        payload: {error: errorDescription, status: statusCode}
+    };
+};
+
+
+const updatingUser = () => {
+    return {
+        type: actionTypes.UPDATING_USER,
+    };
+};
+
+const userUpdated = () => {
+    return {
+        type: actionTypes.USER_UPDATED_SUCCESSFUL,
+    };
+};
+
+const updateUserFailed = (errorDescription, statusCode) => {
+    return {
+        type: actionTypes.UPDATE_USER_FAILED,
         payload: {error: errorDescription, status: statusCode}
     };
 };
@@ -131,6 +150,14 @@ export const createUserCreator = user => {
         return basePostCreator('/users/', JSON.stringify(user), creatingUser, userCreated, createUserFailed);
     } catch (e) {
         return createUserFailed(generalError);
+    }
+};
+
+export const updateUserCreator = user => {
+    try {
+        return basePutCreator('/users/', JSON.stringify(user), updatingUser, userUpdated, updateUserFailed);
+    } catch (e) {
+        return updateUserFailed(generalError);
     }
 };
 

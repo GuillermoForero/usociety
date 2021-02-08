@@ -117,7 +117,7 @@ const getMessagesFailed = () => {
 };
 
 export const getMessagesCreator = (data) => {
-    return basePostCreator(`/messages/${data.groupId}`, {}, getMessages, getMessagesSuccess, getMessagesFailed);
+    return baseGetCreator(`/messages/${data.groupId}`, {}, getMessages, getMessagesSuccess, getMessagesFailed);
 };
 const sendMessage = () => {
     return {

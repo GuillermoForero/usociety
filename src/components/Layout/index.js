@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import {AppBar, IconButton, List, ListItem, ListItemText, makeStyles, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
@@ -41,6 +41,7 @@ const Layout = (props) => {
     const [menuLeft, setMenuLeft] = React.useState(false);
     const mainTitle = useSelector(state => state.global.mainTitle);
     const userPhoto = useSelector(state => state.user.data.user?.photo);
+    const userName = useSelector(state => state.user.data.user?.username);
 
     const handleMenu = (event) => {
         //open edit profile view
@@ -100,17 +101,17 @@ const Layout = (props) => {
                     </Typography>
 
                     <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
-
-                        <img
-                            src={userPhoto && userPhoto !== '' ? userPhoto : defaultUserImage}
-                            style={{
-                                borderRadius: '100px',
-                                objectFit: 'cover',
-                                cursor: 'pointer',
-                                width: '100%',
-                                height: '100%'
-                            }}
-                            alt='User'/>
+                        <RouterLink to={"/profile/" + userName}>
+                            <img
+                                src={(userPhoto && userPhoto !== '') ? userPhoto : defaultUserImage}
+                                style={{
+                                    borderRadius: '50px',
+                                    objectFit: 'cover',
+                                    cursor: 'pointer',
+                                    width: '100%'
+                                }}
+                                alt='User'/>
+                        </RouterLink>
                     </div>
                 </Toolbar>
             </AppBar>

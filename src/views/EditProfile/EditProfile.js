@@ -17,6 +17,9 @@ import Button from "@material-ui/core/Button";
 import {Link} from "react-router-dom";
 import {makeStyles} from "@material-ui/core/styles";
 import PersonIcon from '@material-ui/icons/Person';
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -42,23 +45,39 @@ const useStyles = makeStyles((theme) => ({
 const EditProfile = (props) => {
     const classes = useStyles();
     const [image, setImage] = useState(defaultUserImage);
+    const [checkedCategories, setCheckedCategories] = useState([{id: '', value: false}]);
 
     const [user, setUser] = useState({
         'name': '',
         'photo': '',
+        'categoryList': []
     });
+
+    const [validations, setValidations] = useState({
+        'name': false,
+        'category': false,
+    });
+
 
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Perfil'}});
-        setUser(props.userState.data.user);
-        setImage(props.userState.data.user?.photo);
+        let userData = props.userState.data.user;
+        setUser(userData);
+        setImage(userData?.photo);
+        const updatedCheckedCategories = [];
+
+        userData?.categoryList.map(category => updatedCheckedCategories.push({id: category.id, value: true}));
+        setCheckedCategories(updatedCheckedCategories);
     }, []);
 
     const handleChange = (e) => {
+        let propName = e.target.name;
+        let propValue = e.target.value;
         setUser({
             ...user,
-            [e.target.name]: e.target.value
+            [propName]: propValue
         });
+        setValidations({...validations, [propName]: !propValue});
     };
 
     const handleSubmit = async () => {
@@ -79,6 +98,12 @@ const EditProfile = (props) => {
         });
     };
 
+    const handleCategoryClicked = (categoryId) => {
+        console.log(categoryId, 'pressed')
+        const updatedChecked = Object.assign([], checkedCategories);
+        updatedChecked[categoryId].value = !updatedChecked[categoryId].value;
+        setCheckedCategories(updatedChecked);
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -139,12 +164,40 @@ const EditProfile = (props) => {
                     </Grid>
 
 
+                    <ListSubheader
+                        style={{marginTop: '20px', paddingLeft: '0', fontSize: '16px'}}
+                        component="div" id="nested-list-subheader">
+                        Tus intereses
+                    </ListSubheader>
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            {user.categoryList.map((category, index) =>
+                                (<FormControlLabel
+                                    style={{display: 'block', paddingLeft: '10px'}}
+                                    key={category.id}
+                                    control={<Checkbox
+                                        fullWidth
+                                        color="primary"
+                                        checked={checkedCategories[index].value}
+                                        value={category.id}
+                                        onClick={e => handleCategoryClicked(category.id)}
+                                        display={{verticalAlign: 'bottom'}}
+                                    />
+                                    }
+                                    label={category.name}
+                                />))}
+                        </Grid>
+                    </Grid>
+
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={handleSubmit}>
+                        onClick={handleSubmit}
+                        disabled={validations.name || validations.category}
+                    >
                         Actualizar
                     </Button>
 
@@ -162,7 +215,7 @@ const EditProfile = (props) => {
 
 const mapStateToProps = state => {
     return {
-        userState: state.user
+        userState: state.user,
     }
 };
 export default connect(mapStateToProps)(EditProfile);

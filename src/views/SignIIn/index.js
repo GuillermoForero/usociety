@@ -8,10 +8,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import { Redirect } from "react-router-dom";
 
 import {connect} from 'react-redux';
-import {loginUserCreator} from "../../store/user/userActions";
+import {loginUserCreator, userLogged} from "../../store/user/userActions";
 import {useHistory} from "react-router";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
@@ -68,7 +68,11 @@ function SignIn(props) {
     const handleClosePageError = () => {
         props.dispatch({type: actionTypes.RESET_ERROR})
     };
+    const  userData = JSON.parse(localStorage.getItem('userData'));
 
+    if (userData) {
+        props.dispatch(userLogged({user: userData.user, token: userData.token}));
+    }
     return (
         <Container component="main" maxWidth="xs">
 

@@ -71,7 +71,9 @@ const loggingUser = () => {
     };
 };
 
-const userLogged = user => {
+export const userLogged = user => {
+    console.log(user);
+    console.log('entré')
     return {
         type: actionTypes.USER_LOGGED_SUCCESSFUL,
         payload: {data: user}

@@ -83,7 +83,9 @@ const Layout = (props) => {
                             </RouterLink>
 
                             <Divider/>
-                            <Link href='/' className={classes.ancla}>
+                            <Link href='/' className={classes.ancla} onClick={() => {
+                                localStorage.setItem('userData', null);
+                            }}>
                                 <ListItem href="#simple-list">
                                     <ListItemIcon>
                                         <ExitToAppIcon className={classes.button}/>

@@ -12,7 +12,7 @@ import {getGroupCreator, getInfoGroup} from "../../store/group/groupActions";
 import {current} from "@reduxjs/toolkit";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
-import {loadPostsCreator} from "../../store/groupContent/groupContentActions";
+import {getMessagesCreator, loadPostsCreator} from "../../store/groupContent/groupContentActions";
 import PostCard from "./Card";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +52,7 @@ function GroupPrincipal(props) {
     useEffect(() => {
         if(props.groupState.currentGroup.group){
             props.dispatch(loadPostsCreator({groupId: props.groupState.currentGroup.group.id}));
+            props.dispatch(getMessagesCreator({groupId: props.groupState.currentGroup.group.id}));
         }
     },[props.groupState.currentGroup])
     console.log(props.groupContent)

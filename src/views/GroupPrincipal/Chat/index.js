@@ -10,6 +10,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import {Button} from "@material-ui/core";
+import {connect} from "react-redux";
+import {getGroupCreator} from "../../../store/group/groupActions";
+import {sendMessageCreator} from "../../../store/groupContent/groupContentActions";
 
 const useStyles = makeStyles({
     table: {
@@ -37,10 +40,15 @@ const useStyles = makeStyles({
     }
 });
 
-const Chat = () => {
+const Chat = (props) => {
     const classes = useStyles();
     const [showChat, setShowChat] = React.useState(false);
+    const [textValue, setTextValue] = React.useState('');
 
+    const handleSendMessage = (value) => {
+        setTextValue('')
+        props.dispatch(sendMessageCreator({content: textValue, idGroup: props.groupState.currentGroup.group.id}));
+    }
     return (
         <>
             <Grid container className={classes.containerChat} xs={3}>
@@ -51,6 +59,18 @@ const Chat = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <List className={classes.messageArea}>
+                        {props.groupContent.messages.map((value, index) => {
+                            return <ListItem key={index}>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <ListItemText align="right" primary={value.content}></ListItemText>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <ListItemText align="right" secondary={`${value.creationDate} ${value.user.name}`}></ListItemText>
+                                    </Grid>
+                                </Grid>
+                            </ListItem>
+                        })}
                         <ListItem key="1">
                             <Grid container>
                                 <Grid item xs={12}>
@@ -95,10 +115,10 @@ const Chat = () => {
                     <Divider />
                     <Grid container style={{padding: '20px'}}>
                         <Grid item xs={10}>
-                            <TextField id="outlined-basic-email" label="Type Something" fullWidth />
+                            <TextField id="outlined-basic-email" label="Type Something" fullWidth value={textValue}  onChange={(e) => setTextValue(e.target.value)}/>
                         </Grid>
                         <Grid xs={1} align="right">
-                            <Fab style={{backgroundColor: 'var(--terciary)'}} color="primary" aria-label="add"><SendIcon  /></Fab>
+                            <Fab style={{backgroundColor: 'var(--terciary)'}} onClick={() => handleSendMessage()} color="primary" aria-label="add"><SendIcon  /></Fab>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -110,4 +130,12 @@ const Chat = () => {
     );
 }
 
-export default Chat;
+const mapStateToProps = state => {
+    return {
+        groupState: state.group,
+        user: state.user.userData,
+        groupContent: state.groupContent,
+    }
+};
+
+export default connect(mapStateToProps)(Chat);

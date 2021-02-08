@@ -2,7 +2,7 @@ import * as actionTypes from '../actionsTypes';
 
 const initialState = {
     posts: [],
-
+    messages: [],
     hasError: false,
     isLoading: false,
     operationCompleted: false
@@ -35,6 +35,32 @@ const groupContentReducer = (state = initialState, action) => {
                 operationCompleted: false,
                 errorDescription: action.payload.error
             });
+        case actionTypes.GET_MESSAGES:
+            return Object.assign({}, state, {
+                ...state,
+                hasError: false,
+                isLoading: true,
+                operationCompleted: false
+            });
+
+        case actionTypes.GET_MESSAGES_SUCCESSFUL:
+            console.log(action.payload)
+            return Object.assign({}, state, {
+                messages: action.payload.data,
+                hasError: false,
+                isLoading: false,
+                operationCompleted: true
+            });
+
+        case actionTypes.GET_MESSAGES_FAILED:
+            return Object.assign({}, state, {
+                ...state,
+                hasError: true,
+                isLoading: false,
+                operationCompleted: false,
+                errorDescription: action.payload.error
+            });
+
 
         case actionTypes.RESET_ERROR: {
             return Object.assign({}, state, {

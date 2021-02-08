@@ -95,6 +95,61 @@ export const CreatePostCreator = (data) => {
 export const reactPostCreator = (data) => {
     return basePostCreator(`/posts/${data.postId}/react?value=${data.type}`, {}, reactPost, reactPostSuccessful, reactPostFailed);
 };
-export const commentPostCreator = (data) => {
-    return basePostCreator(`/posts/${data.postId}/comment`, JSON.stringify({comment: data.comment}), commentPost, commentPostSuccessful, commentPostFailed);
+
+const getMessages = () => {
+    return {
+        type: actionTypes.GET_MESSAGES,
+    };
+};
+
+const getMessagesSuccess = (messages) => {
+    return {
+        type: actionTypes.GET_MESSAGES_SUCCESSFUL,
+        payload: {data: messages}
+    };
+};
+
+const getMessagesFailed = () => {
+    return {
+        type: actionTypes.GET_MESSAGES_FAILED,
+        payload: {}
+    };
+};
+
+export const getMessagesCreator = (data) => {
+    return basePostCreator(`/messages/${data.groupId}`, {}, getMessages, getMessagesSuccess, getMessagesFailed);
+};
+const sendMessage = () => {
+    return {
+        type: actionTypes.SEND_MESSAGES,
+    };
+};
+
+const sendMessageSuccess = (messages) => {
+    return {
+        type: actionTypes.SEND_MESSAGES_SUCCESSFUL,
+        payload: {}
+    };
+};
+
+const sendMessageFailed = () => {
+    return {
+        type: actionTypes.SEND_MESSAGES_FAILED,
+        payload: {}
+    };
+};
+
+export const sendMessageCreator = (data) => {
+    console.log(data)
+    return basePostCreator(`/messages/`, JSON.stringify(
+        {
+        content: data.content,
+        group: {
+            id: data.idGroup
+        },
+        type: "TEXT",
+        image: ""
+        }
+        ),
+        sendMessage, sendMessageSuccess, sendMessageFailed);
 };

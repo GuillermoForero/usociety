@@ -26,10 +26,8 @@ function Home(props) {
         props.dispatch({type: actionTypes.RESET_ERROR})
     };
     useEffect(() => {
-        console.log("home state", props.userState.data)
         localStorage.setItem('userData', JSON.stringify(props.userState.data));
         const  userData = JSON.parse(localStorage.getItem('userData'));
-        console.log("home", userData)
     }, [props.userState.data])
     return <Fragment>
         {<Loader isOpen={props.groupState.isLoading}/>}

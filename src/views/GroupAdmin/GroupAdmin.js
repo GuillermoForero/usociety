@@ -60,7 +60,6 @@ function GroupAdmin(props) {
         let currentGroup = props.groupState.currentGroup;
         if (props.groupState.operationCompleted) {
             setData(currentGroup);
-            console.log(currentGroup)
             const currentImageGroup = currentGroup.group.photo;
             if (!isEmpty(currentGroup)) {
                 setImage({currentImageGroup});

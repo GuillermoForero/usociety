@@ -44,13 +44,14 @@ function CreateGroup(props) {
     });
 
     const [validations, setValidations] = useState({
-            name: false,
-            category: true
+        name: false,
+        category: true
     });
 
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Crea tu grupo'}});
         props.dispatch(loadCategoriesCreator());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChangeTextFields = e => {
@@ -147,6 +148,7 @@ function CreateGroup(props) {
     };
 
     useEffect(() => {
+        console.log("121212121")
         if (props.groupState.operationCompleted) {
             history.push('/home');
         }
@@ -206,7 +208,7 @@ function CreateGroup(props) {
                 </Grid>
                 <Grid item xs={8}>
                     <TextareaAutosize
-                        style={{width:'400px', fontSize:'15px', padding: '10px' }}
+                        style={{width: '400px', fontSize: '15px', padding: '10px'}}
                         rowsMin={4}
                         rowsMax={4}
                         id="description"
@@ -276,7 +278,7 @@ function CreateGroup(props) {
 
         <Grid
             item xs={12}
-            style={{display: 'flex', justifyContent: 'flex-end', marginBottom:'20px'}}
+            style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '20px'}}
         >
             <Button
                 variant="contained"

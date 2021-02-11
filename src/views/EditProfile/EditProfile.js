@@ -76,6 +76,7 @@ const EditProfile = (props) => {
         let photo = getImage(userData?.photo);
         if (photo)
             setImage(getImage(photo));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -89,6 +90,7 @@ const EditProfile = (props) => {
             }));
 
         setCheckedCategories(updatedCheckedCategories);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.categoryState?.categories]);
 
     const handleChange = (e) => {

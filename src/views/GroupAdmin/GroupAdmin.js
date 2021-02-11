@@ -25,7 +25,6 @@ import {useParams} from "react-router";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import defaultGroupImage from "../../images/background.jpg";
 import Image from "material-ui-image";
-import {isEmpty} from "lodash";
 import {fileToBase64} from "../../configuration/utils";
 
 function GroupAdmin(props) {
@@ -54,6 +53,7 @@ function GroupAdmin(props) {
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Administración de grupo'}});
         props.dispatch(getGroupCreator(groupSlug));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -61,8 +61,8 @@ function GroupAdmin(props) {
         if (props.groupState.operationCompleted) {
             setData(currentGroup);
             const currentImageGroup = currentGroup.group.photo;
-            if (!isEmpty(currentGroup)) {
-                setImage({currentImageGroup});
+            if (currentGroup) {
+                setImage(currentImageGroup);
             }
         }
     }, [props.groupState.operationCompleted]);

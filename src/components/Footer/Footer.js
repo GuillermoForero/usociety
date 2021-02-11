@@ -16,7 +16,7 @@ function Footer() {
 
         <div className='container__footer-social'>
             <FacebookIcon/>
-            <LinkedInIcon/>
+            <LinkedInIcon href="https://www.linkedin.com/in/ardila-javier/"/>
             <YouTubeIcon/>
         </div>
     </div>, document.getElementById('footer'));

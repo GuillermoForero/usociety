@@ -14,10 +14,10 @@ import PageError from "../../components/PageError/PageError";
 function Home(props) {
     const classes = useStyles();
 
-    //eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
         props.dispatch(listUserGroupsCreator(props.userState.data))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const rows = props.groupState.userGroups;

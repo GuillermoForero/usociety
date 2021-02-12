@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import defaultUserImage from "../../images/default-user.png";
-import {updateUserCreator} from "../../store/user/userActions";
+import {getUserCreator, updateUserCreator} from "../../store/user/userActions";
 import * as actionTypes from "../../store/actionsTypes";
 import {fileToBase64, getImage} from "../../configuration/utils";
 import Container from "@material-ui/core/Container";
@@ -21,6 +21,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import {loadCategoriesCreator} from "../../store/category/categoryActions";
+import {isEmpty} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -69,29 +70,32 @@ const EditProfile = (props) => {
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Perfil'}});
         props.dispatch(loadCategoriesCreator());
+        props.dispatch(getUserCreator(props.userState.data.user?.username));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        const userData = props.userState.data.user;
+    useEffect(() => {
+        const userData = props.userState.tmpUser;
         setUser(userData);
 
         let photo = getImage(userData?.photo);
         if (photo)
             setImage(getImage(photo));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
-    useEffect(() => {
         const updatedCheckedCategories = [];
 
-        props.categoryState?.categories?.map(category =>
-            updatedCheckedCategories.push({
-                id: category.id,
-                name: category.name,
-                checked: user.categoryList?.some(x => x.id === category.id)
-            }));
+        if (!isEmpty(props.userState.tmpUser)) {
+            props.categoryState?.categories?.map(category =>
+                updatedCheckedCategories.push({
+                    id: category.id,
+                    name: category.name,
+                    checked: userData.categoryList?.some(x => x.id === category.id)
+                }));
+        }
 
         setCheckedCategories(updatedCheckedCategories);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.categoryState?.categories]);
+    }, [props.userState.tmpUser, props.categoryState?.categories]);
 
     const handleChange = (e) => {
         let propName = e.target.name;

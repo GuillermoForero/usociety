@@ -72,6 +72,7 @@ function SingUpUserData(props) {
 
     useEffect(() => {
         if (props.userState.isLogged) {
+            localStorage.setItem('userData', JSON.stringify(props.userState.data));
             history.push('/preferences')
         }
     }, [props.userState.isLogged]);

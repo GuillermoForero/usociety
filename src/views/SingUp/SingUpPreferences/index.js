@@ -44,6 +44,7 @@ function SingUpPreferences(props) {
 
     useEffect(() => {
         props.dispatch(loadCategoriesCreator());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

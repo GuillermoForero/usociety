@@ -44,7 +44,6 @@ const groupContentReducer = (state = initialState, action) => {
             });
 
         case actionTypes.GET_MESSAGES_SUCCESSFUL:
-            console.log(action.payload)
             return Object.assign({}, state, {
                 messages: action.payload.data,
                 hasError: false,

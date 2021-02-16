@@ -17,6 +17,7 @@
 .container__footer-legends span {
     padding: 10px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .container__footer-social {

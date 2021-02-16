@@ -14,6 +14,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import {getImage} from "../../configuration/utils";
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -40,7 +41,7 @@ const Layout = (props) => {
     const classes = useStyles();
     const [menuLeft, setMenuLeft] = React.useState(false);
     const mainTitle = useSelector(state => state.global.mainTitle);
-    const userPhoto = useSelector(state => state.user.data.user?.photo);
+    const userPhoto = useSelector(state => getImage(state.user.data.user?.photo) || defaultUserImage);
     const userName = useSelector(state => state.user.data.user?.username);
 
     const handleMenu = (event) => {
@@ -103,12 +104,13 @@ const Layout = (props) => {
                     <div style={{display: 'flex', flexDirection: 'flex-end', width: '40px', height: '40px'}}>
                         <RouterLink to={"/profile/" + userName}>
                             <img
-                                src={(userPhoto && userPhoto !== '') ? userPhoto : defaultUserImage}
+                                src={userPhoto}
                                 style={{
                                     borderRadius: '50px',
                                     objectFit: 'cover',
                                     cursor: 'pointer',
-                                    width: '100%'
+                                    width: '100%',
+                                    height: '100%',
                                 }}
                                 alt='User'/>
                         </RouterLink>

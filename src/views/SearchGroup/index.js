@@ -25,6 +25,7 @@ function SearchGroup(props) {
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Descubre grupos de tu interés'}});
         props.dispatch(loadCategoriesCreator());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const rows = props.groupState.groups;

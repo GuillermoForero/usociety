@@ -1,6 +1,5 @@
 import * as actionTypes from '../actionsTypes';
 import {baseGetCreator, basePostCreator} from "../commonActionsCreator";
-import {post} from "../../configuration/service";
 
 const loadPosts = () => {
     return {
@@ -140,7 +139,6 @@ const sendMessageFailed = () => {
 };
 
 export const sendMessageCreator = (data) => {
-    console.log(data)
     return basePostCreator(`/messages/`, JSON.stringify(
         {
         content: data.content,

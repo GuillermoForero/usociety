@@ -2,18 +2,16 @@ import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import React, {useEffect, useState} from "react";
 import HeaderGroupPrincipal from "./HeaderGroupPrincipal";
-import RecipeReviewCard from "./Card";
+import PostCard from "./Card";
 import Chat from "./Chat";
 import {useParams} from "react-router";
 import CreatePost from "./CreatePost";
 import {connect} from "react-redux";
 import * as actionTypes from "../../store/actionsTypes";
-import {getGroupCreator, getInfoGroup} from "../../store/group/groupActions";
-import {current} from "@reduxjs/toolkit";
+import {getGroupCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
 import {getMessagesCreator, loadPostsCreator} from "../../store/groupContent/groupContentActions";
-import PostCard from "./Card";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,6 +46,7 @@ function GroupPrincipal(props) {
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'U Society - Sergio Arboleda'}});
         props.dispatch(getGroupCreator(slug));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
         if(props.groupState.currentGroup.group){

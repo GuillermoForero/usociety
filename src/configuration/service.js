@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     })
 });
 
-const BASE_API_URL = 'https://ec2-54-85-206-8.compute-1.amazonaws.com:8443/manager/services';
+const BASE_API_URL = 'https://100.26.170.205:8443/manager/services';
 
 export const INVALID_OTP = 'INVALID_OTP';
 export const EMAIL_NOT_VERIFIED = 'Email not verified';
@@ -60,7 +60,6 @@ export const post = async (path, body, dispatch, successCallback, errorCallback,
 export const put = async (path, body, dispatch, successCallback, errorCallback, getState) => {
     try {
         const authorizationHeader = buildAuthorizationToken(getState);
-        console.log(authorizationHeader);
 
         const config = {
             method: 'put',

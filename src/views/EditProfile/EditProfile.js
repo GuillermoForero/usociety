@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import defaultUserImage from "../../images/default-user.png";
-import {updateUserCreator} from "../../store/user/userActions";
+import {getUserCreator, updateUserCreator} from "../../store/user/userActions";
 import * as actionTypes from "../../store/actionsTypes";
-import {fileToBase64} from "../../configuration/utils";
+import {fileToBase64, getImage} from "../../configuration/utils";
 import Container from "@material-ui/core/Container";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
@@ -20,6 +20,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import {loadCategoriesCreator} from "../../store/category/categoryActions";
+import {isEmpty} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -45,7 +47,13 @@ const useStyles = makeStyles((theme) => ({
 const EditProfile = (props) => {
     const classes = useStyles();
     const [image, setImage] = useState(defaultUserImage);
-    const [checkedCategories, setCheckedCategories] = useState([{id: '', value: false}]);
+    const [checkedCategories, setCheckedCategories] = useState([
+        {
+            id: '',
+            name: '',
+            checked: false
+        }
+    ]);
 
     const [user, setUser] = useState({
         'name': '',
@@ -61,14 +69,33 @@ const EditProfile = (props) => {
 
     useEffect(() => {
         props.dispatch({type: actionTypes.SET_MAIN_TITLE, payload: {title: 'Perfil'}});
-        let userData = props.userState.data.user;
+        props.dispatch(loadCategoriesCreator());
+        props.dispatch(getUserCreator(props.userState.data.user?.username));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const userData = props.userState.tmpUser;
         setUser(userData);
-        setImage(userData?.photo);
+
+        let photo = getImage(userData?.photo);
+        if (photo)
+            setImage(getImage(photo));
+
         const updatedCheckedCategories = [];
 
-        userData?.categoryList.map(category => updatedCheckedCategories.push({id: category.id, value: true}));
+        if (!isEmpty(props.userState.tmpUser)) {
+            props.categoryState?.categories?.map(category =>
+                updatedCheckedCategories.push({
+                    id: category.id,
+                    name: category.name,
+                    checked: userData.categoryList?.some(x => x.id === category.id)
+                }));
+        }
+
         setCheckedCategories(updatedCheckedCategories);
-    }, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.userState.tmpUser, props.categoryState?.categories]);
 
     const handleChange = (e) => {
         let propName = e.target.name;
@@ -81,7 +108,15 @@ const EditProfile = (props) => {
     };
 
     const handleSubmit = async () => {
-        props.dispatch(updateUserCreator(user));
+        let updatedCategories = [];
+        const updatedUser = Object.assign({}, user);
+        checkedCategories?.filter(category => category.checked)
+            .map(category => updatedCategories.push({id: category.id}));
+        updatedUser.categoryList = updatedCategories;
+        setUser(updatedUser);
+
+        props.dispatch(updateUserCreator(updatedUser));
+        localStorage.setItem('userData', JSON.stringify(user));
     };
 
     const handleClosePageError = () => {
@@ -98,15 +133,14 @@ const EditProfile = (props) => {
         });
     };
 
-    const handleCategoryClicked = (categoryId) => {
-        console.log(categoryId, 'pressed')
+    const handleCategoryClicked = (index) => {
         const updatedChecked = Object.assign([], checkedCategories);
-        updatedChecked[categoryId].value = !updatedChecked[categoryId].value;
+        updatedChecked[index].checked = !updatedChecked[index].checked;
         setCheckedCategories(updatedChecked);
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" style={{marginBottom: '30px'}}>
 
             <Loader isOpen={props.userState.isLoading}/>
             <PageError
@@ -137,13 +171,13 @@ const EditProfile = (props) => {
                             <TextField
                                 name="photo"
                                 variant="outlined"
-                                fullWidth
                                 id="photo"
                                 type='file'
                                 onChange={e => {
                                     onChangeFile([...e.target.files]);
                                 }}
                                 required
+                                style={{width: '100%'}}
                             />
                         </Grid>
 
@@ -154,11 +188,11 @@ const EditProfile = (props) => {
                                 name="name"
                                 variant="filled"
                                 required
-                                fullWidth
                                 id="name"
                                 label="Nombre"
                                 value={user.name}
                                 onChange={e => handleChange(e)}
+                                style={{width: '100%'}}
                             />
                         </Grid>
                     </Grid>
@@ -172,17 +206,17 @@ const EditProfile = (props) => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            {user.categoryList.map((category, index) =>
+                            {checkedCategories.map((category, index) =>
                                 (<FormControlLabel
                                     style={{display: 'block', paddingLeft: '10px'}}
                                     key={category.id}
                                     control={<Checkbox
-                                        fullWidth
                                         color="primary"
-                                        checked={checkedCategories[index].value}
+                                        checked={category.checked}
                                         value={category.id}
-                                        onClick={e => handleCategoryClicked(category.id)}
+                                        onClick={e => handleCategoryClicked(index)}
                                         display={{verticalAlign: 'bottom'}}
+
                                     />
                                     }
                                     label={category.name}
@@ -216,6 +250,7 @@ const EditProfile = (props) => {
 const mapStateToProps = state => {
     return {
         userState: state.user,
+        categoryState: state.category,
     }
 };
 export default connect(mapStateToProps)(EditProfile);

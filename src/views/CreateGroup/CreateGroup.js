@@ -148,7 +148,6 @@ function CreateGroup(props) {
     };
 
     useEffect(() => {
-        console.log("121212121")
         if (props.groupState.operationCompleted) {
             history.push('/home');
         }

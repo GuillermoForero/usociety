@@ -38,24 +38,6 @@ const reactPostFailed = errorDescription => {
         payload: {error: errorDescription}
     };
 };
-const commentPost = () => {
-    return {
-        type: actionTypes.COMMENT_POST,
-    };
-};
-
-const commentPostSuccessful = () => {
-    return {
-        type: actionTypes.COMMENT_POST_SUCCESSFUL,
-    };
-};
-
-const commentPostFailed = errorDescription => {
-    return {
-        type: actionTypes.COMMENT_POST_FAILED,
-        payload: {error: errorDescription}
-    };
-};
 
 const cretePost = () => {
     return {
@@ -116,7 +98,7 @@ const getMessagesFailed = () => {
 };
 
 export const getMessagesCreator = (data) => {
-    return baseGetCreator(`/messages/${data.groupId}`, {}, getMessages, getMessagesSuccess, getMessagesFailed);
+    return baseGetCreator(`/messages/${data.groupId}`, getMessages, getMessagesSuccess, getMessagesFailed);
 };
 const sendMessage = () => {
     return {
@@ -150,4 +132,40 @@ export const sendMessageCreator = (data) => {
         }
         ),
         sendMessage, sendMessageSuccess, sendMessageFailed);
+};
+
+const commentPost = () => {
+    return {
+        type: actionTypes.COMMENT_POST,
+    };
+};
+
+const commentPostSuccessful = () => {
+    return {
+        type: actionTypes.COMMENT_POST_SUCCESSFUL,
+    };
+};
+
+const commentPostFailed = errorDescription => {
+    return {
+        type: actionTypes.COMMENT_POST_FAILED,
+        payload: {error: errorDescription}
+    };
+};
+
+export const sendCommentCreator = (data) => {
+    console.log(data)
+    console.log(`/posts/${data.postId}/comment`);
+    console.log({
+        content: data.content,
+        group: {
+            id: data.idGroup
+        },
+        type: "TEXT",
+        image: ""
+    })
+    return basePostCreator(`/posts/${data.postId}/comment`, JSON.stringify({
+            comment: data.content,
+        }
+        ), commentPost, commentPostSuccessful, commentPostFailed);
 };

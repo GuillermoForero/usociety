@@ -12,7 +12,8 @@ import SendIcon from '@material-ui/icons/Send';
 import {Button} from "@material-ui/core";
 import {connect} from "react-redux";
 import {getGroupCreator} from "../../../store/group/groupActions";
-import {sendMessageCreator} from "../../../store/groupContent/groupContentActions";
+import {getMessagesCreator, sendMessageCreator} from "../../../store/groupContent/groupContentActions";
+import {useParams} from "react-router";
 
 const useStyles = makeStyles({
     table: {
@@ -44,10 +45,14 @@ const Chat = (props) => {
     const classes = useStyles();
     const [showChat, setShowChat] = React.useState(false);
     const [textValue, setTextValue] = React.useState('');
-
+    const {slug} = useParams();
     const handleSendMessage = (value) => {
         setTextValue('')
+
         props.dispatch(sendMessageCreator({content: textValue, idGroup: props.groupState.currentGroup.group.id}));
+        setTimeout(() => {
+            props.dispatch(getMessagesCreator({groupId: props.groupState.currentGroup.group.id}));
+        }, 1000)
     }
     return (
         <>
@@ -71,46 +76,6 @@ const Chat = (props) => {
                                 </Grid>
                             </ListItem>
                         })}
-                        <ListItem key="1">
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <ListItemText align="right" primary="¿Hola, Cómo están?"></ListItemText>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ListItemText align="right" secondary="09:30 - Guillermo F"></ListItemText>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                        <ListItem key="2">
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <ListItemText align="left" primary="Hey, muy bien, ¿qué tal vas tú?"></ListItemText>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ListItemText align="left" secondary="09:31- Susan Alvarez"></ListItemText>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                        <ListItem key="2">
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <ListItemText align="left" primary="Hey, Guillermo, ¿cómo va todo?"></ListItemText>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ListItemText align="left" secondary="09:31- Juan Gaviria"></ListItemText>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                        <ListItem key="3">
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <ListItemText align="right" primary="Genial, les queria preguntar, ¿qué harán mañana?"></ListItemText>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ListItemText align="right" secondary="09:30 - Guillermo F"></ListItemText>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
                     </List>
                     <Divider />
                     <Grid container style={{padding: '20px'}}>

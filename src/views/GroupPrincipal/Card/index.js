@@ -22,7 +22,7 @@ import {isEmpty} from "lodash";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        minWidth: '80%',
+        width: '80%',
         position: 'relative',
         marginTop: '40px'
     },
@@ -80,7 +80,6 @@ function PostCard(props) {
     const [expanded, setExpanded] = React.useState(false);
     const [showReactContainer1, setShowReactContainer1] = React.useState(false);
     const [showContainerComments, setShowContainerComments] = React.useState(false);
-
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -88,7 +87,6 @@ function PostCard(props) {
     const handleReaction = (value) => {
         props.dispatch(reactPostCreator({postId: props.id, type: value}));
     }
-    console.log(isEmpty(props.reacts))
     return (
         <Card className={classes.root}>
             {showReactContainer1?
@@ -101,17 +99,15 @@ function PostCard(props) {
             }
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                        R
-                    </Avatar>
+                    <Avatar aria-label="recipe" className={classes.avatar} src={props.user.photo}/>
                 }
                 action={
                     <IconButton aria-label="settings">
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title="Guillermo Forero"
-                subheader="Enero 14, 2021"
+                title={props.user.name}
+                subheader={props.creationDate}
             />
             {props.content.type === "IMAGE" && <CardMedia
                 className={classes.media}
@@ -139,7 +135,7 @@ function PostCard(props) {
                         onMouseOver={() => {setShowReactContainer1(true)}}/>
                 </IconButton>
                 <IconButton aria-label="share">
-                    <CommentIcon onClick={() => {setShowContainerComments(true)}}/>
+                    <CommentIcon onClick={() => {setShowContainerComments(!showContainerComments)}}/>
                 </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
@@ -152,14 +148,14 @@ function PostCard(props) {
                     <ExpandMoreIcon />
                 </IconButton>
             </CardActions>
-            {showContainerComments && <Comments/>}
+            {showContainerComments && <Comments comments={props.comments} postId={props.id}/>}
         </Card>
     );
 }
 const mapStateToProps = state => {
     return {
         groupState: state.group,
-        user: state.user.userData,
+        user: state.user.data.user,
         groupContent: state.groupContent,
     }
 };

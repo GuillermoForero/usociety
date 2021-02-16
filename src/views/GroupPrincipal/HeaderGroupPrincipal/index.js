@@ -71,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
 
 function HeaderGroupPrincipal(props) {
     const classes = useStyles();
-    console.log(props.groupState)
     return (
         <>
             <Container maxWidth={"md"} className={classes.container}>

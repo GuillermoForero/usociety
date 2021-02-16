@@ -11,7 +11,7 @@ import * as actionTypes from "../../store/actionsTypes";
 import {getGroupCreator} from "../../store/group/groupActions";
 import Loader from "../../components/Loader/Loader";
 import PageError from "../../components/PageError/PageError";
-import {getMessagesCreator, loadPostsCreator} from "../../store/groupContent/groupContentActions";
+import { getMessagesCreator, loadPostsCreator} from "../../store/groupContent/groupContentActions";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -54,7 +54,6 @@ function GroupPrincipal(props) {
             props.dispatch(getMessagesCreator({groupId: props.groupState.currentGroup.group.id}));
         }
     },[props.groupState.currentGroup])
-    console.log(props.groupContent)
     return (
         <>
             <Loader isOpen={props.groupState.isLoading}/>

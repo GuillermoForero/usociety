@@ -55,7 +55,6 @@ function CreatePost(props) {
             }
         }
     const handleSelectFile = async (file) => {
-        console.log(file[0])
         if (file && file[0]){
             var reader = new FileReader();
             reader.onload = function (e) {

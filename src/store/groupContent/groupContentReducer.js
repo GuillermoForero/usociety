@@ -45,7 +45,7 @@ const groupContentReducer = (state = initialState, action) => {
 
         case actionTypes.GET_MESSAGES_SUCCESSFUL:
             return Object.assign({}, state, {
-                messages: action.payload.data,
+                messages: action.payload.data.reverse(),
                 hasError: false,
                 isLoading: false,
                 operationCompleted: true

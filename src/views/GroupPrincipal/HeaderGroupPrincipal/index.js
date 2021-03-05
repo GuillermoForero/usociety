@@ -96,6 +96,16 @@ function HeaderGroupPrincipal(props) {
                                 return <li key={index} className={classes.objetivesLi}>{value}</li>;
                             })}
                         </ul>
+                        {props.groupState.currentGroup.group.rules &&
+                        <Typography className={classes.subtitle}>
+                            Reglas:
+                        </Typography>
+                        }
+                        <ul className={classes.objetives}>
+                            {props.groupState.currentGroup.group.rules && props.groupState.currentGroup.group.rules.map((value, index) => {
+                                return <li key={index} className={classes.objetivesLi}>{value}</li>;
+                            })}
+                        </ul>
                     </Box>
                     <Box className={classes.buttonsContainer}>
                         {props.groupState.currentGroup.isAdmin ?<><Link to={`/group/${props.groupState.currentGroup.group.slug}/management`}>
@@ -107,22 +117,36 @@ function HeaderGroupPrincipal(props) {
                                 style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
                                 className={classes.submit}
                             >Administrar</Button>
-                        </Link> <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            style={{backgroundColor: 'var(--primary)', textAlign: 'center'}}
-                            className={classes.submit}
-                            onClick={() => props.handleCreatePost(true)}
-                        >Crear Post</Button></> :props.groupState.currentGroup.membershiptStatus? null: <Button
+                        </Link></> :null}
+                        {
+                            props.groupState.currentGroup.membershipStatus === 'ACTIVE'? <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                style={{backgroundColor: 'var(--primary)', textAlign: 'center'}}
+                                className={classes.submit}
+                                onClick={() => props.handleCreatePost(true)}
+                            >Crear Post</Button>: <><Button
                                 type="submit"
                                 variant="contained"
                                 color="primary"
                                 fullWidth
                                 style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
                                 className={classes.submit}
-                            >Unirse</Button>}
+                            >Unirse</Button>
+                            </>
+                        }
+                        {
+                            props.groupState.currentGroup.membershipStatus === 'PENDING'? <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                                className={classes.submit}
+                            >PENDIENTE, POR FAVOR ESPERA</Button>: null
+                        }
                     </Box>
                 </Box>
             </Container>

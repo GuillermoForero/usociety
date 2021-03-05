@@ -54,6 +54,7 @@ function GroupPrincipal(props) {
             props.dispatch(getMessagesCreator({groupId: props.groupState.currentGroup.group.id}));
         }
     },[props.groupState.currentGroup])
+    console.log(props.groupState.currentGroup)
     return (
         <>
             <Loader isOpen={props.groupState.isLoading}/>

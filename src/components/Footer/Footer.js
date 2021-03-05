@@ -15,9 +15,13 @@ function Footer() {
         </div>
 
         <div className='container__footer-social'>
-            <FacebookIcon/>
-            <LinkedInIcon href="https://www.linkedin.com/in/ardila-javier/"/>
-            <YouTubeIcon/>
+            <a target={'_blank'} style={{textDecoration: 'none', color: 'white'}} href={'https://es-la.facebook.com/usergioarboleda/'}>
+                <FacebookIcon />
+            </a>
+            <a target={'_blank'} style={{textDecoration: 'none', color: 'white'}} href="https://www.linkedin.com/school/universidad-sergio-arboleda/?originalSubdomain=co">
+                <LinkedInIcon />
+            </a>
+            <a target={'_blank'} style={{textDecoration: 'none', color: 'white'}} href={'https://www.youtube.com/channel/UCAxhLbN7QbkmeVHRnCiF_CQ'}><YouTubeIcon /></a>
         </div>
     </div>, document.getElementById('footer'));
 }

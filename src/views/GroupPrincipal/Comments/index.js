@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import SendIcon from "@material-ui/icons/Send";
-import {sendCommentCreator} from "../../../store/groupContent/groupContentActions";
+import {loadPostsCreator, sendCommentCreator} from "../../../store/groupContent/groupContentActions";
 import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,8 +58,13 @@ const useStyles = makeStyles((theme) => ({
 function Comments(props) {
     const [textValue, setTextValue] = React.useState('');
     const handleSendMessage = (value) => {
-        setTextValue('')
-        props.dispatch(sendCommentCreator({content: textValue, idGroup: props.groupState.currentGroup.group.id, postId: props.postId}));
+        if (textValue !== ''){
+            props.dispatch(sendCommentCreator({content: textValue, idGroup: props.groupState.currentGroup.group.id, postId: props.postId}));
+            setTimeout(() => {
+                props.dispatch(loadPostsCreator({groupId: props.groupState.currentGroup.group.id}));
+            }, 1000)
+            setTextValue('');
+        }
     }
     const classes = useStyles();
     if (!props.comments){

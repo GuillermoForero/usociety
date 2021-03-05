@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     })
 });
 
-const BASE_API_URL = 'https://100.26.170.205:8443/manager/services';
+const BASE_API_URL = 'https://54.160.115.107:8443/manager/services';
 
 export const INVALID_OTP = 'INVALID_OTP';
 export const EMAIL_NOT_VERIFIED = 'Email not verified';

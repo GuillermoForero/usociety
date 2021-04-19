@@ -74,17 +74,10 @@ function CreatePost(props) {
 
     return (
         <Card className={classes.root}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                        R
-                    </Avatar>
-                }
-                title="Guillermo Forero"
-            />
+
             <FormControl variant="filled" className={classes.formControl}>
                 <Select
-                    style={{height: '40px'}}
+                    style={{height: '60px'}}
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
                     value={valueSelect}

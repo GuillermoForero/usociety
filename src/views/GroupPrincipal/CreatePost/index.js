@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {red} from '@material-ui/core/colors';
 import {Box, Button, FormControl, MenuItem, Select, TextField} from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
-import {CreatePostCreator} from "../../../store/groupContent/groupContentActions";
+import {CreatePostCreator, loadPostsCreator} from "../../../store/groupContent/groupContentActions";
 import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +66,12 @@ function CreatePost(props) {
     };
     const handleSubmit = () => {
         props.dispatch(CreatePostCreator({image: image, groupId: props.groupState.currentGroup.group.id, isPublic: valueSelect === 0, value: text}));
-    }
+        setTimeout(() => {
+            props.dispatch(loadPostsCreator({groupId: props.groupState.currentGroup.group.id}));
+        }, 1000)
+
+    };
+
     return (
         <Card className={classes.root}>
             <CardHeader

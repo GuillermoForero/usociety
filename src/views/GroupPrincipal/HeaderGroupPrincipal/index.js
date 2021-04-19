@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {ACTIVE} from "../../../store/group/groupInterfaces";
+import {getGroupCreator, joinGroupCreator} from "../../../store/group/groupActions";
+import {loadPostsCreator} from "../../../store/groupContent/groupContentActions";
 
 const useStyles = makeStyles((theme) => ({
     imageContainer: {
@@ -70,7 +72,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HeaderGroupPrincipal(props) {
+
+    const handleJoinGroup = () => {
+        props.dispatch(joinGroupCreator(props.groupState.currentGroup.group.id));
+        setTimeout(() => {
+            props.dispatch(getGroupCreator(props.groupState.currentGroup.group.slug));
+        }, 1000)
+    };
+
     const classes = useStyles();
+
+
     return (
         <>
             <Container maxWidth={"md"} className={classes.container}>
@@ -88,11 +100,13 @@ function HeaderGroupPrincipal(props) {
                         <Typography className={classes.typography2}>
                             {props.groupState.currentGroup.group.description}
                         </Typography>
+                        {props.groupState.currentGroup.group.objectives &&
                         <Typography className={classes.subtitle}>
                             Objetivos:
-                        </Typography>
+                        </Typography>}
+
                         <ul className={classes.objetives}>
-                            {props.groupState.currentGroup.group.objectives.map((value, index) => {
+                            {props.groupState.currentGroup.group.objectives && props.groupState.currentGroup.group.objectives.map((value, index) => {
                                 return <li key={index} className={classes.objetivesLi}>{value}</li>;
                             })}
                         </ul>
@@ -119,7 +133,7 @@ function HeaderGroupPrincipal(props) {
                             >Administrar</Button>
                         </Link></> :null}
                         {
-                            props.groupState.currentGroup.membershipStatus === 'ACTIVE'? <Button
+                            props.groupState.currentGroup.membershipStatus === 'ACTIVE' && <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -127,15 +141,19 @@ function HeaderGroupPrincipal(props) {
                                 style={{backgroundColor: 'var(--primary)', textAlign: 'center'}}
                                 className={classes.submit}
                                 onClick={() => props.handleCreatePost(true)}
-                            >Crear Post</Button>: <><Button
+                            >Crear Post</Button>
+                        }
+                        {
+                            !props.groupState.currentGroup.membershipStatus && <Button
+
                                 type="submit"
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
-                                className={classes.submit}
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
+                            className={classes.submit}
+                            onClick={handleJoinGroup}
                             >Unirse</Button>
-                            </>
                         }
                         {
                             props.groupState.currentGroup.membershipStatus === 'PENDING'? <Button
@@ -143,6 +161,7 @@ function HeaderGroupPrincipal(props) {
                                 variant="contained"
                                 color="primary"
                                 fullWidth
+
                                 style={{backgroundColor: 'var(--primary)', marginBottom: '10px'}}
                                 className={classes.submit}
                             >PENDIENTE, POR FAVOR ESPERA</Button>: null

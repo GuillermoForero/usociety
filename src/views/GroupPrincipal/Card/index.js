@@ -93,18 +93,20 @@ function PostCard(props) {
             props.dispatch(loadPostsCreator({groupId: props.groupState.currentGroup.group.id}));
         }, 1000)
     }
+
+
     return (
         <Card className={classes.root}>
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar} src={props.user.photo}/>
+                    <Avatar aria-label="recipe" className={classes.avatar} src={props.owner.photo}/>
                 }
                 action={
                     <IconButton aria-label="settings">
                         <MoreVertIcon />
                     </IconButton>
                 }
-                title={props.user.name}
+                title={props.owner.name}
                 subheader={props.creationDate}
             />
             {props.content.type === "IMAGE" && <CardMedia

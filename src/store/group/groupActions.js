@@ -28,6 +28,25 @@ const createdGroupSuccessful = () => {
     };
 };
 
+const joiningGroup = () => {
+    return {
+        type: actionTypes.JOINING_GROUP,
+    };
+};
+
+const joiningGroupFailed = (errorDescription) => {
+    return {
+        type: actionTypes.JOINING_GROUP_FAILED,
+        payload: {error: errorDescription}
+    };
+};
+
+const joinedGroupSuccessful = () => {
+    return {
+        type: actionTypes.GROUP_JOINED_SUCCESSFUL
+    };
+};
+
 const updatingGroup = () => {
     return {
         type: actionTypes.UPDATING_GROUP,
@@ -174,6 +193,14 @@ export const createGroupCreator = (group) => {
         return basePostCreator('/groups/', JSON.stringify(group), creatingGroup, createdGroupSuccessful, createGroupFailed);
     } catch (e) {
         return createGroupFailed(generalError);
+    }
+};
+
+export const joinGroupCreator = (groupId) => {
+    try {
+        return basePostCreator('/groups/' + groupId+'/join', {}, joiningGroup, joinedGroupSuccessful, joiningGroupFailed);
+    } catch (e) {
+        return joiningGroupFailed(generalError);
     }
 };
 

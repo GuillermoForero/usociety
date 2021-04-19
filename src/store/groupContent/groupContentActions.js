@@ -71,7 +71,7 @@ export const CreatePostCreator = (data) => {
         groupId: data.groupId,
         description: data.image ? data.value : "",
         isPublic: data.isPublic,
-        photo:data.image ? data.image: ""}), cretePost, createPostSuccess, createPostFailed);
+        image:data.image ? data.image: ""}), cretePost, createPostSuccess, createPostFailed);
 };
 export const reactPostCreator = (data) => {
     return basePostCreator(`/posts/${data.postId}/react?value=${data.type}`, {}, reactPost, reactPostSuccessful, reactPostFailed);
